@@ -4,7 +4,7 @@ Standalone Slidev deck for the **Cabify** use case, part of the InnoIT *Machine 
 
 ## Contents
 
-- `slides.md`: the deck (cover, case, interactive solution, discussion).
+- `slides.md`: the deck (cover, the problem, case, interactive solution, discussion).
 - `theme/`, `public/`, `data/`, `diagrams.json`: InnoIT theme, fonts, synthetic data and diagram content.
 - `tools/`: scripts that build the interactive explorer and regenerate its synthetic data.
 - `CABIFY-EXPLORER.md`: controls, computation details and limits.

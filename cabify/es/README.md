@@ -4,7 +4,7 @@ Presentación Slidev independiente en castellano para el caso de uso de **Cabify
 
 ## Contenido
 
-- `slides.md`: la presentación (portada, caso, solución interactiva, debate).
+- `slides.md`: la presentación (portada, el problema, caso, solución interactiva, debate).
 - `theme/`, `public/`, `data/`, `diagrams.json`: tema de InnoIT, fuentes, datos sintéticos y contenido del diagrama.
 - `tools/`: scripts que construyen el explorador interactivo y regeneran sus datos sintéticos.
 - `CABIFY-EXPLORER.md`: controles, detalles de cálculo y límites.

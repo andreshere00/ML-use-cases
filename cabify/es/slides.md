@@ -20,6 +20,48 @@ Clasificación binaria y umbral de bloqueo, explicados paso a paso
 InnoIT · Caso de uso de ML
 
 ---
+layout: "problem"
+subtitle: "Cada SMS de verificación cuesta dinero, lo pida una persona o un bot"
+caption: "Ambos errores cuestan dinero. El umbral de bloqueo decide cuál aceptas con más frecuencia."
+sourceLabel: "Caso de cliente de Infobip con testimonio de Cabify"
+source: "https://www.infobip.com/customer/cabify"
+labels:
+  aria: "Diagrama: clientes reales y bots envían solicitudes de verificación, un clasificador permite o bloquea cada una y cada combinación de solicitud y decisión tiene un coste distinto."
+  sourcePrefix: "Fuente:"
+  laneRequests: "Llegan solicitudes"
+  laneDecision: "Decisión"
+  laneOutcome: "Resultado"
+  genuine: "Cliente real"
+  genuineNote: "Una solicitud,\nintroduce el código"
+  bot: "Bot"
+  botNote: "Cientos de solicitudes,\ncódigos sin introducir,\nrutas de alto coste"
+  gate: "¿Permitir o\nbloquear?"
+  gateNote: "Infobip Signals\npuntúa cada solicitud"
+  low: "riesgo bajo"
+  high: "riesgo alto"
+  allow: "Permitida"
+  block: "Bloqueada"
+  rowGenuine: "Cliente\nreal"
+  rowBot: "Bot"
+  gaTitle: "Se registra"
+  gaNote: "El coste está\njustificado"
+  gbTitle: "Cliente perdido"
+  gbNote: "Un bloqueo\nerróneo"
+  baTitle: "Cabify paga"
+  baNote: "cada SMS falso\n(pérdida AIT)"
+  bbTitle: "Pérdida evitada"
+  bbNote: "Se detiene\nal bot"
+---
+# <span style="color:#7145D6">Cabify</span>: el problema
+
+<!--
+Preámbulo del caso. Un SMS de verificación cuesta dinero lo pida una persona o un bot. AIT significa Artificial Inflation of Traffic: los bots disparan grandes volúmenes de SMS, a menudo hacia rutas de alto coste, y la empresa paga por mensajes que nadie lee. Infobip Signals se sitúa delante de ese tráfico y decide, para cada solicitud, si la permite o la bloquea. Las cuatro casillas de la derecha son los cuatro resultados de cualquier decisión binaria: se convierten en la matriz de confusión y el coste por 1.000 solicitudes de la diapositiva interactiva.
+
+Es una ilustración didáctica simplificada. Los comportamientos dibujados para clientes reales y bots (número de solicitudes, códigos introducidos, rutas de alto coste) son señales ilustrativas, no datos de Cabify ni de Infobip.
+Fuente: https://www.infobip.com/customer/cabify
+-->
+
+---
 layout: "case"
 company: "Cabify (España)"
 status: "Servicio operativo mediante Infobip Signals"

@@ -20,6 +20,48 @@ Binary classification and a blocking threshold, explained step by step
 InnoIT · ML use case
 
 ---
+layout: "problem"
+subtitle: "Every verification SMS costs money, whether a person or a bot asked for it"
+caption: "Both mistakes cost money. The blocking threshold decides which one you accept more often."
+sourceLabel: "Infobip customer case with Cabify testimony"
+source: "https://www.infobip.com/customer/cabify"
+labels:
+  aria: "Diagram: real customers and bots send verification requests, a classifier allows or blocks each one, and each combination of request and decision has a different cost."
+  sourcePrefix: "Source:"
+  laneRequests: "Requests arrive"
+  laneDecision: "Decision"
+  laneOutcome: "Outcome"
+  genuine: "Real customer"
+  genuineNote: "One request,\nenters the code"
+  bot: "Bot"
+  botNote: "Hundreds of requests,\ncodes never entered,\nhigh-cost routes"
+  gate: "Allow or block?"
+  gateNote: "Infobip Signals\nscores each request"
+  low: "low risk"
+  high: "high risk"
+  allow: "Allowed"
+  block: "Blocked"
+  rowGenuine: "Real\ncustomer"
+  rowBot: "Bot"
+  gaTitle: "Signs up"
+  gaNote: "The cost is\njustified"
+  gbTitle: "Customer lost"
+  gbNote: "A wrong\nblock"
+  baTitle: "Cabify pays"
+  baNote: "for every fake\nSMS (AIT)"
+  bbTitle: "Loss avoided"
+  bbNote: "The bot is\nstopped"
+---
+# <span style="color:#7145D6">Cabify</span>: the problem
+
+<!--
+Preamble to the case. A verification SMS costs money whether a person or a bot requested it. AIT means Artificial Inflation of Traffic: bots trigger large volumes of SMS, often to high-cost routes, and the company pays for messages nobody reads. Infobip Signals sits in front of that traffic and decides, for each request, whether to allow or block it. The four boxes on the right are the four outcomes of any binary decision: they become the confusion matrix and the cost per 1,000 requests in the interactive slide.
+
+This is a simplified teaching illustration. The behaviours drawn for real customers and bots (request counts, codes entered, high-cost routes) are illustrative signals, not Cabify or Infobip data.
+Source: https://www.infobip.com/customer/cabify
+-->
+
+---
 layout: "case"
 company: "Cabify (Spain)"
 status: "Operational service via Infobip Signals"
