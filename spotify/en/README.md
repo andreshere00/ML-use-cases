@@ -4,7 +4,7 @@ Standalone Slidev deck for the **Spotify** use case, part of the InnoIT *Machine
 
 ## Contents
 
-- `slides.md`: the deck (cover, case, interactive solution, discussion).
+- `slides.md`: the deck (cover, the problem, case, interactive solution, discussion).
 - `theme/`, `public/`, `data/`, `diagrams.json`: InnoIT theme, fonts, logos, synthetic data and diagram content.
 - `tools/`: scripts that build and regenerate the interactive explorer.
 - `spotify-clustering.html`: self-contained offline explorer. `spotify-clustering-walkthrough.pdf`: static PDF of its stages.

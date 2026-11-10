@@ -20,6 +20,44 @@ UMAP y HDBSCAN recursivos, explicados paso a paso
 InnoIT · Caso de uso de ML
 
 ---
+layout: "problem"
+subtitle: "Millones de oyentes se comportan distinto, pero nadie sabe qué grupos existen"
+caption: "El clustering propone los grupos. Las personas deciden cuáles merece la pena trabajar."
+sourceLabel: "Spotify Engineering"
+source: "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering"
+labels:
+  aria: "Diagrama: oyentes sin etiquetar pasan por dos pasos, encontrar grupos con UMAP y HDBSCAN y explicarlos con XGBoost y SHAP, y salen como grupos descubiertos con los comportamientos que definen cada uno."
+  sourcePrefix: "Fuente:"
+  laneProblem: "El problema"
+  laneMethod: "Cómo funciona"
+  laneResult: "Qué se obtiene"
+  listeners: "Millones de\noyentes"
+  listenersNote: "Muchos comportamientos,\nsin grupos predefinidos"
+  ask: "¿Quiénes son?"
+  step1: "1 · Hallar grupos"
+  step1Note: "UMAP + HDBSCAN,\nrepetido dentro de\nun grupo elegido"
+  step2: "2 · Explicar grupos"
+  step2Note: "XGBoost uno contra\ntodos y SHAP sobre\nlas variables originales"
+  groupIds: "etiquetas de grupo"
+  found: "Grupos hallados"
+  foundNote: "Oyentes con comportamiento\nparecido. Algunos\nquedan como ruido."
+  explained: "Grupos explicados"
+  explainedNote: "SHAP muestra qué\ncomportamientos definen\ncada grupo, para que\nlos investigadores\nlo validen."
+  f1: "Podcasts"
+  f2: "Uso nocturno"
+  f3: "Tasa de saltos"
+  f4: "Uso de listas"
+---
+# <span style="color:#1ED760">Spotify</span>: el problema
+
+<!--
+Preámbulo del caso. Un servicio de música tiene un enorme número de oyentes, cada uno descrito por muchas variables de comportamiento, y ningún grupo predefinido. La nube gris de la izquierda es ese punto de partida: nadie sabe quiénes son los oyentes ni en qué se diferencian. El paso 1 comprime las variables con UMAP y encuentra grupos densos con HDBSCAN; algunos oyentes quedan como ruido, y el proceso puede repetirse dentro de un grupo elegido para hallar segmentos más finos. El paso 2 entrena modelos XGBoost uno-contra-todos sobre las variables originales y las etiquetas de grupo descubiertas, y usa SHAP para mostrar qué comportamientos definen cada grupo. Después los investigadores de usuarios validan e interpretan los segmentos. La diapositiva interactiva siguiente ejecuta todo este flujo con oyentes sintéticos.
+
+Esta es una ilustración didáctica simplificada. Los puntos, las barras y los nombres de comportamientos (podcasts, uso nocturno, tasa de saltos, uso de listas) son ilustrativos, no datos ni variables de Spotify. La fuente describe segmentación e investigación de usuarios; no es un diagrama de Discover Weekly.
+Fuente: https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering
+-->
+
+---
 layout: "case"
 company: "Spotify (Suecia)"
 status: "Método documentado de investigación de usuarios"

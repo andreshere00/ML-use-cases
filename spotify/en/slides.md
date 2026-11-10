@@ -20,6 +20,44 @@ Recursive UMAP and HDBSCAN, explained step by step
 InnoIT · ML use case
 
 ---
+layout: "problem"
+subtitle: "Millions of listeners behave differently, but nobody has told us which groups exist"
+caption: "Clustering proposes the groups. People decide which ones are worth acting on."
+sourceLabel: "Spotify Engineering"
+source: "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering"
+labels:
+  aria: "Diagram: unlabeled listeners go through two steps, finding groups with UMAP and HDBSCAN and explaining them with XGBoost and SHAP, and come out as discovered groups with the behaviours that define each one."
+  sourcePrefix: "Source:"
+  laneProblem: "The problem"
+  laneMethod: "How it works"
+  laneResult: "What you get"
+  listeners: "Millions of\nlisteners"
+  listenersNote: "Many behaviours each,\nno predefined groups"
+  ask: "Who are they?"
+  step1: "1 · Find groups"
+  step1Note: "UMAP + HDBSCAN,\nrepeated inside a\nchosen group"
+  step2: "2 · Explain groups"
+  step2Note: "One-vs-all XGBoost\n+ SHAP on the\noriginal features"
+  groupIds: "group labels"
+  found: "Groups found"
+  foundNote: "Listeners with similar\nbehaviour. A few\nstay as noise."
+  explained: "Groups explained"
+  explainedNote: "SHAP shows which\nbehaviours define\neach group, so\nresearchers can\nvalidate it."
+  f1: "Podcast share"
+  f2: "Night listening"
+  f3: "Skip rate"
+  f4: "Playlist use"
+---
+# <span style="color:#1ED760">Spotify</span>: the problem
+
+<!--
+Preamble to the case. A music service has a huge number of listeners, each described by many behaviour variables, and no predefined groups. The grey cloud on the left is that starting point: nobody can say who the listeners are or how they differ. Step 1 compresses the variables with UMAP and finds dense groups with HDBSCAN; some listeners stay as noise, and the process can be repeated inside a chosen group to find finer segments. Step 2 trains one-versus-all XGBoost models on the original features and the discovered group labels, then uses SHAP to show which behaviours define each group. User researchers then validate and interpret the segments. The interactive slide that follows runs this whole pipeline on synthetic listeners.
+
+This is a simplified teaching illustration. The dots, the bars and the behaviour names (podcast share, night listening, skip rate, playlist use) are illustrative, not Spotify data or Spotify features. The source describes user segmentation and research; it is not a diagram of Discover Weekly.
+Source: https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering
+-->
+
+---
 layout: "case"
 company: "Spotify (Sweden)"
 status: "Documented user-research method"
