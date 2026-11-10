@@ -20,6 +20,48 @@ Comparables and regression, explained step by step
 InnoIT · ML use case
 
 ---
+layout: "problem"
+subtitle: "Valuing a home means estimating a number, and no estimate is exact"
+caption: "The answer is a number, not a yes or no. What matters is how far it lands from the real price."
+sourceLabel: "idealista/data and idealista labs"
+source: "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/"
+labels:
+  aria: "Diagram: a home with an unknown value and thousands of comparable homes with known prices feed a model that fits a price-versus-area line and estimates the value. The estimate can land too low, close to or too high compared with the real price, and the spread of those errors measures the model."
+  sourcePrefix: "Source:"
+  laneInputs: "Inputs"
+  laneModel: "Model"
+  laneOutcome: "Outcome"
+  subject: "Home to value"
+  subjectNote: "Location, type,\narea and rooms"
+  unknown: "Value unknown"
+  comps: "Comparable homes"
+  compsNote: "Thousands of similar\nhomes, prices known"
+  model: "Estimate\nthe value"
+  modelNote: "Comparables and\nregression"
+  plot: "price vs. area"
+  low: "Too low"
+  lowNote: "Seller may\nundersell"
+  ok: "Close"
+  okNote: "A useful\nreference"
+  high: "Too high"
+  highNote: "Home may\nnot sell"
+  errTitle: "Error = estimate − real price"
+  errLow: "estimate below"
+  errMid: "typical error"
+  errHigh: "estimate above"
+---
+# <span style="color:#B1D400">idealista</span>: the problem
+
+<!--
+Preamble to the case. A home has a real price that nobody knows until it sells. Valuing it by hand does not scale across a whole portfolio, so we estimate it: the model receives the home's attributes (location, type, area, rooms) and learns from thousands of comparable homes whose prices are known. In the middle box, the red line is the simplest version of that idea: price grows with area, and the new home is read off the line. Comparables add a second opinion from the most similar homes.
+
+Here the answer is not a yes or no but a continuous number, so an estimate is never simply right or wrong. The estimate lands too low, close to or too high, and the cost of the error depends on the direction: a seller may undersell, or a home priced too high may not sell. The curve at the bottom right is the distribution of those errors. A good model keeps it narrow and centred on zero; the interactive slide measures its width as the mean absolute error (MAE) in euros on homes the model has not seen.
+
+This is a simplified teaching illustration. The scatter plot, the line and the error curve are illustrative, not idealista data, and no euro value is shown. idealista/data combines comparables with a hedonic ML model but does not publish its exact estimator.
+Source: https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/
+-->
+
+---
 layout: "case"
 company: "idealista/data (Spain)"
 status: "Commercial automated valuation service"

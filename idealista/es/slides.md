@@ -20,6 +20,48 @@ Comparables y regresión, explicados paso a paso
 InnoIT · Caso de uso de ML
 
 ---
+layout: "problem"
+subtitle: "Valorar un inmueble es estimar un número, y ninguna estimación es exacta"
+caption: "La respuesta es un número, no un sí o un no. Importa cuánto se aleja del precio real."
+sourceLabel: "idealista/data e idealista labs"
+source: "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/"
+labels:
+  aria: "Diagrama: un inmueble de valor desconocido y miles de viviendas comparables con precio conocido alimentan un modelo que ajusta una recta de precio frente a superficie y estima el valor. La estimación puede quedar muy baja, cercana o muy alta respecto al precio real, y la dispersión de esos errores mide el modelo."
+  sourcePrefix: "Fuente:"
+  laneInputs: "Entradas"
+  laneModel: "Modelo"
+  laneOutcome: "Resultado"
+  subject: "Inmueble"
+  subjectNote: "Ubicación, tipo,\nárea y habitaciones"
+  unknown: "Sin valorar"
+  comps: "Comparables"
+  compsNote: "Miles de viviendas\ncon precio conocido"
+  model: "Estimar\nel valor"
+  modelNote: "Comparables y\nregresión"
+  plot: "precio vs. superficie"
+  low: "Muy bajo"
+  lowNote: "El vendedor\npuede malvender"
+  ok: "Cercano"
+  okNote: "Una referencia\nútil"
+  high: "Muy alto"
+  highNote: "Puede no\nvenderse"
+  errTitle: "Error = estimación − precio real"
+  errLow: "estimación por debajo"
+  errMid: "error típico"
+  errHigh: "estimación por encima"
+---
+# <span style="color:#B1D400">idealista</span>: el problema
+
+<!--
+Preámbulo del caso. Un inmueble tiene un precio real que nadie conoce hasta que se vende. Valorarlo a mano no escala a toda una cartera, así que se estima: el modelo recibe los atributos del inmueble (ubicación, tipo, superficie, habitaciones) y aprende de miles de viviendas comparables cuyo precio se conoce. En la caja central, la recta roja es la versión más simple de esa idea: el precio crece con la superficie y el inmueble nuevo se lee sobre la recta. Los comparables aportan una segunda opinión de las viviendas más parecidas.
+
+Aquí la respuesta no es un sí o un no sino un número continuo, así que una estimación nunca es simplemente correcta o incorrecta. La estimación queda muy baja, cercana o muy alta, y el coste del error depende del sentido: el vendedor puede malvender, o una vivienda con precio demasiado alto puede no venderse. La curva de abajo a la derecha es la distribución de esos errores. Un buen modelo la mantiene estrecha y centrada en cero; la diapositiva interactiva mide su anchura como error absoluto medio (MAE) en euros sobre viviendas que el modelo no ha visto.
+
+Es una ilustración didáctica simplificada. El diagrama de dispersión, la recta y la curva de error son ilustrativos, no datos de idealista, y no se muestra ningún valor en euros. idealista/data combina comparables con un modelo de ML hedónico, pero no publica su estimador exacto.
+Fuente: https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/
+-->
+
+---
 layout: "case"
 company: "idealista/data (España)"
 status: "Servicio comercial de valoración automática"
