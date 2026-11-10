@@ -1,0 +1,332 @@
+{
+  "pipeline": {
+    "id": "pipeline",
+    "title": "Uber: del dato al precio",
+    "subtitle": "Del dato en bruto al precio que ve el pasajero, con un bucle de realimentación",
+    "nodes": [
+      {
+        "id": "d1",
+        "x": 0,
+        "y": 0,
+        "w": 224,
+        "h": 104,
+        "title": "Solicitudes",
+        "body": "Origen, destino\ny hora",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "d2",
+        "x": 0,
+        "y": 124,
+        "w": 224,
+        "h": 104,
+        "title": "GPS",
+        "body": "Posición y\nvelocidad",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "d3",
+        "x": 0,
+        "y": 248,
+        "w": 224,
+        "h": 104,
+        "title": "Clima y eventos",
+        "body": "Lluvia, tráfico\ny eventos",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "f",
+        "x": 284,
+        "y": 0,
+        "w": 196,
+        "h": 352,
+        "title": "Variables\npor zona",
+        "body": "Cada 5 minutos:\nsolicitudes,\nconductores,\ntráfico y clima",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "m1",
+        "x": 530,
+        "y": 0,
+        "w": 240,
+        "h": 104,
+        "title": "Series temporales",
+        "body": "Pronóstico de la\ndemanda por zona",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "m2",
+        "x": 530,
+        "y": 124,
+        "w": 240,
+        "h": 104,
+        "title": "Clustering",
+        "body": "Agrupa zonas\ncon perfil parecido",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "m3",
+        "x": 530,
+        "y": 248,
+        "w": 240,
+        "h": 104,
+        "title": "Regresión",
+        "body": "Demanda frente\nal precio",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "p",
+        "x": 830,
+        "y": 0,
+        "w": 306,
+        "h": 160,
+        "title": "Motor de precio",
+        "body": "Compara demanda\ny oferta y fija\nel multiplicador",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "o",
+        "x": 830,
+        "y": 192,
+        "w": 306,
+        "h": 160,
+        "title": "Precio y mapa de calor",
+        "body": "Tarifa para el pasajero\ne incentivo a conductores",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "d1",
+        "b": "f",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "d2",
+        "b": "f",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "d3",
+        "b": "f",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "f",
+        "b": "m1",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "f",
+        "b": "m2",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "f",
+        "b": "m3",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "m1",
+        "b": "p",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "m2",
+        "b": "p",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "m3",
+        "b": "p",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "p",
+        "b": "o",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "o",
+        "b": "f",
+        "label": "los viajes nuevos vuelven como datos",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            983,
+            376
+          ],
+          [
+            382,
+            376
+          ]
+        ]
+      }
+    ],
+    "caption": "Reconstrucción didáctica a partir de la descripción del artículo: la arquitectura real de Uber no es pública.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1",
+    "sourceLabel": "Shuaib Ullattil, Medium (5 feb 2026)",
+    "notes": "Reconstrucción funcional de lo que describe el artículo: datos de viajes, GPS y contexto externo se agregan por zona en streaming; tres familias de modelos (series temporales, clustering, regresión) alimentan un motor de precio que decide el multiplicador; el precio cambia el comportamiento y genera datos nuevos. La posición de los cuadros no representa la topología real del despliegue."
+  },
+  "example": {
+    "id": "example",
+    "title": "Un viernes a las 18:00, de principio a fin",
+    "subtitle": "Centro, viernes 18:00, con lluvia: los cuatro algoritmos encadenados con las cifras del ejemplo",
+    "nodes": [
+      {
+        "id": "a",
+        "x": 0,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "1 · Clustering",
+        "body": "Centro: perfil\nde «Negocios»",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "b",
+        "x": 232,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "2 · Series\ntemporales",
+        "body": "Pronóstico:\n165 solicitudes\nen 15 min\n(con lluvia)",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "c",
+        "x": 464,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "3 · Regresión",
+        "body": "Cada +1,0×:\n≈ −40 % demanda\nEquilibrio: 1,39×",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "d",
+        "x": 696,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "4 · Bucle\nde precio",
+        "body": "18:00 → 1,40×\n18:05 → 1,47×\nEstable ≈ 1,4×",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "e",
+        "x": 928,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "Precio al\npasajero",
+        "body": "Base 12,00 €\n× 1,4 = 16,80 €\nLos conductores\nse acercan",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "a",
+        "b": "b",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "b",
+        "b": "c",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "c",
+        "b": "d",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "d",
+        "b": "e",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "e",
+        "b": "b",
+        "label": "los viajes nuevos vuelven como datos",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            1031,
+            300
+          ],
+          [
+            335,
+            300
+          ]
+        ]
+      }
+    ],
+    "caption": "Cifras sintéticas y coherentes con las diapositivas anteriores: no son datos de Uber.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1",
+    "sourceLabel": "Shuaib Ullattil, Medium (5 feb 2026)",
+    "notes": "Recorrido completo del ejemplo con cifras sintéticas: el clustering sitúa a Centro entre las zonas de negocios; la serie temporal pronostica 165 solicitudes con lluvia; la regresión da un equilibrio de 1,39 con unos 136 viajes; el bucle sube el multiplicador a 1,40 en cinco minutos y lo estabiliza cerca de 1,4; con una tarifa base de 12,00 euros, el pasajero ve 16,80 euros."
+  }
+}

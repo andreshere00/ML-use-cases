@@ -1,0 +1,14 @@
+{
+  "name": "innoit-ml-use-case-uber",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md",
+    "export": "slidev export slides.md"
+  },
+  "devDependencies": {
+    "@slidev/cli": "53.0.0",
+    "vue": "3.5.43"
+  }
+}

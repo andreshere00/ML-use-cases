@@ -1,0 +1,80 @@
+{
+  "decimal": ".",
+  "sourcePrefix": "Source:",
+  "algorithm": "Algorithm",
+  "problem": {
+    "aria": "Problem diagram: weather, time, events and traffic push the demand of a zone; in Downtown, on a Friday at 18:00, there are 165 requests and only 110 drivers, and that gap causes long waits and cancellations, or idle drivers if it happens the other way round.",
+    "laneDrivers": "What moves demand",
+    "laneZone": "The zone right now",
+    "laneOutcome": "If nobody acts",
+    "chipTime": "Time and day",
+    "chipWeather": "Weather",
+    "chipEvents": "Events",
+    "chipTraffic": "Traffic",
+    "zoneTitle": "Downtown · Friday 18:00",
+    "zoneSub": "requests and possible trips in 15 min",
+    "demandValue": "165",
+    "supplyValue": "110",
+    "demand": "Demand",
+    "supply": "Drivers",
+    "gap": "−55",
+    "outA": "Demand above supply",
+    "outANote": "Long waits, more cancellations\nand less satisfied users",
+    "outATag": "What happens in Downtown",
+    "outB": "Supply above demand",
+    "outBNote": "Fewer trips per driver,\nless income and log-offs",
+    "outBTag": "In another zone or at another time",
+    "challenge": "Challenge: balance supply and demand within minutes, zone by zone"
+  },
+  "ts": {
+    "aria": "Chart: weighted average of the last four Fridays (133), adjusted for rain (157) and for live demand (165).",
+    "headA": "Last 4 Fridays · 18:00",
+    "headB": "Forecast adjustments",
+    "fridayLabels": [
+      "Fri −4",
+      "Fri −3",
+      "Fri −2",
+      "Fri −1"
+    ],
+    "mean": "Weighted mean",
+    "capA": "Weight: more to recent Fridays",
+    "base": "Base",
+    "baseCalc": "weighted",
+    "rain": "Rain",
+    "live": "Live",
+    "forecast": "Forecast",
+    "capB": "Expected requests in 15 min",
+    "capB2": "Downtown, Friday 18:00–18:15"
+  },
+  "km": {
+    "aria": "Three scatter plots of nine zones with k-means: badly placed initial centres, centres moved to the mean of each group and convergence into three groups.",
+    "xAxis": "% demand at morning rush",
+    "yAxis": "% demand after midnight",
+    "p1": "1 · Initial centres",
+    "c1": "Two centres land in the same\nbusiness zone. Each zone joins\nits nearest centre.",
+    "p2": "2 · Move and reassign",
+    "c2": "Each centre moves to the mean\nof its zones. A and C change\ngroup.",
+    "p3": "3 · Repeat until it converges",
+    "c3": "No zone changes: 3 groups\nremain. Centre (C) is a\nbusiness zone.",
+    "g0": "Residential",
+    "g1": "Business",
+    "g2": "Nightlife"
+  },
+  "reg": {
+    "aria": "Chart: demand falls as the price multiplier rises and driver supply goes up; they cross at 1.39×, with about 136 trips.",
+    "xAxis": "Price multiplier (m)",
+    "yAxis": "Requests and drivers in 15 min",
+    "legDemand": "Demand (fitted curve)",
+    "legObs": "Historical observations",
+    "legSupply": "Driver supply",
+    "fDemand": "demand(m) = 165 · e^(−{b}·(m−1))",
+    "fSupply": "supply(m) = 110 · (1 + 0.6·(m−1))"
+  },
+  "loop": {
+    "aria": "Chart: the multiplier rises from 1.00 to 1.40 in five minutes, settles near 1.4 and returns to 1.00 when demand drops; below, the demand/supply ratio.",
+    "headM": "Applied price multiplier",
+    "headR": "Demand / drivers (R)",
+    "legShort": "R > 1: not enough drivers",
+    "legSurplus": "R < 1: spare drivers"
+  }
+}
