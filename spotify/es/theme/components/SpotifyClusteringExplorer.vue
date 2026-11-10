@@ -2,7 +2,7 @@
 import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import data from '../../data/spotify-demo.json'
 
-const props=defineProps({ initialStage:{type:Number,default:-1}, initialPreset:{type:String,default:'balanced'}, onSlideBoundary:Function })
+const props=defineProps({ initialStage:{type:Number,default:-1}, initialPreset:{type:String,default:'balanced'}, onSlideBoundary:Function,printStage:{type:Number,default:null}})
 const root=ref(null),stage=ref(props.initialStage),presetId=ref(props.initialPreset),contextId=ref('root')
 const cluster=ref(0),observation=ref(0),details=ref(false),playing=ref(false),shapMode=ref('local')
 const stages=['Variables','UMAP','HDBSCAN','Re-embedding','Jerarquía','XGBoost','SHAP','Explicabilidad']
@@ -44,7 +44,7 @@ watch(presetId,()=>{contextId.value='root';playing.value=false})
 watch(stage,()=>{details.value=false})
 let timer
 function onKey(e){
-  if(!root.value||root.value.getBoundingClientRect().width===0||e.altKey||e.metaKey||e.ctrlKey)return
+  if(props.printStage!=null||!root.value||root.value.getBoundingClientRect().width===0||e.altKey||e.metaKey||e.ctrlKey)return
   if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))return
   if(e.key==='ArrowRight'&&stage.value<(node.value.clusters.length?stages.length-1:2)){e.preventDefault();e.stopImmediatePropagation();go(stage.value+1)}
   else if(e.key==='ArrowLeft'&&stage.value>-1){e.preventDefault();e.stopImmediatePropagation();go(stage.value-1)}
@@ -56,6 +56,7 @@ onMounted(()=>{
   timer=setInterval(()=>{if(playing.value){if(stage.value<(node.value.clusters.length?stages.length-1:2))stage.value++;else playing.value=false}},5500)
 })
 onBeforeUnmount(()=>{clearInterval(timer);window.removeEventListener('keydown',onKey,true)})
+watch(()=>props.printStage,v=>{if(v!=null)stage.value=Math.max(-1,Math.min(stages.length-1,v))},{immediate:true})
 defineExpose({go,reset,enter,stage,presetId,contextId})
 
 const titles=['Un vector de variables original para cada oyente','UMAP hace visibles los vecindarios','HDBSCAN descubre grupos basados en densidad','La recursión parte de las filas de variables originales','La jerarquía registra cada paso de descubrimiento','Un modelo supervisado aprende la pertenencia descubierta','SHAP explica el predictor de pertenencia','Qué significan los resultados']
@@ -72,7 +73,7 @@ const explanations=[
 </script>
 
 <template>
-  <section ref="root" class="spotify-explorer" :class="{'sp-playing':playing}" :data-stage="stage" :data-context="contextId" aria-label="Recorrido interactivo del clustering de Spotify">
+  <section ref="root" class="spotify-explorer" :class="{'sp-playing':playing,'sp-print-stage':printStage!=null}" :data-stage="stage" :data-context="contextId" aria-label="Recorrido interactivo del clustering de Spotify">
     <nav class="sp-steps" aria-label="Etapas del recorrido">
       <button v-for="(name,i) in ['Ejemplo',...stages]" :key="name" :disabled="!node.clusters.length&&i>3" :class="{active:stage===i-1,completed:stage>i-1}" :aria-current="stage===i-1?'step':undefined" @click="go(i-1)"><span>{{ i+1 }}</span>{{ name }}</button>
     </nav>
@@ -231,5 +232,6 @@ const explanations=[
 .sp-meaning{padding-top:4px}.sp-meaning-step{display:grid;grid-template-columns:104px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--sp-rule);align-items:start}.sp-meaning-step>span{font-weight:600;font-size:19px}.sp-meaning-step p{font-size:18px;line-height:1.4;margin:0}.sp-meaning-result{display:flex;gap:18px;padding:16px 0;font-size:17px;line-height:1.4}.sp-meaning-result b{color:#E64366!important;white-space:nowrap}.sp-meaning-controls{margin-bottom:10px;flex-direction:row;gap:16px}.sp-meaning-controls label{flex:1;min-width:0}.sp-meaning-controls select{max-width:100px}.sp-explanation p.sp-interpretation{font-size:17px!important;line-height:1.35!important;margin-bottom:10px!important}.sp-meaning-limit{font-size:13px;line-height:1.35;color:#73687A}
 @keyframes spRevealOdd{from{opacity:.15}to{opacity:1}}@keyframes spRevealEven{from{opacity:.15}to{opacity:1}}@keyframes spFlow{to{stroke-dashoffset:-20}}.sp-visual{animation-duration:350ms;animation-timing-function:ease}.sp-playing .sp-arrow{stroke-dasharray:6 4;animation:spFlow 1s linear infinite}
 @media(prefers-reduced-motion:reduce){.sp-point,.sp-shap rect{transition:none}.sp-visual,.sp-arrow{animation:none!important}}
-@media print{.spotify-explorer{display:none!important}}
+@media print{.spotify-explorer:not(.sp-print-stage){display:none!important}}
+.spotify-explorer.sp-print-stage .sp-controls{display:none}.spotify-explorer.sp-print-stage,.spotify-explorer.sp-print-stage *{animation:none!important;transition:none!important}
 </style>

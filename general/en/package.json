@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "slidev slides.md --open",
     "build": "node tools/build-spotify.mjs && node tools/build-idealista.mjs && slidev build slides.md",
-    "export": "slidev export slides.md",
+    "export": "slidev export slides.md --with-clicks",
     "build:explorer": "node tools/build-spotify.mjs",
     "build:idealista": "node tools/build-idealista.mjs"
   },
