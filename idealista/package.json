@@ -1,0 +1,15 @@
+{
+  "name": "innoit-ml-use-case-idealista",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "node tools/build-idealista.mjs && slidev build slides.md",
+    "export": "slidev export slides.md",
+    "build:explorer": "node tools/build-idealista.mjs"
+  },
+  "devDependencies": {
+    "@slidev/cli": "53.0.0",
+    "vue": "3.5.43"
+  }
+}

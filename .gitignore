@@ -230,14 +230,13 @@ node_modules/
 .chart-data-*/
 tmp/
 
-# --- Solo se versiona el proyecto Slidev real-world-ml (+ HTML y PDF) ---
-output/*
-!output/presentations/
-output/presentations/*
-!output/presentations/real-world-ml/
-# Artefactos generados / dependencias dentro del proyecto Slidev
-output/presentations/real-world-ml/dist/
-output/presentations/real-world-ml/node_modules
-output/presentations/real-world-ml/public/spotify-assets/
-output/presentations/real-world-ml/public/idealista-assets/
-output/presentations/real-world-ml/public/*.html
+# --- Proyectos Slidev: general/, idealista/, spotify/ ---
+# Material de trabajo local fuera de los proyectos
+/output/
+# Dependencias (puede ser un enlace simbólico, por eso sin barra final)
+node_modules
+# Artefactos generados por los scripts de build
+*/dist/
+*/public/spotify-assets/
+*/public/idealista-assets/
+*/public/*.html

@@ -1,0 +1,181 @@
+{
+  "clustering": {
+    "id": "clustering",
+    "title": "Spotify: discovering and explaining groups",
+    "subtitle": "The recursion uses original features within a selected cluster",
+    "nodes": [
+      {
+        "id": "users",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "User features",
+        "body": "Behavior variables\nfor each user",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "umap",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "UMAP",
+        "body": "Reduce dimensions\nwhile retaining structure",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "hdb",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "HDBSCAN",
+        "body": "Find dense clusters\nand identify noise",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "cluster",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Select a cluster",
+        "body": "Take its original\nfeature rows",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "dataset",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Features + group IDs",
+        "body": "Discovered groups\nbecome labels",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "xgb",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "One-vs-all XGBoost",
+        "body": "Predict membership\nin each discovered group",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "shap",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "SHAP",
+        "body": "Explain which features\ndefine each group",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "research",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "User research",
+        "body": "Validate and interpret\nthe discovered segments",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "users",
+        "b": "umap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "umap",
+        "b": "hdb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "hdb",
+        "b": "cluster",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "cluster",
+        "b": "umap",
+        "label": "repeat within cluster",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            1018,
+            185
+          ],
+          [
+            418,
+            185
+          ]
+        ]
+      },
+      {
+        "a": "dataset",
+        "b": "xgb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "xgb",
+        "b": "shap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "shap",
+        "b": "research",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "Cluster discovery and supervised explanation serve different purposes. The source describes user research.",
+    "lanes": [
+      [
+        0,
+        4,
+        "DISCOVER GROUPS"
+      ],
+      [
+        0,
+        220,
+        "EXPLAIN AND VALIDATE GROUPS"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering",
+    "sourceLabel": "Spotify Engineering",
+    "notes": "Spotify recursively reruns UMAP and HDBSCAN on the original data points of a selected cluster. It trains one-versus-all XGBoost models on the original features and resulting cluster labels, then uses SHAP for explanation. This is not a diagram of Discover Weekly."
+  }
+}

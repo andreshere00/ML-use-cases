@@ -1,0 +1,103 @@
+{
+  "regression": {
+    "id": "regression",
+    "title": "idealista: estimating a property value",
+    "subtitle": "Property attributes and comparable properties feed automated valuation",
+    "nodes": [
+      {
+        "id": "property",
+        "x": 0,
+        "y": 28,
+        "w": 236,
+        "h": 140,
+        "title": "Subject property",
+        "body": "Location, cadastral data,\nproperty type and area",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "comps",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 140,
+        "title": "Comparable properties",
+        "body": "Relevant market\nobservations",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "avm",
+        "x": 430,
+        "y": 128,
+        "w": 280,
+        "h": 150,
+        "title": "Automated valuation",
+        "body": "Comparables combined\nwith a hedonic ML model",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "estimate",
+        "x": 900,
+        "y": 128,
+        "w": 236,
+        "h": 150,
+        "title": "Estimated value",
+        "body": "A continuous numeric\nproperty-value estimate",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "property",
+        "b": "avm",
+        "label": "attributes",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            98
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "comps",
+        "b": "avm",
+        "label": "comparables",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            312
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "avm",
+        "b": "estimate",
+        "label": "valuation",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "The published approach combines comparables and hedonic ML. The exact estimator and weighting are not public.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/",
+    "sourceLabel": "idealista/data and idealista labs",
+    "notes": "This is a functional view rather than an internal execution sequence. The company does not publish the exact regressor, comparable-selection algorithm or formula combining estimates. A continuous estimate is not a guaranteed sale price or a formal appraisal. No fabricated euro value is shown."
+  }
+}
