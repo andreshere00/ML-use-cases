@@ -1,0 +1,103 @@
+{
+  "regression": {
+    "id": "regression",
+    "title": "idealista: estimar el valor de un inmueble",
+    "subtitle": "Los atributos del inmueble y los inmuebles comparables alimentan la valoración automatizada",
+    "nodes": [
+      {
+        "id": "property",
+        "x": 0,
+        "y": 28,
+        "w": 236,
+        "h": 140,
+        "title": "Inmueble objeto",
+        "body": "Ubicación, datos catastrales,\ntipo de inmueble y superficie",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "comps",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 140,
+        "title": "Inmuebles comparables",
+        "body": "Observaciones de mercado\nrelevantes",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "avm",
+        "x": 430,
+        "y": 128,
+        "w": 280,
+        "h": 150,
+        "title": "Valoración automatizada",
+        "body": "Comparables combinados\ncon un modelo de ML hedónico",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "estimate",
+        "x": 900,
+        "y": 128,
+        "w": 236,
+        "h": 150,
+        "title": "Valor estimado",
+        "body": "Una estimación numérica continua\ndel valor del inmueble",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "property",
+        "b": "avm",
+        "label": "atributos",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            98
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "comps",
+        "b": "avm",
+        "label": "comparables",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            312
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "avm",
+        "b": "estimate",
+        "label": "valoración",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "El enfoque publicado combina comparables y ML hedónico. El estimador exacto y la ponderación no son públicos.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/",
+    "sourceLabel": "idealista/data e idealista labs",
+    "notes": "Es una vista funcional y no una secuencia de ejecución interna. La empresa no publica el regresor exacto, el algoritmo de selección de comparables ni la fórmula que combina las estimaciones. Una estimación continua no es un precio de venta garantizado ni una tasación formal. No se muestra ningún valor en euros inventado."
+  }
+}

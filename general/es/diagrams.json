@@ -1,0 +1,2525 @@
+{
+  "association": {
+    "id": "association",
+    "title": "Walmart: asociaciones de cesta",
+    "subtitle": "El procesamiento por lotes construye la tabla de pares de productos que usan las recomendaciones",
+    "nodes": [
+      {
+        "id": "tx",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Historial de cestas",
+        "body": "Transacciones agrupadas\npor departamento/tiempo",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "filter",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Filtrar transacciones",
+        "body": "Soporte, precio\ny contribución al GMV",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "pairs",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Probabilidades de pares",
+        "body": "Contar compras conjuntas\ny calcular relaciones",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "rules",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Validar y ordenar",
+        "body": "Seleccionar pares diversos\nentre subcategorías",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "query",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Producto consultado",
+        "body": "El ID del producto\nactúa como clave de consulta",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "table",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Tabla de asociaciones",
+        "body": "Reglas de pares de productos\ncalculadas previamente",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "lookup",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Recuperar complementos",
+        "body": "Buscar productos emparejados\ncon el artículo actual",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "rec",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Recomendación",
+        "body": "Artículos complementarios\npara ofrecer juntos",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "tx",
+        "b": "filter",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "filter",
+        "b": "pairs",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "pairs",
+        "b": "rules",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "query",
+        "b": "table",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "table",
+        "b": "lookup",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "lookup",
+        "b": "rec",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "rules",
+        "b": "table",
+        "label": "salida del lote",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            1018,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "El ganador desplegado usa probabilidades por pares. Walmart evaluó FP-Growth como alternativa.",
+    "lanes": [
+      [
+        0,
+        4,
+        "LOTE OFFLINE"
+      ],
+      [
+        0,
+        220,
+        "CONSULTA DE PRODUCTO"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://medium.com/walmartglobaltech/scaling-product-recommendations-using-basket-analysis-part-1-8434d4f8756f",
+    "sourceLabel": "Walmart Global Tech",
+    "notes": "Reconstrucción funcional del flujo por lotes y de consulta publicado. La consulta del producto actual ilustra cómo la tabla de asociaciones puede alimentar recomendaciones; la fuente no publica la API en línea. GMV = valor bruto de mercancía. No se inventa ningún resultado numérico de lift ni de ingresos."
+  },
+  "binary": {
+    "id": "binary",
+    "title": "Cabify: tráfico legítimo o artificial",
+    "subtitle": "El servicio de ML toma una decisión concreta de permitir/bloquear sobre el tráfico de SMS",
+    "nodes": [
+      {
+        "id": "request",
+        "x": 0,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Solicitud de SMS",
+        "body": "Cabify envía los SMS\na través de Infobip",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "signals",
+        "x": 300,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Infobip Signals",
+        "body": "El ML identifica patrones\ny anomalías del tráfico",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "decision",
+        "x": 600,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Decisión sobre el tráfico",
+        "body": "Distinguir tráfico legítimo\ndel generado\npor bots",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "allow",
+        "x": 900,
+        "y": 24,
+        "w": 236,
+        "h": 148,
+        "title": "Permitir tráfico",
+        "body": "Continuar el envío\nde mensajes legítimos",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "block",
+        "x": 900,
+        "y": 250,
+        "w": 236,
+        "h": 148,
+        "title": "Bloquear tráfico",
+        "body": "Detener el tráfico artificial\nantes de que genere coste",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "request",
+        "b": "signals",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "signals",
+        "b": "decision",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "decision",
+        "b": "allow",
+        "label": "legítimo",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            868,
+            202
+          ],
+          [
+            868,
+            89
+          ]
+        ]
+      },
+      {
+        "a": "decision",
+        "b": "block",
+        "label": "tráfico de bots",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            868,
+            202
+          ],
+          [
+            868,
+            315
+          ]
+        ]
+      }
+    ],
+    "caption": "Infobip divulga la decisión y el uso de ML, pero no publica variables, familia de modelo ni umbrales.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.infobip.com/customer/cabify",
+    "sourceLabel": "Caso de cliente de Infobip con testimonio de Cabify",
+    "notes": "Este diagrama explica la frontera real del servicio sin inventar una arquitectura de entrenamiento. Legítimo frente a bot es la abstracción de la tarea de clasificación. La fuente describe señales de patrones y anomalías dentro del servicio de ML. Una política de permitir/bloquear debe equilibrar el tráfico artificial frente al rechazo de usuarios genuinos."
+  },
+  "multiclass": {
+    "id": "multiclass",
+    "title": "Uber COTA: identificar un problema de soporte",
+    "subtitle": "El texto del ticket y el contexto del viaje ayudan a un agente a elegir una categoría de problema",
+    "nodes": [
+      {
+        "id": "ticket",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Ticket entrante",
+        "body": "Mensaje del cliente\ny problema seleccionado",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "context",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Recopilar contexto",
+        "body": "Combinar el mensaje\ny la información del viaje",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "features",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Rasgos de texto",
+        "body": "Limpiar el texto y aplicar\nTF-IDF y LSA",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "classifier",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Modelo de tipo de problema",
+        "body": "Clasificación con\nrandom forest",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "resolution",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Paso de resolución",
+        "body": "Tarea separada:\nordenar posibles soluciones",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "category",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Una categoría de problema",
+        "body": "Etiqueta confirmada\npara este ticket",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "human",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Agente de soporte",
+        "body": "Revisar las sugerencias\ny elegir una categoría",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "suggestions",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "3 tipos de problema principales",
+        "body": "Categorías candidatas\npara la selección humana",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "ticket",
+        "b": "context",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "features",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "features",
+        "b": "classifier",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "classifier",
+        "b": "suggestions",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "suggestions",
+        "b": "human",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "human",
+        "b": "category",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "category",
+        "b": "resolution",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      }
+    ],
+    "caption": "La identificación del tipo de problema es la tarea multiclase. COTA ordena las posibles soluciones en un paso aparte.",
+    "lanes": [
+      [
+        0,
+        4,
+        "PROCESAMIENTO Y CLASIFICACIÓN DEL TICKET"
+      ],
+      [
+        0,
+        220,
+        "SUGERENCIAS Y SELECCIÓN HUMANA"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.uber.com/us/en/blog/cota/",
+    "sourceLabel": "Uber Engineering",
+    "notes": "Vista funcional del flujo histórico de identificación de problemas de COTA. La etapa de ordenación de soluciones es explícitamente independiente. TF-IDF y LSA describen el pipeline de texto documentado. Esta vista omite el almacenamiento y la lógica de actualización."
+  },
+  "multilabel": {
+    "id": "multilabel",
+    "title": "Amazon: miles de propensiones",
+    "subtitle": "Un vector de cliente disperso alimenta un modelo compartido con muchas salidas por categoría",
+    "nodes": [
+      {
+        "id": "history",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Datos de entrenamiento",
+        "body": "Variables dispersas más\netiquetas de acciones pasadas\npor categoría",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "mxtrain",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Entrenar en Python",
+        "body": "MXNet ajusta un único\nclasificador multietiqueta",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "files",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Artefactos del modelo",
+        "body": "Los científicos entregan\nlos archivos del modelo entrenado",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "features",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Datos de variables de cliente",
+        "body": "Spark particiona\nel lote para procesarlo",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "djl",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "DJL dentro de Spark",
+        "body": "El código Java/Scala carga\nel modelo para la inferencia",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "infer",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Inferencia con MXNet",
+        "body": "Aplicar el modelo entrenado\na cada lote",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "scores",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Vector de propensión",
+        "body": "Una puntuación para cada\ncategoría de producto",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "history",
+        "b": "mxtrain",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "mxtrain",
+        "b": "files",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "features",
+        "b": "djl",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "djl",
+        "b": "infer",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "infer",
+        "b": "scores",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "files",
+        "b": "djl",
+        "label": "entrega del modelo",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            718,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "Varias categorías pueden recibir una propensión alta a la vez. El sistema no elige una única etiqueta ganadora.",
+    "lanes": [
+      [
+        0,
+        4,
+        "ENTRENAMIENTO"
+      ],
+      [
+        0,
+        220,
+        "INFERENCIA POR LOTES DISTRIBUIDA"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://aws.amazon.com/blogs/opensource/how-amazon-retail-systems-run-machine-learning-predictions-with-apache-spark-using-deep-java-library/",
+    "sourceLabel": "Amazon / AWS Open Source Blog",
+    "notes": "Amazon documenta variables de cliente dispersas y de alta dimensión, etiquetas binarias de acción por categoría, entrenamiento con MXNet en Python y servicio con Spark/DJL en Java o Scala. El diagrama omite los detalles internos del framework y no implica modelos independientes por categoría ni umbrales de puntuación no divulgados."
+  },
+  "clustering": {
+    "id": "clustering",
+    "title": "Spotify: descubrir y explicar grupos",
+    "subtitle": "La recursión usa las variables originales dentro de un cluster seleccionado",
+    "nodes": [
+      {
+        "id": "users",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Variables de usuario",
+        "body": "Variables de comportamiento\nde cada usuario",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "umap",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "UMAP",
+        "body": "Reducir dimensiones\nconservando la estructura",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "hdb",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "HDBSCAN",
+        "body": "Encontrar clusters densos\ny detectar ruido",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "cluster",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Seleccionar un cluster",
+        "body": "Tomar sus filas de\nvariables originales",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "dataset",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Variables + IDs de grupo",
+        "body": "Los grupos descubiertos\nse convierten en etiquetas",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "xgb",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "XGBoost uno contra todos",
+        "body": "Predecir la pertenencia\na cada grupo descubierto",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "shap",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "SHAP",
+        "body": "Explicar qué variables\ndefinen cada grupo",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "research",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Investigación con usuarios",
+        "body": "Validar e interpretar\nlos segmentos descubiertos",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "users",
+        "b": "umap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "umap",
+        "b": "hdb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "hdb",
+        "b": "cluster",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "cluster",
+        "b": "umap",
+        "label": "repetir dentro del cluster",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            1018,
+            185
+          ],
+          [
+            418,
+            185
+          ]
+        ]
+      },
+      {
+        "a": "dataset",
+        "b": "xgb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "xgb",
+        "b": "shap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "shap",
+        "b": "research",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "El descubrimiento de clusters y la explicación supervisada tienen fines distintos. La fuente describe investigación con usuarios.",
+    "lanes": [
+      [
+        0,
+        4,
+        "DESCUBRIR GRUPOS"
+      ],
+      [
+        0,
+        220,
+        "EXPLICAR Y VALIDAR GRUPOS"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering",
+    "sourceLabel": "Spotify Engineering",
+    "notes": "Spotify vuelve a ejecutar de forma recursiva UMAP y HDBSCAN sobre los puntos de datos originales de un cluster seleccionado. Entrena modelos XGBoost uno contra todos con las variables originales y las etiquetas de cluster resultantes, y luego usa SHAP para explicar. No es un diagrama de Discover Weekly."
+  },
+  "anomaly": {
+    "id": "anomaly",
+    "title": "Adyen: detectar una caída del volumen de pagos",
+    "subtitle": "Una línea base contextual y unos límites de incertidumbre definen qué se considera inusual",
+    "nodes": [
+      {
+        "id": "history",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Volúmenes históricos",
+        "body": "Recuento de pagos del comercio\nen intervalos de tiempo",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "base",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Línea base esperada",
+        "body": "Ajustar tendencia, estacionalidad\ny efectos de eventos",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "bounds",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Intervalo esperado",
+        "body": "La regresión cuantílica\nestima los límites del residuo",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "alert",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Avisar a soporte",
+        "body": "Investigar el cambio\nde volumen del comercio",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "live",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Volumen observado",
+        "body": "Contar los pagos del\nintervalo actual",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "compare",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Comparar con los límites",
+        "body": "¿El recuento actual está\ndentro del intervalo?",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "normal",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Seguir monitorizando",
+        "body": "La observación se mantiene\ndentro de los límites esperados",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "history",
+        "b": "base",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "base",
+        "b": "bounds",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "bounds",
+        "b": "compare",
+        "label": "L(t), U(t)",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "live",
+        "b": "compare",
+        "label": "y(t) observado",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "compare",
+        "b": "normal",
+        "label": "dentro",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "compare",
+        "b": "alert",
+        "label": "fuera",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            866,
+            307
+          ],
+          [
+            866,
+            91
+          ]
+        ]
+      }
+    ],
+    "caption": "Un recuento absoluto bajo puede ser normal. La decisión depende del comercio, del momento y del intervalo esperado.",
+    "lanes": [
+      [
+        0,
+        4,
+        "APRENDER LA LÍNEA BASE"
+      ],
+      [
+        0,
+        220,
+        "PUNTUAR OBSERVACIONES EN VIVO"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.adyen.com/en_GB/knowledge-hub/monitoring-payment-volumes",
+    "sourceLabel": "Adyen Engineering",
+    "notes": "La fuente divulga el modelado de tendencia/estacionalidad/eventos, la regresión cuantílica cuadrática sobre los residuos, el entrenamiento en Spark y la puntuación en tiempo real en Java. La notación del intervalo es una abstracción didáctica. El diagrama no afirma que toda anomalía sea fraude ni que una alerta identifique la causa raíz."
+  },
+  "regression": {
+    "id": "regression",
+    "title": "idealista: estimar el valor de un inmueble",
+    "subtitle": "Los atributos del inmueble y los inmuebles comparables alimentan la valoración automatizada",
+    "nodes": [
+      {
+        "id": "property",
+        "x": 0,
+        "y": 28,
+        "w": 236,
+        "h": 140,
+        "title": "Inmueble objeto",
+        "body": "Ubicación, datos catastrales,\ntipo de inmueble y superficie",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "comps",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 140,
+        "title": "Inmuebles comparables",
+        "body": "Observaciones de mercado\nrelevantes",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "avm",
+        "x": 430,
+        "y": 128,
+        "w": 280,
+        "h": 150,
+        "title": "Valoración automatizada",
+        "body": "Comparables combinados\ncon un modelo de ML hedónico",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "estimate",
+        "x": 900,
+        "y": 128,
+        "w": 236,
+        "h": 150,
+        "title": "Valor estimado",
+        "body": "Una estimación numérica continua\ndel valor del inmueble",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "property",
+        "b": "avm",
+        "label": "atributos",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            98
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "comps",
+        "b": "avm",
+        "label": "comparables",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            312
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "avm",
+        "b": "estimate",
+        "label": "valoración",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "El enfoque publicado combina comparables y ML hedónico. El estimador exacto y la ponderación no son públicos.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/",
+    "sourceLabel": "idealista/data e idealista labs",
+    "notes": "Es una vista funcional y no una secuencia de ejecución interna. La empresa no publica el regresor exacto, el algoritmo de selección de comparables ni la fórmula que combina las estimaciones. Una estimación continua no es un precio de venta garantizado ni una tasación formal. No se muestra ningún valor en euros inventado."
+  },
+  "forecasting": {
+    "id": "forecasting",
+    "title": "Iberdrola: previsiones de producción renovable",
+    "subtitle": "MeteoFlow combina el tiempo externo con información histórica y en vivo de las plantas",
+    "nodes": [
+      {
+        "id": "weather",
+        "x": 0,
+        "y": 8,
+        "w": 236,
+        "h": 104,
+        "title": "Datos meteorológicos",
+        "body": "Previsiones de viento y\nradiación solar",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "history",
+        "x": 0,
+        "y": 149,
+        "w": 236,
+        "h": 104,
+        "title": "Historial de generación",
+        "body": "Producción pasada de la planta",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "live",
+        "x": 0,
+        "y": 290,
+        "w": 236,
+        "h": 104,
+        "title": "Producción en vivo",
+        "body": "Datos actuales de la planta",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "model",
+        "x": 430,
+        "y": 125,
+        "w": 270,
+        "h": 150,
+        "title": "Modelos MeteoFlow",
+        "body": "Estiman la producción de la planta\ny afinan las predicciones\ncon machine learning",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "forecast",
+        "x": 830,
+        "y": 35,
+        "w": 306,
+        "h": 140,
+        "title": "Previsión de generación",
+        "body": "Horaria hasta 96 horas\nDiaria hasta 10 días",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "decision",
+        "x": 830,
+        "y": 258,
+        "w": 306,
+        "h": 148,
+        "title": "Decisiones operativas",
+        "body": "Planificación del mercado energético\ny ventanas de mantenimiento",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "weather",
+        "b": "model",
+        "label": "tiempo",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            344,
+            60
+          ],
+          [
+            344,
+            200
+          ]
+        ]
+      },
+      {
+        "a": "history",
+        "b": "model",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "live",
+        "b": "model",
+        "label": "datos de planta",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            344,
+            342
+          ],
+          [
+            344,
+            200
+          ]
+        ]
+      },
+      {
+        "a": "model",
+        "b": "forecast",
+        "label": "previsión",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            764,
+            200
+          ],
+          [
+            764,
+            105
+          ]
+        ]
+      },
+      {
+        "a": "forecast",
+        "b": "decision",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      }
+    ],
+    "caption": "Las fuentes de datos y los horizontes de previsión están documentados. Iberdrola no nombra la familia exacta de modelo de ML.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.iberdrola.com/about-us/our-innovation-model/meteoflow-project",
+    "sourceLabel": "Iberdrola",
+    "notes": "La fuente enumera explícitamente información meteorológica global, generación histórica y producción en tiempo real con ML predictivo. El diagrama muestra dependencias de información sin afirmar un modelo físico, una arquitectura neuronal ni un calendario de entrenamiento concretos. Las previsiones apoyan la venta de energía y la planificación del mantenimiento."
+  },
+  "sentiment": {
+    "id": "sentiment",
+    "title": "Booking.com: opiniones por aspecto",
+    "subtitle": "El entrenamiento vincula tramos de aspecto con sentimiento. La inferencia devuelve juicios separados",
+    "nodes": [
+      {
+        "id": "reviews",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Reseñas de hoteles",
+        "body": "Texto recopilado para\nanotación humana",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "annotate",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Etiquetar tramos de la reseña",
+        "body": "Marcar aspectos/opiniones\ny vincular sus tramos",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "dataset",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Datos de entrenamiento vinculados",
+        "body": "Tramos de aspecto, sentimiento\ny relaciones",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "train",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Entrenar el modelo ABSA",
+        "body": "Aprender análisis de sentimiento\nbasado en aspectos",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "sample",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Reseña de ejemplo",
+        "body": "«Personal estupendo,\ncamas incómodas»",
+        "kind": "data",
+        "example": true
+      },
+      {
+        "id": "infer",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Inferencia ABSA",
+        "body": "Identificar aspectos\ny opiniones asociadas",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "links",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Aspecto / polaridad",
+        "body": "Personal: positivo\nCamas: negativo",
+        "kind": "output",
+        "example": true
+      },
+      {
+        "id": "use",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Información de las reseñas",
+        "body": "Mostrar qué elogian\no critican los huéspedes",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "reviews",
+        "b": "annotate",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "annotate",
+        "b": "dataset",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "dataset",
+        "b": "train",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "sample",
+        "b": "infer",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "infer",
+        "b": "links",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "links",
+        "b": "use",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "train",
+        "b": "infer",
+        "label": "modelo entrenado",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            1018,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "Los cuadros discontinuos contienen un ejemplo didáctico. El artículo documenta la anotación y el propósito del modelo, no su arquitectura.",
+    "lanes": [
+      [
+        0,
+        4,
+        "CONSTRUIR EL CONJUNTO DE ENTRENAMIENTO"
+      ],
+      [
+        0,
+        220,
+        "ANALIZAR UNA RESEÑA NUEVA"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://aws.amazon.com/blogs/machine-learning/labeling-text-for-aspect-based-sentiment-analysis-using-sagemaker-ground-truth/",
+    "sourceLabel": "Equipo de Booking.com / AWS Machine Learning Blog",
+    "notes": "ABSA significa análisis de sentimiento basado en aspectos. Anotadores humanos marcan y vinculan tramos de aspecto y tramos de sentimiento con SageMaker Ground Truth. El cuadro de ejecución resume la tarea; no afirma un clasificador de tokens ni una arquitectura transformer concretos. La reseña de ejemplo y sus salidas ilustran la tarea y no citan datos de clientes."
+  },
+  "textmining": {
+    "id": "textmining",
+    "title": "ING: las noticias se convierten en una lista de vigilancia de riesgo",
+    "subtitle": "El análisis de noticias y las señales de mercado se combinan con criterios de alerta definidos por analistas",
+    "nodes": [
+      {
+        "id": "news",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Noticias públicas",
+        "body": "Artículos en distintos\nidiomas y mercados",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "nlp",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "PLN + traducción",
+        "body": "Los servicios de lenguaje de Google\nprocesan texto en idioma local",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "signals",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Señales de noticias",
+        "body": "Sentimiento sobre la cobertura\nrelevante de clientes",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "market",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Información de mercado",
+        "body": "Datos financieros de Refinitiv\nen tiempo real",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "criteria",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Criterios de alerta",
+        "body": "Reglas definidas por analistas\npara señales de riesgo relevantes",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "analyst",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Analista de riesgo de crédito",
+        "body": "Revisar la alerta\ne investigar la exposición",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "news",
+        "b": "nlp",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "nlp",
+        "b": "signals",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "signals",
+        "b": "criteria",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "market",
+        "b": "criteria",
+        "label": "indicadores de mercado",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "criteria",
+        "b": "analyst",
+        "label": "alerta",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "La salida es una alerta para el analista. La fuente presenta la predicción de impagos como una ambición futura.",
+    "lanes": [
+      [
+        0,
+        4,
+        "INTERPRETAR EL FLUJO DE TEXTO"
+      ],
+      [
+        0,
+        220,
+        "COMBINAR SEÑALES Y REVISAR"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://ing.com/news/2020/07/using-ai-to-assess-credit-risk.html",
+    "sourceLabel": "ING",
+    "notes": "ING documenta noticias públicas, PLN y traducción de Google, datos de Refinitiv y criterios definidos por analistas. Algunos criterios de ejemplo son la cobertura mediática negativa y una caída de la cotización superior a un umbral. El diagrama no presupone un sistema concreto de enlace de entidades, un clasificador ni un modelo de probabilidad de impago."
+  },
+  "patterns": {
+    "id": "patterns",
+    "title": "BMW: el reconocimiento de imágenes comprueba la insignia",
+    "subtitle": "Aprender el patrón visual y comprobar el pedido son pasos separados",
+    "nodes": [
+      {
+        "id": "images",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Imágenes de componentes",
+        "body": "Fotografías desde\ndistintos ángulos",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "labels",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Etiquetado por empleados",
+        "body": "Marcar componentes\ny posibles desviaciones",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "train",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Entrenar la red neuronal",
+        "body": "Aprender distinciones visuales\na partir de imágenes etiquetadas",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "weights",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Red entrenada",
+        "body": "Parámetros para el\nreconocimiento visual",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "camera",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Imagen de cámara en vivo",
+        "body": "Insignia de un vehículo\nrecién producido",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "recognize",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Reconocer la insignia",
+        "body": "Aplicar la representación\nvisual aprendida",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "compare",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Comprobar datos del pedido",
+        "body": "Comparar la insignia observada\ncon la especificación requerida",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "result",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Resultado de la inspección",
+        "body": "Coincide: supera el control\nNo coincide: avisar al equipo",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "images",
+        "b": "labels",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "labels",
+        "b": "train",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "train",
+        "b": "weights",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "camera",
+        "b": "recognize",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "recognize",
+        "b": "compare",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "compare",
+        "b": "result",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "weights",
+        "b": "recognize",
+        "label": "desplegar",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            1018,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "La red neuronal reconoce la imagen. La lógica de negocio compara el resultado del reconocimiento con los datos del pedido del vehículo.",
+    "lanes": [
+      [
+        0,
+        4,
+        "ENTRENAR EL MODELO VISUAL"
+      ],
+      [
+        0,
+        220,
+        "INSPECCIONAR UN VEHÍCULO"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.press.bmwgroup.com/global/article/detail/T0298650EN/fast-efficient-reliable:-artificial-intelligence-in-bmw-group-production?showMedia=video",
+    "sourceLabel": "BMW Group",
+    "notes": "BMW documenta el etiquetado de imágenes por parte de empleados, el entrenamiento de la red neuronal y la comparación de imágenes en vivo de la denominación del modelo con los datos del pedido en Dingolfing. La separación entre aprobar y notificar es el resultado de la tarea. No se inventa ninguna arquitectura CNN, umbral de confianza ni afirmación universal de precisión."
+  },
+  "imagegen": {
+    "id": "imagegen",
+    "title": "Mango: de prendas reales a imágenes de campaña",
+    "subtitle": "El flujo publicado incluye entrenamiento del modelo y producción editorial humana",
+    "nodes": [
+      {
+        "id": "photos",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Fotos reales de las prendas",
+        "body": "Fotografiar cada prenda\nde la colección",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "train",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Entrenar el modelo",
+        "body": "Aprender cómo se coloca\nla prenda real sobre un modelo",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "generate",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Generación de imágenes",
+        "body": "Sintetizar posibles\nimágenes de campaña",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "candidates",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Imágenes candidatas",
+        "body": "Varias imágenes generadas\npara revisar",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "campaign",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Campaña publicada",
+        "body": "Sunset Dream\npara Mango Teen",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "finished",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Arte final",
+        "body": "Imágenes de campaña\ncon calidad editorial",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "retouch",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Retocar y finalizar",
+        "body": "Editar y masterizar las imágenes\nen el estudio",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "select",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Selección del equipo de arte",
+        "body": "Revisar el detalle de la prenda\ny la calidad editorial",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "photos",
+        "b": "train",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "train",
+        "b": "generate",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "generate",
+        "b": "candidates",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "candidates",
+        "b": "select",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "select",
+        "b": "retouch",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "retouch",
+        "b": "finished",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "finished",
+        "b": "campaign",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      }
+    ],
+    "caption": "Mango no nombra la difusión, las GAN ni un modelo concreto. La selección y el retoque humanos son pasos documentados.",
+    "lanes": [
+      [
+        0,
+        4,
+        "APRENDER EL PRODUCTO Y GENERAR"
+      ],
+      [
+        0,
+        220,
+        "PRODUCCIÓN EDITORIAL HUMANA"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://mangofashiongroup.com/en/w/mango-crea-la-primera-campa%C3%B1a-generada-con-inteligencia-artificial-para-su-l%C3%ADnea-teen",
+    "sourceLabel": "Mango Fashion Group",
+    "notes": "Este diagrama sigue el comunicado de julio de 2024: fotografías reales de las prendas, entrenamiento del modelo generativo, generación, selección por el equipo de arte y acabado en el estudio de fotografía. No introduce un pipeline de prompts no divulgado ni sugiere que los controles de calidad del producto estén totalmente automatizados."
+  },
+  "rag": {
+    "id": "rag",
+    "title": "Allianz: la recuperación fundamenta la respuesta",
+    "subtitle": "EKA busca en el conocimiento de AWISO y devuelve información verificable a los empleados",
+    "nodes": [
+      {
+        "id": "docs",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Documentos de AWISO",
+        "body": "Conocimiento interno de\nproductos y procesos",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "chunks",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Fragmentos de texto",
+        "body": "Dividir el contenido del documento\nen pasajes manejables",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "kb",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Base de conocimiento",
+        "body": "Pasajes enlazados\na documentos completos",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "feedback",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Feedback de empleados",
+        "body": "El feedback del personal ayuda\na refinar el sistema",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "question",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Pregunta del empleado",
+        "body": "Consultar sobre una\nincidencia de un cliente",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "retrieve",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Pasajes relevantes",
+        "body": "Recuperar la información\ncoincidente de AWISO",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "answer",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Generación con LLM",
+        "body": "Usar la evidencia recuperada\npara redactar la respuesta",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "response",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Respuesta con fuentes",
+        "body": "Destacados, resumen\ny enlaces a documentos completos",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "docs",
+        "b": "chunks",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "chunks",
+        "b": "kb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "question",
+        "b": "retrieve",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "retrieve",
+        "b": "answer",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "answer",
+        "b": "response",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "kb",
+        "b": "retrieve",
+        "label": "fuente de conocimiento",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            718,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      },
+      {
+        "a": "response",
+        "b": "feedback",
+        "label": "",
+        "start": "top",
+        "end": "bottom",
+        "via": null
+      }
+    ],
+    "caption": "Esta vista funcional de RAG omite los demás agentes de EKA. La fuente no publica su recuperador ni su modelo de embeddings exactos.",
+    "lanes": [
+      [
+        0,
+        4,
+        "PREPARAR EL CONOCIMIENTO DE LA EMPRESA"
+      ],
+      [
+        0,
+        220,
+        "RECUPERAR Y RESPONDER"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.allianz.com/en/mediacenter/news/articles/250207-allianz-ai-enterprise-knowledge-assistant-enhances-productivity.html",
+    "sourceLabel": "Allianz",
+    "notes": "Allianz documenta la división en fragmentos por párrafos, la recuperación de documentos relevantes, los resúmenes, los destacados y los enlaces a documentos completos, junto con el feedback de los empleados. El cuadro de conocimiento no afirma una base de datos vectorial concreta. El feedback apoya el refinamiento; no se implica un reentrenamiento automático del modelo."
+  },
+  "multimodal": {
+    "id": "multimodal",
+    "title": "Google Vids: generar vídeo y sonido",
+    "subtitle": "Veo 3 genera ambas modalidades. El usuario previsualiza el clip antes de insertarlo",
+    "nodes": [
+      {
+        "id": "prompt",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Prompt de la escena",
+        "body": "Describir la escena\ny el sonido deseado",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "editor",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Editor de Vids",
+        "body": "Elegir Veo 3\ny hacer clic en Crear",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "veo",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Generación con Veo 3",
+        "body": "Generar vídeo\ny audio a la vez",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "clip",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Clip audiovisual",
+        "body": "Imágenes en movimiento\ncon sonido",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "video",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Vídeo de empresa",
+        "body": "El clip generado se une\nal proyecto general",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "timeline",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Edición en la línea de tiempo",
+        "body": "Mantener el sonido\no silenciar el clip",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "insert",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Insertar clip",
+        "body": "Añadir el clip elegido\nal Vid",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "preview",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Previsualización del usuario",
+        "body": "Ver y escuchar\nantes de insertar",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "prompt",
+        "b": "editor",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "editor",
+        "b": "veo",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "veo",
+        "b": "clip",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "clip",
+        "b": "preview",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "preview",
+        "b": "insert",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "insert",
+        "b": "timeline",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "timeline",
+        "b": "video",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      }
+    ],
+    "caption": "La versión de junio de 2025 documenta clips de 8 segundos con sonido. La previsualización y la inserción siguen bajo control del usuario.",
+    "lanes": [
+      [
+        0,
+        4,
+        "PROMPT Y GENERACIÓN AUDIOVISUAL"
+      ],
+      [
+        0,
+        220,
+        "PREVISUALIZACIÓN Y MONTAJE DEL VÍDEO"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://workspaceupdates.googleblog.com/2025/06/generate-video-clips-with-sound-using-veo3-google-vids.html",
+    "sourceLabel": "Google Workspace Updates",
+    "notes": "Flujo de producto de la versión de lanzamiento de Google Vids. Un único paso de generación produce vídeo y sonido. Estos cuadros describen el flujo del usuario y no una arquitectura de modelo no documentada."
+  },
+  "agents": {
+    "id": "agents",
+    "title": "BBVA Blue: enrutar una solicitud bancaria",
+    "subtitle": "El agente de enrutamiento elige un especialista, una herramienta o una respuesta de aclaración",
+    "nodes": [
+      {
+        "id": "query",
+        "x": 0,
+        "y": 129,
+        "w": 236,
+        "h": 142,
+        "title": "Mensaje + contexto",
+        "body": "Solicitud del cliente\ny historial de conversación",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "filter",
+        "x": 300,
+        "y": 129,
+        "w": 236,
+        "h": 142,
+        "title": "Preselección",
+        "body": "Elegir 5–6 opciones\nentre más de 150 operaciones",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "router",
+        "x": 600,
+        "y": 129,
+        "w": 236,
+        "h": 142,
+        "title": "Agente de enrutamiento GPT",
+        "body": "Elegir la siguiente acción\na partir de descripciones\ndinámicas de herramientas",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "operation",
+        "x": 900,
+        "y": 4,
+        "w": 236,
+        "h": 112,
+        "title": "Herramienta bancaria",
+        "body": "Consulta de saldo\no pago móvil",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "info",
+        "x": 900,
+        "y": 144,
+        "w": 236,
+        "h": 112,
+        "title": "Agente RAG",
+        "body": "Responder a partir\nde las FAQ del banco",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "clarify",
+        "x": 900,
+        "y": 284,
+        "w": 236,
+        "h": 112,
+        "title": "Aclarar o respuesta de reserva",
+        "body": "Pedir el detalle que falta\no responder dentro de los límites",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "query",
+        "b": "filter",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "filter",
+        "b": "router",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "router",
+        "b": "operation",
+        "label": "operación",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            865,
+            200
+          ],
+          [
+            865,
+            60
+          ]
+        ]
+      },
+      {
+        "a": "router",
+        "b": "info",
+        "label": "información",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "router",
+        "b": "clarify",
+        "label": "poco claro / fuera de alcance",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            865,
+            200
+          ],
+          [
+            865,
+            340
+          ]
+        ]
+      }
+    ],
+    "caption": "Las operaciones bancarias son herramientas invocables. Una conversación puede ramificarse entre información, acción y aclaración.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.bbvaaifactory.com/the-routing-agent-a-key-component-for-agentic-ai-assistants/",
+    "sourceLabel": "BBVA AI Factory y anuncio del despliegue de BBVA",
+    "notes": "BBVA describe explícitamente un agente de clasificación/enrutamiento, un filtrado previo de operaciones, llamadas a funciones y varios roles de agente. Las respuestas de aclaración y de rechazo fuera de alcance son funciones distintas, agrupadas en esta vista para conservar la legibilidad. Fuente: artículo técnico de enrutamiento, 13 de noviembre de 2025."
+  },
+  "integrated": {
+    "id": "integrated",
+    "title": "BBVA Blue: conocimiento y acciones",
+    "subtitle": "Un asistente combina PLN, clasificación de intenciones, RAG y orquestación de herramientas",
+    "nodes": [
+      {
+        "id": "dialogue",
+        "x": 0,
+        "y": 132,
+        "w": 236,
+        "h": 142,
+        "title": "Conversación",
+        "body": "Mensaje del cliente\nmás el contexto del diálogo",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "context",
+        "x": 280,
+        "y": 132,
+        "w": 220,
+        "h": 142,
+        "title": "PLN + enrutamiento",
+        "body": "Resumir el contexto\ny clasificar la solicitud",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "kb",
+        "x": 570,
+        "y": 8,
+        "w": 270,
+        "h": 134,
+        "title": "Rama de información",
+        "body": "Embeber la consulta y comparar títulos\nde FAQ por similitud del coseno",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "generate",
+        "x": 900,
+        "y": 8,
+        "w": 236,
+        "h": 134,
+        "title": "Respuesta fundamentada",
+        "body": "El LLM responde usando\nlas FAQ recuperadas",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "tool",
+        "x": 570,
+        "y": 270,
+        "w": 270,
+        "h": 122,
+        "title": "Rama de operación",
+        "body": "El especialista invoca\nuna herramienta bancaria",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "operation",
+        "x": 900,
+        "y": 270,
+        "w": 236,
+        "h": 122,
+        "title": "Resultado de la herramienta",
+        "body": "Saldo o pago\nespecífico del cliente",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "clarify",
+        "x": 570,
+        "y": 160,
+        "w": 270,
+        "h": 82,
+        "title": "Aclaración",
+        "body": "Pedir el detalle que falta",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "dialogue",
+        "b": "context",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "kb",
+        "label": "información",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            535,
+            203
+          ],
+          [
+            535,
+            69
+          ]
+        ]
+      },
+      {
+        "a": "kb",
+        "b": "generate",
+        "label": "FAQ",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "tool",
+        "label": "operación",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            535,
+            203
+          ],
+          [
+            535,
+            331
+          ]
+        ]
+      },
+      {
+        "a": "tool",
+        "b": "operation",
+        "label": "resultado de la herramienta",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "clarify",
+        "label": "poco claro",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "Las FAQ genéricas y las operaciones específicas del cliente siguen ramas distintas. La información que falta provoca una aclaración.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.bbvaaifactory.com/our-rag-based-information-agent/",
+    "sourceLabel": "BBVA AI Factory: agente de enrutamiento y agente de información RAG",
+    "notes": "Reconstrucción funcional integrada a partir del artículo de enrutamiento de BBVA AI Factory (13 de noviembre de 2025) y del artículo del agente de información RAG (18 de diciembre de 2025). El artículo RAG documenta explícitamente la reformulación de la conversación, los embeddings de la consulta y de los títulos de FAQ, la similitud del coseno y la generación fundamentada en FAQ. También separa la información general de las operaciones específicas del cliente. El pago y el saldo son ejemplos citados en el artículo de enrutamiento. No se asume que Blue contenga un detector de anomalías, un modelo de previsión ni un clasificador de sentimiento."
+  }
+}

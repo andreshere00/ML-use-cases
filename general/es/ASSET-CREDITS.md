@@ -1,0 +1,5 @@
+# Créditos visuales
+
+- Logotipo de InnoIT y fuentes web Urbane: copiados sin cambios de la plantilla de InnoIT proporcionada por el usuario.
+- Inspección de la denominación del modelo de BMW, Dingolfing: imagen oficial de BMW Group Media, 15 de julio de 2019. Artículo fuente: https://www.press.bmwgroup.com/global/article/detail/T0298650EN/fast-efficient-reliable:-artificial-intelligence-in-bmw-group-production?showMedia=video . Recurso: https://mediapool.bmwgroup.com/download/edown/tvFootageDownload?actEvent=scaleTvFootageZoom&attachment=0&dokNo=PF0006994&quality=80&square=0 . La imagen completa se conserva en la diapositiva.
+- Mango Teen Sunset Dream: imagen oficial de la campaña generada con IA, 10 de julio de 2024. Artículo fuente: https://mangofashiongroup.com/en/w/mango-crea-la-primera-campa%C3%B1a-generada-con-inteligencia-artificial-para-su-l%C3%ADnea-teen . Recurso: https://media.mango.com/is/image/punto/mfg-dam-Mango-Teen-Sunset-Dream?fit=fit%2C1&wid=1920 . Es una imagen sintética publicada de una campaña, no una fotografía de una sesión real de la campaña.

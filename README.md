@@ -1,21 +1,23 @@
 # ML-use-cases
 
-Machine Learning and GenAI use cases carried out by real companies, presented as [Slidev](https://sli.dev) decks with the InnoIT theme.
+Casos de uso de Machine Learning y GenAI llevados a cabo por empresas reales, presentados como decks de [Slidev](https://sli.dev) con el tema de InnoIT. / Machine Learning and GenAI use cases carried out by real companies, presented as Slidev decks with the InnoIT theme.
 
-| Folder | Content |
-|---|---|
-| [`general/`](general) | Full series: 15 cases across ML, deep learning and GenAI, with both interactive explorers. |
-| [`idealista/`](idealista) | Regression: automated property valuation (idealista/data). |
-| [`spotify/`](spotify) | Clustering: recursive UMAP + HDBSCAN user segmentation (Spotify). |
+| Carpeta / Folder | EN | ES | Contenido / Content |
+|---|---|---|---|
+| `general/` | [`en`](general/en) | [`es`](general/es) | Serie completa: 15 casos de ML, deep learning y GenAI, con ambos exploradores. / Full series. |
+| `idealista/` | [`en`](idealista/en) | [`es`](idealista/es) | Regresión: valoración automática de inmuebles (idealista/data). / Regression. |
+| `spotify/` | [`en`](spotify/en) | [`es`](spotify/es) | Clustering: segmentación con UMAP + HDBSCAN recursivos (Spotify). / Clustering. |
 
-Each folder is an independent Slidev project (`slides.md`, `theme/`, `public/`, `package.json`) with its own HTML and PDF versions.
+Cada carpeta de idioma es un proyecto Slidev independiente (`slides.md`, `theme/`, `public/`, `package.json`). Each language folder is an independent Slidev project.
 
-## Run a deck
+## Ejecutar / Run
 
-Requires Node.js 22.12+ and pnpm.
+Requiere / Requires Node.js 22.12+ and pnpm.
 
 ```bash
-cd spotify        # or idealista / general
+cd spotify/es        # o / or idealista/en, general/es, ...
 pnpm install
 pnpm dev
 ```
+
+Los HTML de los exploradores y los PDF de las versiones en castellano se generan con `pnpm build:explorer` y `pnpm export`. / The Spanish explorer HTML and PDF files are generated with those commands.

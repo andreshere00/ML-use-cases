@@ -1,0 +1,181 @@
+{
+  "clustering": {
+    "id": "clustering",
+    "title": "Spotify: descubrir y explicar grupos",
+    "subtitle": "La recursión usa las variables originales dentro de un cluster seleccionado",
+    "nodes": [
+      {
+        "id": "users",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Variables de usuario",
+        "body": "Variables de comportamiento\nde cada usuario",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "umap",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "UMAP",
+        "body": "Reducir dimensiones\nconservando la estructura",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "hdb",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "HDBSCAN",
+        "body": "Encontrar clusters densos\ny detectar ruido",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "cluster",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Seleccionar un cluster",
+        "body": "Tomar sus filas de\nvariables originales",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "dataset",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Variables + IDs de grupo",
+        "body": "Los grupos descubiertos\nse convierten en etiquetas",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "xgb",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "XGBoost uno contra todos",
+        "body": "Predecir la pertenencia\na cada grupo descubierto",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "shap",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "SHAP",
+        "body": "Explicar qué variables\ndefinen cada grupo",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "research",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Investigación con usuarios",
+        "body": "Validar e interpretar\nlos segmentos descubiertos",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "users",
+        "b": "umap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "umap",
+        "b": "hdb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "hdb",
+        "b": "cluster",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "cluster",
+        "b": "umap",
+        "label": "repetir dentro del cluster",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            1018,
+            185
+          ],
+          [
+            418,
+            185
+          ]
+        ]
+      },
+      {
+        "a": "dataset",
+        "b": "xgb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "xgb",
+        "b": "shap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "shap",
+        "b": "research",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "El descubrimiento de clusters y la explicación supervisada tienen fines distintos. La fuente describe investigación con usuarios.",
+    "lanes": [
+      [
+        0,
+        4,
+        "DESCUBRIR GRUPOS"
+      ],
+      [
+        0,
+        220,
+        "EXPLICAR Y VALIDAR GRUPOS"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering",
+    "sourceLabel": "Spotify Engineering",
+    "notes": "Spotify vuelve a ejecutar de forma recursiva UMAP y HDBSCAN sobre los puntos de datos originales de un cluster seleccionado. Entrena modelos XGBoost uno contra todos con las variables originales y las etiquetas de cluster resultantes, y luego usa SHAP para explicar. No es un diagrama de Discover Weekly."
+  }
+}

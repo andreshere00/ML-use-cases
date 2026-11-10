@@ -236,7 +236,7 @@ tmp/
 # Dependencias (puede ser un enlace simbólico, por eso sin barra final)
 node_modules
 # Artefactos generados por los scripts de build
-*/dist/
-*/public/spotify-assets/
-*/public/idealista-assets/
-*/public/*.html
+*/*/dist/
+*/*/public/spotify-assets/
+*/*/public/idealista-assets/
+*/*/public/*.html
