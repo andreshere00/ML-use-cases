@@ -1,0 +1,24 @@
+{
+  "name": "slidev-theme-innoit",
+  "version": "1.0.0",
+  "keywords": [
+    "slidev-theme",
+    "slidev"
+  ],
+  "slidev": {
+    "colorSchema": "light",
+    "defaults": {
+      "aspectRatio": "16/9",
+      "canvasWidth": 1280,
+      "fonts": {
+        "sans": "Urbane",
+        "local": "Urbane",
+        "weights": "300,500,600"
+      },
+      "transition": "fade",
+      "drawings": {
+        "enabled": false
+      }
+    }
+  }
+}

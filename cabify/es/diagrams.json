@@ -1,0 +1,122 @@
+{
+  "binary": {
+    "id": "binary",
+    "title": "Cabify: tráfico legítimo o artificial",
+    "subtitle": "El servicio de ML toma una decisión concreta de permitir/bloquear sobre el tráfico de SMS",
+    "nodes": [
+      {
+        "id": "request",
+        "x": 0,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Solicitud de SMS",
+        "body": "Cabify envía los SMS\na través de Infobip",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "signals",
+        "x": 300,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Infobip Signals",
+        "body": "El ML identifica patrones\ny anomalías del tráfico",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "decision",
+        "x": 600,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Decisión sobre el tráfico",
+        "body": "Distinguir tráfico legítimo\ndel generado\npor bots",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "allow",
+        "x": 900,
+        "y": 24,
+        "w": 236,
+        "h": 148,
+        "title": "Permitir tráfico",
+        "body": "Continuar el envío\nde mensajes legítimos",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "block",
+        "x": 900,
+        "y": 250,
+        "w": 236,
+        "h": 148,
+        "title": "Bloquear tráfico",
+        "body": "Detener el tráfico artificial\nantes de que genere coste",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "request",
+        "b": "signals",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "signals",
+        "b": "decision",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "decision",
+        "b": "allow",
+        "label": "legítimo",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            868,
+            202
+          ],
+          [
+            868,
+            89
+          ]
+        ]
+      },
+      {
+        "a": "decision",
+        "b": "block",
+        "label": "tráfico de bots",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            868,
+            202
+          ],
+          [
+            868,
+            315
+          ]
+        ]
+      }
+    ],
+    "caption": "Infobip divulga la decisión y el uso de ML, pero no publica variables, familia de modelo ni umbrales.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.infobip.com/customer/cabify",
+    "sourceLabel": "Caso de cliente de Infobip con testimonio de Cabify",
+    "notes": "Este diagrama explica la frontera real del servicio sin inventar una arquitectura de entrenamiento. Legítimo frente a bot es la abstracción de la tarea de clasificación. La fuente describe señales de patrones y anomalías dentro del servicio de ML. Una política de permitir/bloquear debe equilibrar el tráfico artificial frente al rechazo de usuarios genuinos."
+  }
+}
