@@ -1,0 +1,2525 @@
+{
+  "association": {
+    "id": "association",
+    "title": "Walmart: basket associations",
+    "subtitle": "Batch processing builds the product-pair lookup used by recommendations",
+    "nodes": [
+      {
+        "id": "tx",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Basket history",
+        "body": "Grouped transactions\nby department/time",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "filter",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Filter transactions",
+        "body": "Support, price\nand GMV contribution",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "pairs",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Pair probabilities",
+        "body": "Count co-purchases\nand compute relationships",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "rules",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Validate and rank",
+        "body": "Select diverse pairs\nacross subcategories",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "query",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Product being viewed",
+        "body": "A product ID acts\nas the lookup key",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "table",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Association table",
+        "body": "Previously computed\nproduct-pair rules",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "lookup",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Retrieve complements",
+        "body": "Find products paired\nwith the current item",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "rec",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Recommendation",
+        "body": "Complementary items\nto offer together",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "tx",
+        "b": "filter",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "filter",
+        "b": "pairs",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "pairs",
+        "b": "rules",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "query",
+        "b": "table",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "table",
+        "b": "lookup",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "lookup",
+        "b": "rec",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "rules",
+        "b": "table",
+        "label": "batch output",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            1018,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "The deployed winner uses pairwise probabilities. Walmart evaluated FP-Growth as an alternative.",
+    "lanes": [
+      [
+        0,
+        4,
+        "OFFLINE BATCH"
+      ],
+      [
+        0,
+        220,
+        "PRODUCT LOOKUP"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://medium.com/walmartglobaltech/scaling-product-recommendations-using-basket-analysis-part-1-8434d4f8756f",
+    "sourceLabel": "Walmart Global Tech",
+    "notes": "Functional reconstruction of the published batch and lookup workflow. The current-product lookup illustrates how the association table can serve recommendations; the source does not publish the online API. GMV = gross merchandise value. No numerical lift or revenue result is invented."
+  },
+  "binary": {
+    "id": "binary",
+    "title": "Cabify: legitimate or artificial traffic",
+    "subtitle": "The ML service makes a concrete allow/block decision on SMS traffic",
+    "nodes": [
+      {
+        "id": "request",
+        "x": 0,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "SMS request",
+        "body": "Cabify routes SMS\nthrough Infobip",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "signals",
+        "x": 300,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Infobip Signals",
+        "body": "ML identifies traffic\npatterns and anomalies",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "decision",
+        "x": 600,
+        "y": 131,
+        "w": 236,
+        "h": 142,
+        "title": "Traffic decision",
+        "body": "Distinguish legitimate\nfrom bot-generated\ntraffic",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "allow",
+        "x": 900,
+        "y": 24,
+        "w": 236,
+        "h": 148,
+        "title": "Allow traffic",
+        "body": "Continue legitimate\nmessage delivery",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "block",
+        "x": 900,
+        "y": 250,
+        "w": 236,
+        "h": 148,
+        "title": "Block traffic",
+        "body": "Stop artificial traffic\nbefore it creates cost",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "request",
+        "b": "signals",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "signals",
+        "b": "decision",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "decision",
+        "b": "allow",
+        "label": "legitimate",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            868,
+            202
+          ],
+          [
+            868,
+            89
+          ]
+        ]
+      },
+      {
+        "a": "decision",
+        "b": "block",
+        "label": "bot traffic",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            868,
+            202
+          ],
+          [
+            868,
+            315
+          ]
+        ]
+      }
+    ],
+    "caption": "Infobip discloses the decision and use of ML, but does not publish features, model family or thresholds.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.infobip.com/customer/cabify",
+    "sourceLabel": "Infobip customer case with Cabify testimony",
+    "notes": "This diagram explains the actual service boundary without inventing a training architecture. Legitimate versus bot is the classification task abstraction. The source describes pattern and anomaly signals within the ML service. An allow/block policy must balance artificial traffic against rejection of genuine users."
+  },
+  "multiclass": {
+    "id": "multiclass",
+    "title": "Uber COTA: identifying a support issue",
+    "subtitle": "Ticket text and trip context help a support agent select one issue category",
+    "nodes": [
+      {
+        "id": "ticket",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Incoming ticket",
+        "body": "Customer message\nand selected issue",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "context",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Collect context",
+        "body": "Combine message\nand trip information",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "features",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Text features",
+        "body": "Clean text, then\nTF-IDF and LSA",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "classifier",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Issue-type model",
+        "body": "Random-forest\nclassification",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "resolution",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Resolution step",
+        "body": "Separate task:\nrank possible fixes",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "category",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "One issue category",
+        "body": "Confirmed label\nfor this ticket",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "human",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Support agent",
+        "body": "Review suggestions\nand select a category",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "suggestions",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Top 3 issue types",
+        "body": "Candidate categories\nfor human selection",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "ticket",
+        "b": "context",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "features",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "features",
+        "b": "classifier",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "classifier",
+        "b": "suggestions",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "suggestions",
+        "b": "human",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "human",
+        "b": "category",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "category",
+        "b": "resolution",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      }
+    ],
+    "caption": "Issue-type identification is the multiclass task. COTA ranks possible solutions in a separate step.",
+    "lanes": [
+      [
+        0,
+        4,
+        "TICKET PROCESSING AND CLASSIFICATION"
+      ],
+      [
+        0,
+        220,
+        "SUGGESTIONS AND HUMAN SELECTION"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.uber.com/us/en/blog/cota/",
+    "sourceLabel": "Uber Engineering",
+    "notes": "Functional view of the historical COTA issue-identification workflow. The solution-ranking stage is explicitly separate. TF-IDF and LSA describe the documented text pipeline. This view omits storage and refresh logic."
+  },
+  "multilabel": {
+    "id": "multilabel",
+    "title": "Amazon: thousands of propensities",
+    "subtitle": "One sparse customer vector feeds a shared model with many category outputs",
+    "nodes": [
+      {
+        "id": "history",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Training data",
+        "body": "Sparse features plus\npast action labels\nfor each category",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "mxtrain",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Train in Python",
+        "body": "MXNet fits one\nmultilabel classifier",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "files",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Model artifacts",
+        "body": "Scientists hand off\ntrained model files",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "features",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Customer feature data",
+        "body": "Spark partitions the\nbatch for processing",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "djl",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "DJL inside Spark",
+        "body": "Java/Scala code loads\nthe model for inference",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "infer",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "MXNet inference",
+        "body": "Apply the trained\nmodel to each batch",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "scores",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Propensity vector",
+        "body": "A score for every\nproduct category",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "history",
+        "b": "mxtrain",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "mxtrain",
+        "b": "files",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "features",
+        "b": "djl",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "djl",
+        "b": "infer",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "infer",
+        "b": "scores",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "files",
+        "b": "djl",
+        "label": "model handoff",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            718,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "Several categories can receive high propensity at the same time. The system does not select one winning label.",
+    "lanes": [
+      [
+        0,
+        4,
+        "TRAINING"
+      ],
+      [
+        0,
+        220,
+        "DISTRIBUTED BATCH INFERENCE"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://aws.amazon.com/blogs/opensource/how-amazon-retail-systems-run-machine-learning-predictions-with-apache-spark-using-deep-java-library/",
+    "sourceLabel": "Amazon / AWS Open Source Blog",
+    "notes": "Amazon documents sparse, high-dimensional customer features, per-category binary action labels, MXNet training in Python and Spark/DJL serving in Java or Scala. The diagram omits framework internals and does not imply independent category models or undisclosed score thresholds."
+  },
+  "clustering": {
+    "id": "clustering",
+    "title": "Spotify: discovering and explaining groups",
+    "subtitle": "The recursion uses original features within a selected cluster",
+    "nodes": [
+      {
+        "id": "users",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "User features",
+        "body": "Behavior variables\nfor each user",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "umap",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "UMAP",
+        "body": "Reduce dimensions\nwhile retaining structure",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "hdb",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "HDBSCAN",
+        "body": "Find dense clusters\nand identify noise",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "cluster",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Select a cluster",
+        "body": "Take its original\nfeature rows",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "dataset",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Features + group IDs",
+        "body": "Discovered groups\nbecome labels",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "xgb",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "One-vs-all XGBoost",
+        "body": "Predict membership\nin each discovered group",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "shap",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "SHAP",
+        "body": "Explain which features\ndefine each group",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "research",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "User research",
+        "body": "Validate and interpret\nthe discovered segments",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "users",
+        "b": "umap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "umap",
+        "b": "hdb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "hdb",
+        "b": "cluster",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "cluster",
+        "b": "umap",
+        "label": "repeat within cluster",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            1018,
+            185
+          ],
+          [
+            418,
+            185
+          ]
+        ]
+      },
+      {
+        "a": "dataset",
+        "b": "xgb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "xgb",
+        "b": "shap",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "shap",
+        "b": "research",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "Cluster discovery and supervised explanation serve different purposes. The source describes user research.",
+    "lanes": [
+      [
+        0,
+        4,
+        "DISCOVER GROUPS"
+      ],
+      [
+        0,
+        220,
+        "EXPLAIN AND VALIDATE GROUPS"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering",
+    "sourceLabel": "Spotify Engineering",
+    "notes": "Spotify recursively reruns UMAP and HDBSCAN on the original data points of a selected cluster. It trains one-versus-all XGBoost models on the original features and resulting cluster labels, then uses SHAP for explanation. This is not a diagram of Discover Weekly."
+  },
+  "anomaly": {
+    "id": "anomaly",
+    "title": "Adyen: detecting a payment-volume drop",
+    "subtitle": "A contextual baseline and uncertainty bounds define what counts as unusual",
+    "nodes": [
+      {
+        "id": "history",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Historical volumes",
+        "body": "Merchant payment counts\nacross time intervals",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "base",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Expected baseline",
+        "body": "Fit trend, seasonality\nand event effects",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "bounds",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Expected interval",
+        "body": "Quantile regression\nestimates residual bounds",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "alert",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Alert support teams",
+        "body": "Investigate the\nmerchant volume change",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "live",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Observed volume",
+        "body": "Count payments in\nthe current interval",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "compare",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Compare with bounds",
+        "body": "Is the current count\ninside the interval?",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "normal",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Continue monitoring",
+        "body": "Observation stays\nwithin expected bounds",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "history",
+        "b": "base",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "base",
+        "b": "bounds",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "bounds",
+        "b": "compare",
+        "label": "L(t), U(t)",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "live",
+        "b": "compare",
+        "label": "observed y(t)",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "compare",
+        "b": "normal",
+        "label": "inside",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "compare",
+        "b": "alert",
+        "label": "outside",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            866,
+            307
+          ],
+          [
+            866,
+            91
+          ]
+        ]
+      }
+    ],
+    "caption": "A low absolute count can be normal. The decision depends on the merchant, time and expected interval.",
+    "lanes": [
+      [
+        0,
+        4,
+        "LEARN THE BASELINE"
+      ],
+      [
+        0,
+        220,
+        "SCORE LIVE OBSERVATIONS"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.adyen.com/en_GB/knowledge-hub/monitoring-payment-volumes",
+    "sourceLabel": "Adyen Engineering",
+    "notes": "The source discloses trend/seasonal/event modeling, quadratic quantile regression on residuals, Spark training and real-time Java scoring. The interval notation is a teaching abstraction. The diagram does not claim that all anomalies are fraud or that an alert identifies a root cause."
+  },
+  "regression": {
+    "id": "regression",
+    "title": "idealista: estimating a property value",
+    "subtitle": "Property attributes and comparable properties feed automated valuation",
+    "nodes": [
+      {
+        "id": "property",
+        "x": 0,
+        "y": 28,
+        "w": 236,
+        "h": 140,
+        "title": "Subject property",
+        "body": "Location, cadastral data,\nproperty type and area",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "comps",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 140,
+        "title": "Comparable properties",
+        "body": "Relevant market\nobservations",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "avm",
+        "x": 430,
+        "y": 128,
+        "w": 280,
+        "h": 150,
+        "title": "Automated valuation",
+        "body": "Comparables combined\nwith a hedonic ML model",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "estimate",
+        "x": 900,
+        "y": 128,
+        "w": 236,
+        "h": 150,
+        "title": "Estimated value",
+        "body": "A continuous numeric\nproperty-value estimate",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "property",
+        "b": "avm",
+        "label": "attributes",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            98
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "comps",
+        "b": "avm",
+        "label": "comparables",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            340,
+            312
+          ],
+          [
+            340,
+            203
+          ]
+        ]
+      },
+      {
+        "a": "avm",
+        "b": "estimate",
+        "label": "valuation",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "The published approach combines comparables and hedonic ML. The exact estimator and weighting are not public.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/",
+    "sourceLabel": "idealista/data and idealista labs",
+    "notes": "This is a functional view rather than an internal execution sequence. The company does not publish the exact regressor, comparable-selection algorithm or formula combining estimates. A continuous estimate is not a guaranteed sale price or a formal appraisal. No fabricated euro value is shown."
+  },
+  "forecasting": {
+    "id": "forecasting",
+    "title": "Iberdrola: renewable output forecasts",
+    "subtitle": "MeteoFlow combines external weather with historical and live plant information",
+    "nodes": [
+      {
+        "id": "weather",
+        "x": 0,
+        "y": 8,
+        "w": 236,
+        "h": 104,
+        "title": "Weather data",
+        "body": "Wind and solar\nradiation forecasts",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "history",
+        "x": 0,
+        "y": 149,
+        "w": 236,
+        "h": 104,
+        "title": "Generation history",
+        "body": "Past plant output",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "live",
+        "x": 0,
+        "y": 290,
+        "w": 236,
+        "h": 104,
+        "title": "Live production",
+        "body": "Current plant data",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "model",
+        "x": 430,
+        "y": 125,
+        "w": 270,
+        "h": 150,
+        "title": "MeteoFlow models",
+        "body": "Estimate plant output\nand refine predictions\nwith machine learning",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "forecast",
+        "x": 830,
+        "y": 35,
+        "w": 306,
+        "h": 140,
+        "title": "Generation forecast",
+        "body": "Hourly up to 96 hours\nDaily up to 10 days",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "decision",
+        "x": 830,
+        "y": 258,
+        "w": 306,
+        "h": 148,
+        "title": "Operational decisions",
+        "body": "Energy-market planning\nand maintenance windows",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "weather",
+        "b": "model",
+        "label": "weather",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            344,
+            60
+          ],
+          [
+            344,
+            200
+          ]
+        ]
+      },
+      {
+        "a": "history",
+        "b": "model",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "live",
+        "b": "model",
+        "label": "plant data",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            344,
+            342
+          ],
+          [
+            344,
+            200
+          ]
+        ]
+      },
+      {
+        "a": "model",
+        "b": "forecast",
+        "label": "forecast",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            764,
+            200
+          ],
+          [
+            764,
+            105
+          ]
+        ]
+      },
+      {
+        "a": "forecast",
+        "b": "decision",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      }
+    ],
+    "caption": "The data sources and forecast horizons are documented. Iberdrola does not name the exact ML model family.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.iberdrola.com/about-us/our-innovation-model/meteoflow-project",
+    "sourceLabel": "Iberdrola",
+    "notes": "The source explicitly lists global weather information, historical generation and real-time production with predictive ML. The diagram shows information dependencies without asserting a particular physical model, neural architecture or training schedule. Forecasts support energy sales and maintenance planning."
+  },
+  "sentiment": {
+    "id": "sentiment",
+    "title": "Booking.com: aspect-level opinions",
+    "subtitle": "Training links aspect spans to sentiment. Inference returns separate judgments",
+    "nodes": [
+      {
+        "id": "reviews",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Hotel reviews",
+        "body": "Text collected for\nhuman annotation",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "annotate",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Label review spans",
+        "body": "Mark aspects/opinions\nand link their spans",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "dataset",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Linked training data",
+        "body": "Aspect spans, sentiment\nand relationships",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "train",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Train ABSA model",
+        "body": "Learn aspect-based\nsentiment analysis",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "sample",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Example review",
+        "body": "“Great staff,\nuncomfortable beds”",
+        "kind": "data",
+        "example": true
+      },
+      {
+        "id": "infer",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "ABSA inference",
+        "body": "Identify aspects\nand associated opinions",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "links",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Aspect / polarity",
+        "body": "Staff: positive\nBeds: negative",
+        "kind": "output",
+        "example": true
+      },
+      {
+        "id": "use",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Review insights",
+        "body": "Expose what guests\npraise or criticize",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "reviews",
+        "b": "annotate",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "annotate",
+        "b": "dataset",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "dataset",
+        "b": "train",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "sample",
+        "b": "infer",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "infer",
+        "b": "links",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "links",
+        "b": "use",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "train",
+        "b": "infer",
+        "label": "trained model",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            1018,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "Dashed boxes contain a teaching example. The article documents annotation and model purpose, not the model architecture.",
+    "lanes": [
+      [
+        0,
+        4,
+        "BUILD THE TRAINING SET"
+      ],
+      [
+        0,
+        220,
+        "ANALYZE A NEW REVIEW"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://aws.amazon.com/blogs/machine-learning/labeling-text-for-aspect-based-sentiment-analysis-using-sagemaker-ground-truth/",
+    "sourceLabel": "Booking.com team / AWS Machine Learning Blog",
+    "notes": "ABSA means aspect-based sentiment analysis. Human annotators mark and link aspect spans and sentiment spans with SageMaker Ground Truth. The runtime box summarizes the task; it does not assert a specific token classifier or transformer architecture. The sample review and its outputs illustrate the task rather than quoting customer data."
+  },
+  "textmining": {
+    "id": "textmining",
+    "title": "ING: news becomes a risk watchlist",
+    "subtitle": "News analysis and market signals meet analyst-defined warning criteria",
+    "nodes": [
+      {
+        "id": "news",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Public news",
+        "body": "Articles across\nlanguages and markets",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "nlp",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "NLP + translation",
+        "body": "Google language services\nprocess local-language text",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "signals",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "News signals",
+        "body": "Sentiment about\nrelevant client coverage",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "market",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Market information",
+        "body": "Real-time Refinitiv\nfinancial data",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "criteria",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Warning criteria",
+        "body": "Analyst-defined rules\nfor relevant risk signals",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "analyst",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Credit-risk analyst",
+        "body": "Review the warning\nand investigate exposure",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "news",
+        "b": "nlp",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "nlp",
+        "b": "signals",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "signals",
+        "b": "criteria",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "market",
+        "b": "criteria",
+        "label": "market indicators",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "criteria",
+        "b": "analyst",
+        "label": "warning",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "The output is an analyst warning. The source presents default prediction as a future ambition.",
+    "lanes": [
+      [
+        0,
+        4,
+        "INTERPRET THE TEXT STREAM"
+      ],
+      [
+        0,
+        220,
+        "COMBINE SIGNALS AND REVIEW"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://ing.com/news/2020/07/using-ai-to-assess-credit-risk.html",
+    "sourceLabel": "ING",
+    "notes": "ING documents public news, Google NLP/translation, Refinitiv data and analyst-defined criteria. Example criteria include negative media coverage and a share-price decline beyond a threshold. The diagram does not assume a specific entity-linking system, classifier or probability-of-default model."
+  },
+  "patterns": {
+    "id": "patterns",
+    "title": "BMW: image recognition checks the badge",
+    "subtitle": "Learning the visual pattern and checking the order are separate steps",
+    "nodes": [
+      {
+        "id": "images",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Component images",
+        "body": "Photographs from\ndifferent angles",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "labels",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Employee labeling",
+        "body": "Mark components\nand potential deviations",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "train",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Train neural network",
+        "body": "Learn visual distinctions\nfrom labeled images",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "weights",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Trained network",
+        "body": "Parameters for\nvisual recognition",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "camera",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Live camera image",
+        "body": "Newly produced\nvehicle badge",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "recognize",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Recognize the badge",
+        "body": "Apply the learned\nvisual representation",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "compare",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Check order data",
+        "body": "Compare observed badge\nwith required specification",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "result",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Inspection result",
+        "body": "Match: pass the check\nMismatch: notify the team",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "images",
+        "b": "labels",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "labels",
+        "b": "train",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "train",
+        "b": "weights",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "camera",
+        "b": "recognize",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "recognize",
+        "b": "compare",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "compare",
+        "b": "result",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "weights",
+        "b": "recognize",
+        "label": "deploy",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            1018,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      }
+    ],
+    "caption": "The neural network recognizes the image. Business logic compares the recognition result with vehicle order data.",
+    "lanes": [
+      [
+        0,
+        4,
+        "TRAIN THE VISUAL MODEL"
+      ],
+      [
+        0,
+        220,
+        "INSPECT A VEHICLE"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.press.bmwgroup.com/global/article/detail/T0298650EN/fast-efficient-reliable:-artificial-intelligence-in-bmw-group-production?showMedia=video",
+    "sourceLabel": "BMW Group",
+    "notes": "BMW documents employee image labeling, neural-network training and comparison of live model-designation images against order data at Dingolfing. The pass/notify split is the task outcome. No CNN architecture, confidence threshold or universal accuracy claim is invented."
+  },
+  "imagegen": {
+    "id": "imagegen",
+    "title": "Mango: real garments to campaign images",
+    "subtitle": "The published workflow includes model training and human editorial production",
+    "nodes": [
+      {
+        "id": "photos",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Real garment photos",
+        "body": "Photograph each garment\nin the collection",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "train",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Train the model",
+        "body": "Learn real garment\nplacement on a model",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "generate",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Image generation",
+        "body": "Synthesize candidate\ncampaign visuals",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "candidates",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Candidate images",
+        "body": "Multiple generated\nvisuals to review",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "campaign",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Published campaign",
+        "body": "Sunset Dream\nfor Mango Teen",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "finished",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Finished artwork",
+        "body": "Editorial-quality\ncampaign images",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "retouch",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Retouch and finish",
+        "body": "Edit and master images\nin the studio",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "select",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Art-team selection",
+        "body": "Review garment detail\nand editorial quality",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "photos",
+        "b": "train",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "train",
+        "b": "generate",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "generate",
+        "b": "candidates",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "candidates",
+        "b": "select",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "select",
+        "b": "retouch",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "retouch",
+        "b": "finished",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "finished",
+        "b": "campaign",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      }
+    ],
+    "caption": "Mango does not name diffusion, GANs or a specific model. Human selection and retouching are documented steps.",
+    "lanes": [
+      [
+        0,
+        4,
+        "LEARN THE PRODUCT AND GENERATE"
+      ],
+      [
+        0,
+        220,
+        "HUMAN EDITORIAL PRODUCTION"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://mangofashiongroup.com/en/w/mango-crea-la-primera-campa%C3%B1a-generada-con-inteligencia-artificial-para-su-l%C3%ADnea-teen",
+    "sourceLabel": "Mango Fashion Group",
+    "notes": "This diagram follows the July 2024 release: real garment photographs, generative model training, generation, art-team selection and photography-studio finishing. It does not introduce an undisclosed prompt pipeline or suggest that product quality checks are fully automated."
+  },
+  "rag": {
+    "id": "rag",
+    "title": "Allianz: retrieval grounds the answer",
+    "subtitle": "EKA searches AWISO knowledge and returns inspectable information to staff",
+    "nodes": [
+      {
+        "id": "docs",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "AWISO documents",
+        "body": "Internal product\nand process knowledge",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "chunks",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Text chunks",
+        "body": "Split document content\ninto manageable passages",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "kb",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Knowledge store",
+        "body": "Passages linked\nto full documents",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "feedback",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Employee feedback",
+        "body": "Staff feedback helps\nrefine the system",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "question",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Staff question",
+        "body": "Ask about a\ncustomer issue",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "retrieve",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Relevant passages",
+        "body": "Retrieve matching\nAWISO information",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "answer",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "LLM generation",
+        "body": "Use retrieved evidence\nto compose the answer",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "response",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Answer with sources",
+        "body": "Highlights, summary\nand full-document links",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "docs",
+        "b": "chunks",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "chunks",
+        "b": "kb",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "question",
+        "b": "retrieve",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "retrieve",
+        "b": "answer",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "answer",
+        "b": "response",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "kb",
+        "b": "retrieve",
+        "label": "knowledge source",
+        "start": "bottom",
+        "end": "top",
+        "via": [
+          [
+            718,
+            188
+          ],
+          [
+            418,
+            188
+          ]
+        ]
+      },
+      {
+        "a": "response",
+        "b": "feedback",
+        "label": "",
+        "start": "top",
+        "end": "bottom",
+        "via": null
+      }
+    ],
+    "caption": "This functional RAG view omits EKA’s other agents. The source does not publish its exact retriever or embedding model.",
+    "lanes": [
+      [
+        0,
+        4,
+        "PREPARE COMPANY KNOWLEDGE"
+      ],
+      [
+        0,
+        220,
+        "RETRIEVE AND ANSWER"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://www.allianz.com/en/mediacenter/news/articles/250207-allianz-ai-enterprise-knowledge-assistant-enhances-productivity.html",
+    "sourceLabel": "Allianz",
+    "notes": "Allianz documents paragraph chunking, relevant-document retrieval, summaries, highlights and links to full documents, alongside staff feedback. The knowledge box is not a claim about a particular vector database. Feedback supports refinement; automatic model retraining is not implied."
+  },
+  "multimodal": {
+    "id": "multimodal",
+    "title": "Google Vids: generating video and sound",
+    "subtitle": "Veo 3 generates both modalities. The user previews the clip before inserting it",
+    "nodes": [
+      {
+        "id": "prompt",
+        "x": 0,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Scene prompt",
+        "body": "Describe the scene\nand desired sound",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "editor",
+        "x": 300,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Vids editor",
+        "body": "Choose Veo 3\nand click Create",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "veo",
+        "x": 600,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Veo 3 generation",
+        "body": "Generate video\nand audio together",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "clip",
+        "x": 900,
+        "y": 26,
+        "w": 236,
+        "h": 148,
+        "title": "Audiovisual clip",
+        "body": "Moving images\nwith sound",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "video",
+        "x": 0,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Business video",
+        "body": "Generated clip joins\nthe wider project",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "timeline",
+        "x": 300,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Timeline editing",
+        "body": "Keep the sound\nor mute the clip",
+        "kind": "human",
+        "example": false
+      },
+      {
+        "id": "insert",
+        "x": 600,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "Insert clip",
+        "body": "Add the chosen clip\nto the Vid",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "preview",
+        "x": 900,
+        "y": 242,
+        "w": 236,
+        "h": 148,
+        "title": "User preview",
+        "body": "Watch and listen\nbefore inserting",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "prompt",
+        "b": "editor",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "editor",
+        "b": "veo",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "veo",
+        "b": "clip",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "clip",
+        "b": "preview",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "preview",
+        "b": "insert",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "insert",
+        "b": "timeline",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      },
+      {
+        "a": "timeline",
+        "b": "video",
+        "label": "",
+        "start": "left",
+        "end": "right",
+        "via": null
+      }
+    ],
+    "caption": "The June 2025 release documents 8-second clips with sound. Preview and insertion remain user-controlled.",
+    "lanes": [
+      [
+        0,
+        4,
+        "PROMPT AND AUDIOVISUAL GENERATION"
+      ],
+      [
+        0,
+        220,
+        "PREVIEW AND VIDEO ASSEMBLY"
+      ]
+    ],
+    "annotations": [],
+    "source": "https://workspaceupdates.googleblog.com/2025/06/generate-video-clips-with-sound-using-veo3-google-vids.html",
+    "sourceLabel": "Google Workspace Updates",
+    "notes": "Product workflow from the Google Vids launch release. A single generation step produces video and sound. These boxes describe the user workflow, rather than an undocumented model architecture."
+  },
+  "agents": {
+    "id": "agents",
+    "title": "BBVA Blue: routing a banking request",
+    "subtitle": "The routing agent selects a specialist, a tool or a clarification response",
+    "nodes": [
+      {
+        "id": "query",
+        "x": 0,
+        "y": 129,
+        "w": 236,
+        "h": 142,
+        "title": "Message + context",
+        "body": "Customer request\nand conversation history",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "filter",
+        "x": 300,
+        "y": 129,
+        "w": 236,
+        "h": 142,
+        "title": "Shortlist",
+        "body": "Select 5–6 options\nfrom 150+ operations",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "router",
+        "x": 600,
+        "y": 129,
+        "w": 236,
+        "h": 142,
+        "title": "GPT routing agent",
+        "body": "Select the next action\nfrom dynamic tool\ndescriptions",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "operation",
+        "x": 900,
+        "y": 4,
+        "w": 236,
+        "h": 112,
+        "title": "Banking tool",
+        "body": "Balance enquiry\nor mobile payment",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "info",
+        "x": 900,
+        "y": 144,
+        "w": 236,
+        "h": 112,
+        "title": "RAG agent",
+        "body": "Answer from\nbank FAQs",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "clarify",
+        "x": 900,
+        "y": 284,
+        "w": 236,
+        "h": 112,
+        "title": "Clarify or fallback",
+        "body": "Request missing detail\nor reply within limits",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "query",
+        "b": "filter",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "filter",
+        "b": "router",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "router",
+        "b": "operation",
+        "label": "operation",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            865,
+            200
+          ],
+          [
+            865,
+            60
+          ]
+        ]
+      },
+      {
+        "a": "router",
+        "b": "info",
+        "label": "information",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "router",
+        "b": "clarify",
+        "label": "unclear / out of scope",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            865,
+            200
+          ],
+          [
+            865,
+            340
+          ]
+        ]
+      }
+    ],
+    "caption": "Banking operations are callable tools. A conversation can branch between information, action and clarification.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.bbvaaifactory.com/the-routing-agent-a-key-component-for-agentic-ai-assistants/",
+    "sourceLabel": "BBVA AI Factory and BBVA rollout announcement",
+    "notes": "BBVA explicitly describes a classification/routing agent, preliminary operation filtering, function calling and multiple agent roles. Clarification and out-of-scope fallback responses are distinct functions, grouped in this view to preserve legibility. Source: routing technical article, 13 November 2025."
+  },
+  "integrated": {
+    "id": "integrated",
+    "title": "BBVA Blue: knowledge and actions",
+    "subtitle": "One assistant combines NLP, intent classification, RAG and tool orchestration",
+    "nodes": [
+      {
+        "id": "dialogue",
+        "x": 0,
+        "y": 132,
+        "w": 236,
+        "h": 142,
+        "title": "Conversation",
+        "body": "Customer message\nplus dialogue context",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "context",
+        "x": 280,
+        "y": 132,
+        "w": 220,
+        "h": 142,
+        "title": "NLP + routing",
+        "body": "Summarize context\nand classify the request",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "kb",
+        "x": 570,
+        "y": 8,
+        "w": 270,
+        "h": 134,
+        "title": "Information branch",
+        "body": "Embed query, match FAQ\ntitles by cosine similarity",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "generate",
+        "x": 900,
+        "y": 8,
+        "w": 236,
+        "h": 134,
+        "title": "Grounded response",
+        "body": "LLM answers using\nthe retrieved FAQs",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "tool",
+        "x": 570,
+        "y": 270,
+        "w": 270,
+        "h": 122,
+        "title": "Operation branch",
+        "body": "Specialist invokes\na banking tool",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "operation",
+        "x": 900,
+        "y": 270,
+        "w": 236,
+        "h": 122,
+        "title": "Tool result",
+        "body": "Customer-specific\nbalance or payment",
+        "kind": "output",
+        "example": false
+      },
+      {
+        "id": "clarify",
+        "x": 570,
+        "y": 160,
+        "w": 270,
+        "h": 82,
+        "title": "Clarification",
+        "body": "Ask for missing detail",
+        "kind": "human",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "dialogue",
+        "b": "context",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "kb",
+        "label": "information",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            535,
+            203
+          ],
+          [
+            535,
+            69
+          ]
+        ]
+      },
+      {
+        "a": "kb",
+        "b": "generate",
+        "label": "FAQs",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "tool",
+        "label": "operation",
+        "start": "right",
+        "end": "left",
+        "via": [
+          [
+            535,
+            203
+          ],
+          [
+            535,
+            331
+          ]
+        ]
+      },
+      {
+        "a": "tool",
+        "b": "operation",
+        "label": "tool result",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "context",
+        "b": "clarify",
+        "label": "unclear",
+        "start": "right",
+        "end": "left",
+        "via": null
+      }
+    ],
+    "caption": "Generic FAQs and customer-specific operations follow different branches. Missing information triggers clarification.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://www.bbvaaifactory.com/our-rag-based-information-agent/",
+    "sourceLabel": "BBVA AI Factory: routing and RAG information agent",
+    "notes": "Integrated functional reconstruction from BBVA AI Factory’s routing article (13 November 2025) and RAG information-agent article (18 December 2025). The RAG article explicitly documents conversation reformulation, query/FAQ-title embeddings, cosine similarity and FAQ-grounded generation. It also separates general information from customer-specific operations. Payment and balance are examples named in the routing article. No anomaly detector, forecasting model or sentiment classifier is assumed to be inside Blue."
+  }
+}

@@ -218,3 +218,26 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# macOS
+.DS_Store
+
+# Node / pnpm
+node_modules/
+.pnpm-store/
+
+# Datos temporales de gráficos y área de trabajo temporal
+.chart-data-*/
+tmp/
+
+# --- Solo se versiona el proyecto Slidev real-world-ml (+ HTML y PDF) ---
+output/*
+!output/presentations/
+output/presentations/*
+!output/presentations/real-world-ml/
+# Artefactos generados / dependencias dentro del proyecto Slidev
+output/presentations/real-world-ml/dist/
+output/presentations/real-world-ml/node_modules
+output/presentations/real-world-ml/public/spotify-assets/
+output/presentations/real-world-ml/public/idealista-assets/
+output/presentations/real-world-ml/public/*.html
