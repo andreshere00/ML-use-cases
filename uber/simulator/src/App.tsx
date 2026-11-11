@@ -1,9 +1,11 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useMemo, useReducer, useState } from 'react'
 import { AlgoPanel } from './components/AlgoPanel'
 import { CityMap } from './components/CityMap'
+import { OthersFeed } from './components/OthersFeed'
 import { RiderPanel } from './components/RiderPanel'
 import { TopBar } from './components/TopBar'
 import { EVENT_TICKS, LAST_TICK, initSim, refreshSim, stepSim, type SimState } from './sim/engine'
+import { otherRides } from './sim/riders'
 import { useTripProgress, type Trip } from './trip'
 
 type Action =
@@ -42,6 +44,7 @@ export function App() {
   const [trip, setTrip] = useState<Trip | null>(null)
   const progress = useTripProgress(trip)
   const finished = sim.tick >= LAST_TICK
+  const others = useMemo(() => otherRides(sim), [sim])
 
   useEffect(() => {
     if (!playing || finished) return
@@ -80,21 +83,25 @@ export function App() {
         }}
       />
       <main className="layout">
-        <RiderPanel
-          sim={sim}
-          pickupId={pickupId}
-          destId={destId}
-          activeField={activeField}
-          trip={trip}
-          progress={progress}
-          onPickup={setPickupId}
-          onDest={setDestId}
-          onActiveField={setActiveField}
-          onRequest={setTrip}
-          onClear={() => setTrip(null)}
-        />
+        <div className="side">
+          <RiderPanel
+            sim={sim}
+            pickupId={pickupId}
+            destId={destId}
+            activeField={activeField}
+            trip={trip}
+            progress={progress}
+            onPickup={setPickupId}
+            onDest={setDestId}
+            onActiveField={setActiveField}
+            onRequest={setTrip}
+            onClear={() => setTrip(null)}
+          />
+          <OthersFeed rides={others} tick={sim.tick} />
+        </div>
         <CityMap
           sim={sim}
+          others={others}
           pickupId={pickupId}
           destId={destId}
           activeField={activeField}

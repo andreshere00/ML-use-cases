@@ -14,6 +14,8 @@
   --negative: #de1135;
   --warning-bg: #fff2d9;
   --surge: #ff8a54;
+  --other: #7356bf;
+  --other-bg: #eeebf8;
   --purple: #7356bf;
   --radius: 8px;
   --font: 'Uber Move Text', system-ui, -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -990,6 +992,47 @@ input {
   opacity: 0.9;
 }
 
+/* Velocidades: los lentos más claros y los rápidos con estela. */
+.car-slow .car-body {
+  fill: #8a9099;
+}
+
+.car-streak {
+  stroke: var(--content);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  opacity: 0.45;
+}
+
+/* Al dar la vuelta, el coche entra deslizándose desde el borde de la zona… */
+.car-enter {
+  animation: car-enter linear both;
+}
+
+@keyframes car-enter {
+  from {
+    transform: translateX(var(--enter));
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+/* …y su copia anterior sigue recta hasta salir, desvaneciéndose. */
+.car-exit {
+  animation: car-exit linear forwards;
+}
+
+@keyframes car-exit {
+  40% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .rider-dot {
   fill: var(--accent);
   stroke: #fff;
@@ -1109,6 +1152,267 @@ input {
 
 .lg-rider {
   background: var(--accent);
+}
+
+.lg-car-slow {
+  background: #8a9099;
+}
+
+.lg-car-fast {
+  box-shadow: -5px 0 0 -2px rgba(0, 0, 0, 0.35);
+  margin-left: 4px;
+}
+
+.lg-other {
+  width: 12px;
+  height: 12px;
+  background: var(--other);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--other);
+}
+
+/* Otros pasajeros en el mapa */
+.others-routes,
+.others-pins {
+  pointer-events: none;
+}
+
+.other-route {
+  fill: none;
+  stroke: var(--other);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 6 8;
+  opacity: 0.5;
+  animation: route-flow 1s linear infinite;
+}
+
+@keyframes route-flow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.other-body {
+  fill: var(--other);
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.other-pin {
+  animation: appear 0.4s ease-out;
+}
+
+.other-glyph {
+  fill: #fff;
+}
+
+.other-pickup .other-body {
+  fill: var(--positive);
+}
+
+.other-declined,
+.other-unserved {
+  opacity: 0.55;
+}
+
+.other-declined .other-body,
+.other-unserved .other-body {
+  fill: var(--content-tertiary);
+}
+
+.other-x {
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.other-pulse {
+  fill: var(--other);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: other-pulse 1.4s ease-out infinite;
+}
+
+@keyframes other-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Columna izquierda: pedir viaje y actividad de otros pasajeros */
+.side {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  min-width: 0;
+}
+
+.others {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+
+.others-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.others-head h2 {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.others-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--content-secondary);
+}
+
+.others-live i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--positive);
+  animation: other-blink 1.6s ease-in-out infinite;
+}
+
+@keyframes other-blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.others-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.others-stats div {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.others-stats dt {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--content-secondary);
+}
+
+.others-stats dd {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.others-list {
+  list-style: none;
+  display: grid;
+}
+
+.others-item {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  animation: appear 0.4s ease-out;
+}
+
+.others-item:last-child {
+  border-bottom: 0;
+}
+
+.others-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--other-bg);
+  color: var(--other);
+  font-size: 14px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.others-main,
+.others-side {
+  display: grid;
+  min-width: 0;
+}
+
+.others-main b {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.others-route,
+.others-price {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--content-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.others-side {
+  justify-items: end;
+  gap: 2px;
+}
+
+.others-price em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--content);
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge-info {
+  background: var(--other-bg);
+  color: var(--other);
+}
+
+.badge-positive {
+  background: #e6f2ed;
+  color: var(--positive);
+}
+
+.badge-neutral {
+  background: #eeeeee;
+  color: var(--content-secondary);
+}
+
+.badge-negative {
+  background: #ffe1de;
+  color: var(--negative);
 }
 
 .lg-gradient {
@@ -1485,9 +1789,16 @@ input {
   }
 
   .car-body,
+  .car-enter,
   .rider-dot,
+  .other-pulse,
+  .other-route,
   .chip.live::after {
     animation: none;
+  }
+
+  .car-exit {
+    display: none;
   }
 
   .drop {

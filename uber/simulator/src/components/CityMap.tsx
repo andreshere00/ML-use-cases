@@ -1,6 +1,8 @@
+import type { CSSProperties } from 'react'
 import { mult } from '../format'
 import { current, type SimState } from '../sim/engine'
 import { KIND_BY_ZONE, KIND_LABEL, ZONES, ZONE_BY_ID, ZONE_INDEX, hash, type Zone } from '../sim/world'
+import type { OtherRide } from '../sim/riders'
 import type { Trip, TripProgress } from '../trip'
 
 interface Props {
@@ -12,6 +14,8 @@ interface Props {
   progress: TripProgress | null
   /** Duración real de un tick: los coches tardan eso en recorrer su tramo. */
   tickMs: number
+  /** Solicitudes de otros pasajeros en este tick. */
+  others: OtherRide[]
   onSelect: (zoneId: string) => void
 }
 
@@ -41,64 +45,107 @@ function heat(m: number): string {
 /** Desplazamiento lateral del carril: se circula por la derecha, así los sentidos opuestos no se cruzan. */
 const LANE_OFFSET = 5.5
 
+export type CarSpeed = 'fast' | 'medium' | 'slow'
+
 interface CarState {
   key: string
   pos: [number, number]
   angle: number
+  speed: CarSpeed
+  /** Ha dado la vuelta en este tick: entra deslizándose desde el borde en vez de aparecer de golpe. */
+  enter?: number
+  /** Copia que sale por el borde y se desvanece mientras la nueva entra por el otro lado. */
+  exit?: boolean
 }
 
 /** Huecos de espera: el centro de cada manzana, lejos de los cruces. */
 const SLOTS = [27.5, 82.5, 137.5, 192.5]
+const BLOCK = 55
 
 interface Lane {
   street: number
   horizontal: boolean
   dir: 1 | -1
+  speed: CarSpeed
+}
+
+/** Manzanas que avanza cada velocidad por cada fase verde: 2, 1 o 1 de cada 2. */
+const advance = (speed: CarSpeed, greens: number) =>
+  speed === 'fast' ? 2 * greens : speed === 'medium' ? greens : Math.floor(greens / 2)
+
+/**
+ * Velocidad de una calle entera (todas las zonas de esa fila o columna comparten carril),
+ * así los coches que cruzan de una zona a otra nunca alcanzan a los de la zona vecina.
+ */
+function laneSpeed(line: number, street: number, horizontal: boolean, dir: number): CarSpeed {
+  const r = hash(line, street, horizontal ? 1 : 2, dir, 8)
+  return r < 0.3 ? 'fast' : r < 0.7 ? 'medium' : 'slow'
 }
 
 /** Los 12 carriles de una zona (3 calles × 2 orientaciones × 2 sentidos), en un orden propio de cada zona. */
-const ZONE_LANES: Lane[][] = ZONES.map((_, zi) => {
+const ZONE_LANES: Lane[][] = ZONES.map((zone, zi) => {
   const lanes: Lane[] = []
   for (const street of STREETS)
-    for (const horizontal of [true, false]) for (const dir of [1, -1] as const) lanes.push({ street, horizontal, dir })
+    for (const horizontal of [true, false])
+      for (const dir of [1, -1] as const)
+        lanes.push({ street, horizontal, dir, speed: laneSpeed(horizontal ? zone.row : zone.col, street, horizontal, dir) })
   return lanes
     .map((lane, k) => ({ lane, order: hash(zi, k, 6) }))
     .sort((a, b) => a.order - b.order)
     .map((x) => x.lane)
 })
 
+/** Fases verdes acumuladas: las calles horizontales avanzan en los ticks impares y las verticales en los pares. */
+const greens = (horizontal: boolean, tick: number) => (horizontal ? Math.floor((tick + 1) / 2) : Math.floor(tick / 2))
+
 /**
- * Coloca los `count` coches de una zona con un ciclo de semáforo: en los ticks impares avanzan las calles
- * horizontales y en los pares las verticales. Cada movimiento es exactamente una manzana, de un hueco de
- * espera al siguiente, así que mientras unos cruzan los otros esperan fuera del cruce. Los coches de un
- * mismo carril ocupan huecos distintos y avanzan a la vez, de modo que tampoco se alcanzan.
+ * Coloca los `count` coches de una zona con un ciclo de semáforo: mientras una orientación avanza, la otra
+ * espera en mitad de la manzana, fuera del cruce. Cada carril tiene su velocidad (rápida: 2 manzanas por
+ * verde; media: 1; lenta: 1 de cada 2 verdes) y sus coches avanzan juntos, así que no se alcanzan.
  */
 function zoneCars(zone: Zone, count: number, tick: number): CarState[] {
   const zi = ZONE_INDEX[zone.id]
   const lanes = ZONE_LANES[zi]
   const n = Math.min(count, lanes.length * SLOTS.length)
-  const moves = { h: Math.floor((tick + 1) / 2), v: Math.floor(tick / 2) }
+  const cars: CarState[] = []
 
-  return Array.from({ length: n }, (_, i) => {
+  for (let i = 0; i < n; i++) {
     const laneIndex = i % lanes.length
     const lane = lanes[laneIndex]
     const k = Math.floor(i / lanes.length)
-    // Coches del mismo carril en huecos consecutivos (una manzana entre ellos), con un desfase propio del carril.
+    // Coches del mismo carril en huecos consecutivos, con un desfase propio del carril.
     // Al aparecer o desaparecer un coche, los demás no se recolocan.
     const start = Math.floor(hash(zi, laneIndex, 7) * SLOTS.length) + k
-    const step = start + (lane.horizontal ? moves.h : moves.v)
+    const step = start + advance(lane.speed, greens(lane.horizontal, tick))
+    const prev = start + advance(lane.speed, greens(lane.horizontal, tick - 1))
     const lap = Math.floor(step / SLOTS.length)
-    const slot = step - lap * SLOTS.length
-    const along = lane.dir === 1 ? SLOTS[slot] : Z - SLOTS[slot]
-    // Se circula por la derecha: hacia la derecha → carril de abajo; hacia abajo → carril de la izquierda.
-    const side = lane.horizontal ? lane.dir * LANE_OFFSET : -lane.dir * LANE_OFFSET
-    const pos: [number, number] = lane.horizontal
-      ? [zone.col * Z + along, zone.row * Z + lane.street + side]
-      : [zone.col * Z + lane.street + side, zone.row * Z + along]
+    const prevLap = Math.floor(prev / SLOTS.length)
+
+    // `index` puede salirse de 0..3: es un hueco virtual en la zona vecina (para entrar o salir por el borde).
+    const place = (index: number) => {
+      const along = lane.dir === 1 ? SLOTS[0] + index * BLOCK : Z - SLOTS[0] - index * BLOCK
+      // Se circula por la derecha: hacia la derecha → carril de abajo; hacia abajo → carril de la izquierda.
+      const side = lane.horizontal ? lane.dir * LANE_OFFSET : -lane.dir * LANE_OFFSET
+      const pos: [number, number] = lane.horizontal
+        ? [zone.col * Z + along, zone.row * Z + lane.street + side]
+        : [zone.col * Z + lane.street + side, zone.row * Z + along]
+      return pos
+    }
     const angle = lane.horizontal ? (lane.dir === 1 ? 0 : 180) : lane.dir === 1 ? 90 : -90
-    // La vuelta forma parte de la clave: al reaparecer por el otro lado no se anima el salto.
-    return { key: `c-${zone.id}-${laneIndex}-${k}-${lap}`, pos, angle }
-  })
+    const base = `c-${zone.id}-${laneIndex}-${k}`
+    const wrapped = lap > prevLap
+
+    cars.push({
+      key: `${base}-${lap}`,
+      pos: place(step - lap * SLOTS.length),
+      angle,
+      speed: lane.speed,
+      enter: wrapped ? (step - prev) * BLOCK : undefined,
+    })
+    // El coche que acaba de dar la vuelta sigue recto hasta salir por el borde y se desvanece.
+    if (wrapped) cars.push({ key: `${base}-${prevLap}`, pos: place(step - prevLap * SLOTS.length), angle, speed: lane.speed, exit: true })
+  }
+  return cars
 }
 
 function riderPosition(zone: Zone, i: number, tick: number): [number, number] {
@@ -129,6 +176,34 @@ function alongRoute(from: [number, number], to: [number, number], t: number): { 
   return { pos: lerp(corner, to, (d - first) / (total - first)), angle: vAngle }
 }
 
+/**
+ * Aceras donde esperan otros pasajeros: a mitad de manzana y lo bastante lejos del carril para no pisar
+ * coches. Se descartan las esquinas que ocupan el nombre de la zona y la píldora del multiplicador.
+ */
+const CURB = 19
+const SPOTS: [number, number][] = STREETS.flatMap((street) =>
+  SLOTS.flatMap((along) =>
+    [-CURB, CURB].flatMap((side): [number, number][] => [
+      [along, street + side],
+      [street + side, along],
+    ]),
+  ),
+).filter(([x, y]) => !(x < 150 && y < 52) && !(x < 90 && y > 168))
+
+function otherSpots(rides: OtherRide[]): Map<string, [number, number]> {
+  const taken = new Set<string>()
+  const result = new Map<string, [number, number]>()
+  for (const r of rides) {
+    // Si el hueco ya está ocupado en esa zona, se prueba el siguiente.
+    let k = Math.floor(r.spot * SPOTS.length)
+    while (taken.has(`${r.pickupId}-${k}`) && taken.size < SPOTS.length * ZONES.length) k = (k + 1) % SPOTS.length
+    taken.add(`${r.pickupId}-${k}`)
+    const zone = ZONE_BY_ID[r.pickupId]
+    result.set(r.id, [zone.col * Z + SPOTS[k][0], zone.row * Z + SPOTS[k][1]])
+  }
+  return result
+}
+
 /** El conductor sale de un cruce cercano (una manzana a la izquierda y otra abajo) y llega por las calles. */
 const PICKUP_OFFSET: [number, number] = [-55, 55]
 
@@ -136,6 +211,8 @@ export function CityMap(p: Props) {
   const routeFrom = center(ZONE_BY_ID[p.trip?.pickupId ?? p.pickupId])
   const routeTo = center(ZONE_BY_ID[p.trip?.destId ?? p.destId])
   const hasRoute = routeFrom[0] !== routeTo[0] || routeFrom[1] !== routeTo[1]
+  // Solo esperan en la acera quienes aún no se han subido al coche.
+  const spots = otherSpots(p.others.filter((r) => r.status !== 'ontrip'))
 
   let tripCar: { pos: [number, number]; angle: number } | null = null
   if (p.trip && p.progress) {
@@ -188,6 +265,23 @@ export function CityMap(p: Props) {
           />
         )}
 
+        {/* Trayectos de otros pasajeros ya recogidos, por debajo de los coches. */}
+        <g className="others-routes" aria-hidden="true">
+          {p.others
+            .filter((r) => r.status === 'ontrip')
+            .map((r) => {
+              const a = center(ZONE_BY_ID[r.pickupId])
+              const b = center(ZONE_BY_ID[r.destId])
+              return (
+                <polyline
+                  key={r.id}
+                  className="other-route"
+                  points={`${a.join(',')} ${b[0]},${a[1]} ${b.join(',')}`}
+                />
+              )
+            })}
+        </g>
+
         <g className="dots" aria-hidden="true">
           {ZONES.flatMap((zone) => {
             const s = current(p.sim, zone.id)
@@ -199,21 +293,52 @@ export function CityMap(p: Props) {
           })}
           {ZONES.flatMap((zone) => {
             const s = current(p.sim, zone.id)
-            return zoneCars(zone, Math.round(s.drivers / PER_DOT), p.sim.tick).map(({ key, pos, angle }) => {
-              return (
+            return zoneCars(zone, Math.round(s.drivers / PER_DOT), p.sim.tick).map(
+              ({ key, pos, angle, speed, enter, exit }) => (
                 <g
                   key={key}
-                  className="car"
-                  style={{ transform: `translate(${pos[0]}px, ${pos[1]}px)`, transitionDuration: `${p.tickMs}ms` }}
+                  className={`car car-${speed}${exit ? ' car-exit' : ''}`}
+                  style={{
+                    transform: `translate(${pos[0]}px, ${pos[1]}px)`,
+                    transitionDuration: `${p.tickMs}ms`,
+                    animationDuration: `${p.tickMs}ms`,
+                  }}
                 >
                   <g transform={angle ? `rotate(${angle})` : undefined}>
-                    <rect x={-10} y={-5} width={20} height={10} rx={3.5} className="car-body" />
-                    <rect x={-1} y={-3.6} width={5.5} height={7.2} rx={1.5} className="car-glass" />
-                    <rect x={-6.5} y={-3.2} width={3} height={6.4} rx={1} className="car-glass" />
+                    <g
+                      className={enter ? 'car-enter' : undefined}
+                      style={enter ? ({ '--enter': `${-enter}px`, animationDuration: `${p.tickMs}ms` } as CSSProperties) : undefined}
+                    >
+                      {speed === 'fast' && <path d="M-13 -3H-19M-13 0H-22M-13 3H-19" className="car-streak" />}
+                      <rect x={-10} y={-5} width={20} height={10} rx={3.5} className="car-body" />
+                      <rect x={-1} y={-3.6} width={5.5} height={7.2} rx={1.5} className="car-glass" />
+                      <rect x={-6.5} y={-3.2} width={3} height={6.4} rx={1} className="car-glass" />
+                    </g>
                   </g>
                 </g>
-              )
-            })
+              ),
+            )
+          })}
+        </g>
+
+        <g className="others-pins" aria-hidden="true">
+          {[...spots].map(([id, [x, y]]) => {
+            const r = p.others.find((o) => o.id === id)!
+            const lost = r.status === 'declined' || r.status === 'unserved'
+            return (
+              <g key={id} className={`other-pin other-${r.status}`} transform={`translate(${x},${y})`}>
+                {r.status === 'searching' && <circle r={7} className="other-pulse" />}
+                <circle r={7} className="other-body" />
+                {lost ? (
+                  <path d="M-2.5 -2.5L2.5 2.5M2.5 -2.5L-2.5 2.5" className="other-x" />
+                ) : (
+                  <>
+                    <circle cy={-2.2} r={1.9} className="other-glyph" />
+                    <path d="M-3.4 4a3.4 3 0 0 1 6.8 0z" className="other-glyph" />
+                  </>
+                )}
+              </g>
+            )
           })}
         </g>
 
@@ -287,7 +412,14 @@ export function CityMap(p: Props) {
           <i className="lg lg-car" /> ≈ {PER_DOT} conductores
         </span>
         <span>
+          <i className="lg lg-car lg-car-fast" /> rápido · <i className="lg lg-car" /> medio ·{' '}
+          <i className="lg lg-car lg-car-slow" /> lento
+        </span>
+        <span>
           <i className="lg lg-rider" /> ≈ {PER_DOT} solicitudes sin conductor
+        </span>
+        <span>
+          <i className="lg lg-other" /> otro pasajero esperando
         </span>
         <span className="lg-scale">
           1,0× <i className="lg-gradient" /> 2,0× o más

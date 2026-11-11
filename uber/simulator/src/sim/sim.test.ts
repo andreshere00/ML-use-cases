@@ -4,6 +4,7 @@ import { current, initSim, stepSim } from './engine'
 import { forecastDemand, liveDeviation, weightedBase } from './forecast'
 import { loopStep } from './pricing'
 import { equilibrium, demandAt, fitElasticity } from './regression'
+import { acceptChance, otherRides } from './riders'
 import { CLUSTERS, KIND_BY_ZONE } from './world'
 
 describe('series temporales', () => {
@@ -69,5 +70,20 @@ describe('motor', () => {
     expect(centro.forecast.base).toBeCloseTo(132.8, 1)
     expect(Math.abs(centro.forecast.nowcast - 165)).toBeLessThan(3)
     expect(centro.m).toBeGreaterThan(1.2)
+  })
+})
+
+describe('otros pasajeros', () => {
+  it('piden viajes a lo largo de la tarde y menos aceptan cuanto más sube el precio', () => {
+    let state = initSim(true)
+    const seen = new Set<string>()
+    for (let i = 0; i < 40; i++) {
+      state = stepSim(state)
+      otherRides(state).forEach((r) => seen.add(r.id))
+    }
+    expect(seen.size).toBeGreaterThan(40)
+    expect(otherRides(state)).toEqual(otherRides(state))
+    expect(acceptChance(1)).toBe(1)
+    expect(acceptChance(2)).toBeLessThan(acceptChance(1.5))
   })
 })
