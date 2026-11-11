@@ -32,3 +32,17 @@
 
 /* Explicitly requested, editable solution diagrams. */
 .solution-title h1{font-size:44px;margin-bottom:0;line-height:1.25}.solution-subtitle{position:absolute;top:60px;left:0;right:0;font-size:21px;line-height:1.3;color:#73687A}.solution-diagram{position:absolute;top:100px;left:0;width:1136px;height:400px}.solution-connectors{position:absolute;inset:0;width:1136px;height:400px;overflow:visible}.solution-edge{stroke:#4D225D;stroke-width:2.2;fill:none;stroke-linejoin:round}.solution-edge-label{font:300 17px Urbane,Arial,sans-serif;fill:#4D225D;paint-order:stroke;stroke:white;stroke-width:7px;stroke-linejoin:round}.solution-lane{position:absolute;font-size:16px;font-weight:600;line-height:18px;color:#73687A;letter-spacing:.7px}.solution-node{position:absolute;box-sizing:border-box;border:1.5px solid #4D225D;background:#EDE9EF;padding:10px 11px;color:#4D225D;display:flex;flex-direction:column;justify-content:center;text-align:left}.solution-node-title{font-size:22px;line-height:1.18;font-weight:600;margin-bottom:6px}.solution-node-body{font-size:20px;line-height:1.25;font-weight:300;white-space:pre-line}.node-model{background:#4D225D;color:white}.node-decision{background:white;border:2.5px solid #E64366}.node-output{background:#fff3f5;border-color:#E64366}.node-human{background:white;border-color:#4D225D;border-top:5px solid #E64366}.node-example{border-style:dashed}.solution-caption{position:absolute;top:506px;left:0;right:0;font-size:18px;line-height:1.35;color:#73687A}.solution-source{position:absolute;top:562px;left:0;right:0;font-size:17px;line-height:1.3;color:#73687A}.solution-source a{color:inherit;text-decoration:underline}
+
+/* Uber deck: step-by-step algorithm slides. */
+.walk-badge{display:inline-block;background:#E64366;color:#fff;font-weight:600;font-size:16px;line-height:1;padding:5px 10px 4px;margin-right:8px;letter-spacing:.3px;vertical-align:1px}
+.walk-steps{position:absolute;top:104px;left:0;width:468px}
+.walk-steps ol{list-style:none;counter-reset:s;margin:0;padding:0}
+.walk-steps li{counter-increment:s;position:relative;padding:0 0 0 46px;margin:0 0 15px;font-size:19.5px;line-height:1.3;font-weight:300}
+.walk-steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:32px;height:32px;border-radius:50%;background:#4D225D;color:#fff;font-weight:600;font-size:18px;line-height:32px;text-align:center}
+.walk-steps li b,.walk-steps li strong{font-weight:600;color:#4D225D}
+.walk-steps li em{font-style:normal;font-weight:600;color:#E64366}
+.walk-steps code{font-family:Urbane,Arial,sans-serif;font-size:18.5px;font-weight:500;background:#EDE9EF;padding:1px 6px;color:#4D225D}
+.walk-viz{position:absolute;top:100px;left:500px;width:636px;height:440px}
+.viz-full{position:absolute;top:100px;left:0;width:1136px;height:420px}
+.walk-note{position:absolute;top:548px;left:0;right:0;font-size:16px;line-height:1.3;color:#73687A}
+.viz-note{top:530px}

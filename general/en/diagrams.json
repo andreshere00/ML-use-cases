@@ -2521,5 +2521,335 @@
     "source": "https://www.bbvaaifactory.com/our-rag-based-information-agent/",
     "sourceLabel": "BBVA AI Factory: routing and RAG information agent",
     "notes": "Integrated functional reconstruction from BBVA AI Factory’s routing article (13 November 2025) and RAG information-agent article (18 December 2025). The RAG article explicitly documents conversation reformulation, query/FAQ-title embeddings, cosine similarity and FAQ-grounded generation. It also separates general information from customer-specific operations. Payment and balance are examples named in the routing article. No anomaly detector, forecasting model or sentiment classifier is assumed to be inside Blue."
+  },
+  "uberPipeline": {
+    "id": "uberPipeline",
+    "title": "Uber: from data to price",
+    "subtitle": "From raw data to the price the rider sees, with a feedback loop",
+    "nodes": [
+      {
+        "id": "d1",
+        "x": 0,
+        "y": 0,
+        "w": 224,
+        "h": 104,
+        "title": "Requests",
+        "body": "Pickup, drop-off\nand time",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "d2",
+        "x": 0,
+        "y": 124,
+        "w": 224,
+        "h": 104,
+        "title": "GPS",
+        "body": "Position and\nspeed",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "d3",
+        "x": 0,
+        "y": 248,
+        "w": 224,
+        "h": 104,
+        "title": "Weather, events",
+        "body": "Rain and traffic\nconditions",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "f",
+        "x": 284,
+        "y": 0,
+        "w": 196,
+        "h": 352,
+        "title": "Variables\nper zone",
+        "body": "Every 5 min:\nrequests,\ndrivers,\ntraffic,\nweather",
+        "kind": "data",
+        "example": false
+      },
+      {
+        "id": "m1",
+        "x": 530,
+        "y": 0,
+        "w": 240,
+        "h": 104,
+        "title": "Time series",
+        "body": "Demand forecast\nper zone",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "m2",
+        "x": 530,
+        "y": 124,
+        "w": 240,
+        "h": 104,
+        "title": "Clustering",
+        "body": "Groups zones with\nsimilar profiles",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "m3",
+        "x": 530,
+        "y": 248,
+        "w": 240,
+        "h": 104,
+        "title": "Regression",
+        "body": "Demand versus\nprice",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "p",
+        "x": 830,
+        "y": 0,
+        "w": 306,
+        "h": 160,
+        "title": "Pricing engine",
+        "body": "Compares demand\nand supply and\nsets the multiplier",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "o",
+        "x": 830,
+        "y": 192,
+        "w": 306,
+        "h": 160,
+        "title": "Price and heat map",
+        "body": "Fare for the rider\nand driver incentive",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "d1",
+        "b": "f",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "d2",
+        "b": "f",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "d3",
+        "b": "f",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "f",
+        "b": "m1",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "f",
+        "b": "m2",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "f",
+        "b": "m3",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "m1",
+        "b": "p",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "m2",
+        "b": "p",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "m3",
+        "b": "p",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "p",
+        "b": "o",
+        "label": "",
+        "start": "bottom",
+        "end": "top",
+        "via": null
+      },
+      {
+        "a": "o",
+        "b": "f",
+        "label": "new trips come back as data",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            983,
+            376
+          ],
+          [
+            382,
+            376
+          ]
+        ]
+      }
+    ],
+    "caption": "Didactic reconstruction based on the article's description: Uber's real architecture is not public.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1",
+    "sourceLabel": "Shuaib Ullattil, Medium (5 Feb 2026)",
+    "notes": "Functional reconstruction of what the article describes: trip data, GPS and external context are aggregated per zone in streaming; three families of models (time series, clustering, regression) feed a pricing engine that decides the multiplier; the price changes behaviour and generates new data. The position of the boxes does not represent the real deployment topology."
+  },
+  "uberExample": {
+    "id": "uberExample",
+    "title": "A Friday at 18:00, end to end",
+    "subtitle": "Downtown, Friday 18:00, with rain: the four algorithms chained with the example figures",
+    "nodes": [
+      {
+        "id": "a",
+        "x": 0,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "1 · Time\nseries",
+        "body": "Forecast:\n165 requests\nin 15 min\n(with rain)",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "b",
+        "x": 232,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "2 · Clustering",
+        "body": "Downtown: a\n“Business” profile",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "c",
+        "x": 464,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "3 · Regression",
+        "body": "Each +1.0×:\n≈ −40% demand\nBalance: 1.39×",
+        "kind": "model",
+        "example": false
+      },
+      {
+        "id": "d",
+        "x": 696,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "4 · Price\nloop",
+        "body": "18:00 → 1.40×\n18:05 → 1.47×\nStable ≈ 1.4×",
+        "kind": "decision",
+        "example": false
+      },
+      {
+        "id": "e",
+        "x": 928,
+        "y": 30,
+        "w": 206,
+        "h": 210,
+        "title": "Price to\nrider",
+        "body": "Base €12.00\n× 1.4 = €16.80\nDrivers move\ncloser",
+        "kind": "output",
+        "example": false
+      }
+    ],
+    "edges": [
+      {
+        "a": "a",
+        "b": "b",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "b",
+        "b": "c",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "c",
+        "b": "d",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "d",
+        "b": "e",
+        "label": "",
+        "start": "right",
+        "end": "left",
+        "via": null
+      },
+      {
+        "a": "e",
+        "b": "a",
+        "label": "new trips come back as data",
+        "start": "bottom",
+        "end": "bottom",
+        "via": [
+          [
+            1031,
+            300
+          ],
+          [
+            103,
+            300
+          ]
+        ]
+      }
+    ],
+    "caption": "Synthetic figures consistent with the previous slides: not Uber data.",
+    "lanes": [],
+    "annotations": [],
+    "source": "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1",
+    "sourceLabel": "Shuaib Ullattil, Medium (5 Feb 2026)",
+    "notes": "Full walk-through of the example with synthetic figures: the time series forecasts 165 requests with rain; clustering places Downtown among the business zones; the regression gives an equilibrium of 1.39 with about 136 trips; the loop raises the multiplier to 1.40 in five minutes and settles near 1.4; with a base fare of 12.00 euros, the rider sees 16.80 euros."
   }
 }

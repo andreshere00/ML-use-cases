@@ -1,0 +1,80 @@
+{
+  "decimal": ",",
+  "sourcePrefix": "Fuente:",
+  "algorithm": "Algoritmo",
+  "problem": {
+    "aria": "Diagrama del problema: el clima, la hora, los eventos y el tráfico empujan la demanda de una zona; en Centro, un viernes a las 18:00, hay 165 solicitudes y solo 110 conductores, y ese desajuste provoca esperas y cancelaciones, o conductores ociosos si ocurre al revés.",
+    "laneDrivers": "Qué mueve la demanda",
+    "laneZone": "La zona ahora",
+    "laneOutcome": "Si nadie actúa",
+    "chipTime": "Hora y día",
+    "chipWeather": "Clima",
+    "chipEvents": "Eventos",
+    "chipTraffic": "Tráfico",
+    "zoneTitle": "Centro · viernes 18:00",
+    "zoneSub": "solicitudes y viajes posibles en 15 min",
+    "demandValue": "165",
+    "supplyValue": "110",
+    "demand": "Demanda",
+    "supply": "Conductores",
+    "gap": "−55",
+    "outA": "Demanda mayor que oferta",
+    "outANote": "Esperas largas, más cancelaciones\ny usuarios menos satisfechos",
+    "outATag": "Lo que ocurre en Centro",
+    "outB": "Oferta mayor que demanda",
+    "outBNote": "Menos viajes por conductor,\nmenos ingresos y desconexión",
+    "outBTag": "En otra zona o a otra hora",
+    "challenge": "Reto: equilibrar oferta y demanda en minutos, zona a zona"
+  },
+  "ts": {
+    "aria": "Gráfico: media ponderada de los últimos cuatro viernes (133), ajustada por lluvia (157) y por la demanda en vivo (165).",
+    "headA": "Últimos 4 viernes · 18:00",
+    "headB": "Ajustes del pronóstico",
+    "fridayLabels": [
+      "Vie −4",
+      "Vie −3",
+      "Vie −2",
+      "Vie −1"
+    ],
+    "mean": "Media ponderada",
+    "capA": "Peso: más a los viernes recientes",
+    "base": "Base",
+    "baseCalc": "ponderada",
+    "rain": "Lluvia",
+    "live": "En vivo",
+    "forecast": "Pronóstico",
+    "capB": "Solicitudes esperadas en 15 min",
+    "capB2": "Centro, viernes 18:00–18:15"
+  },
+  "km": {
+    "aria": "Tres gráficos de dispersión de nueve zonas con k-means: centros iniciales mal colocados, centros movidos a la media de cada grupo y convergencia en tres grupos.",
+    "xAxis": "% demanda hora punta mañana",
+    "yAxis": "% demanda de madrugada",
+    "p1": "1 · Centros iniciales",
+    "c1": "Dos centros caen en la misma\nzona de negocios. Cada zona\npasa al centro más cercano.",
+    "p2": "2 · Mover y reasignar",
+    "c2": "Cada centro pasa a la media\nde sus zonas. A y C cambian\nde grupo.",
+    "p3": "3 · Se repite hasta converger",
+    "c3": "Ninguna zona cambia: quedan\n3 grupos. Centro (C) es una\nzona de negocios.",
+    "g0": "Residencial",
+    "g1": "Negocios",
+    "g2": "Ocio nocturno"
+  },
+  "reg": {
+    "aria": "Gráfico: la demanda cae al subir el multiplicador de precio y la oferta de conductores sube; se cruzan en 1,39×, con unos 136 viajes.",
+    "xAxis": "Multiplicador de precio (m)",
+    "yAxis": "Solicitudes y conductores en 15 min",
+    "legDemand": "Demanda (curva ajustada)",
+    "legObs": "Observaciones históricas",
+    "legSupply": "Oferta de conductores",
+    "fDemand": "demanda(m) = 165 · e^(−{b}·(m−1))",
+    "fSupply": "oferta(m) = 110 · (1 + 0,6·(m−1))"
+  },
+  "loop": {
+    "aria": "Gráfico: el multiplicador sube de 1,00 a 1,40 en cinco minutos, se estabiliza cerca de 1,4 y vuelve a 1,00 cuando la demanda cae; debajo, la razón demanda/oferta.",
+    "headM": "Multiplicador de precio aplicado",
+    "headR": "Demanda / conductores (R)",
+    "legShort": "R > 1: faltan conductores",
+    "legSurplus": "R < 1: sobran conductores"
+  }
+}
