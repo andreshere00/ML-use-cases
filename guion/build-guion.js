@@ -253,7 +253,7 @@ c.push(
 
   h3('Etapa 1 · Ejemplo'),
   cue('Pestaña «Ejemplo».'),
-  say('Ana y Luis comparten artistas, por ejemplo, escuchan a Izal y a Vetusta Morla; Marta escucha otra cosa, a Charlotte de Witte. La pregunta es si el algoritmo es capaz de descubrir el grupo de Ana y Luis, y de explicar qué lo hace distinto. Si lo explica bien, podríamos incluso pensar en una recomendación útil para Ana.'),
+  say('Ana y Luis comparten artistas, por ejemplo, escuchan a AC/DC y a Metallica; Marta escucha otra cosa, a Taylor Swift. La pregunta es si el algoritmo es capaz de descubrir el grupo de Ana y Luis, y de explicar qué lo hace distinto. Si lo explica bien, podríamos incluso pensar en una recomendación útil para Ana.'),
   warn('es una historia ilustrativa. La demostración calculada usa variables de comportamiento, no recuentos de artistas ni usuarios reales.'),
 
   h3('Etapa 2 · Variables'),

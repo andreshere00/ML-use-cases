@@ -1,6 +1,6 @@
 # Machine learning en empresas reales
 
-> **Estructura actual de `slides.md` (25 diapositivas):** título, índice, objetivos, regresión con idealista, clustering con Spotify, el simulador de Uber (problema, datos, cuatro algoritmos paso a paso, ejemplo de principio a fin y retos), conclusiones y próximos pasos (notebooks de Jupyter y aplicación web, pendientes), fuentes y cierre. La descripción de más abajo corresponde a la serie anterior de 49 diapositivas, que sigue en el historial de git.
+> **Estructura actual de `slides.md` (26 diapositivas):** título, índice, objetivos, regresión con idealista, clustering con Spotify, el simulador de Uber (problema, datos, cuatro algoritmos paso a paso, ejemplo de principio a fin y retos), conclusiones y próximos pasos (notebooks de Jupyter y aplicación web, pendientes), fuentes y cierre. La descripción de más abajo corresponde a la serie anterior de 49 diapositivas, que sigue en el historial de git.
 
 Presentación en castellano basada en la plantilla original de Slidev de InnoIT. Los 12 temas solicitados se amplían a 15 casos para explicar por separado la clasificación binaria, multiclase y multietiqueta, y para distinguir la regresión de la previsión.
 

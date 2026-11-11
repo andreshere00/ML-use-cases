@@ -179,6 +179,17 @@ Fuente: https://engineering.atspotify.com/2023/12/recursive-embedding-and-cluste
 
 Reconstrucción funcional de la solución publicada. La posición de los cuadros no representa la topología real del despliegue. -->
 ---
+layout: "default"
+---
+# Cuando el grupo se equivoca de grupo
+
+Marta escuchaba a Taylor Swift, pero si un día se pone la camiseta de AC/DC… ¿sigue en su grupo?
+
+<img src="/assets/taylor-acdc-meme.svg" alt="Meme: Taylor Swift con la camiseta de AC/DC" style="display:block;margin:14px auto 0;height:350px;max-width:100%;object-fit:contain" />
+
+<!-- Pausa de humor que enlaza con el clustering: los grupos salen del comportamiento observado, y si el comportamiento cambia (alguien que escuchaba pop empieza a escuchar rock), la asignación al grupo puede cambiar al volver a ejecutar el algoritmo. Por eso los clusters estables siguen necesitando validación humana. Ilustración humorística creada para esta presentación, no es una fotografía. -->
+
+---
 layout: "section"
 ---
 03
@@ -227,7 +238,7 @@ Fuente: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-hand
 layout: "case"
 company: "Uber (presencia global)"
 status: "Caso de estudio divulgativo; los modelos reales de Uber son propietarios"
-takeaway: "El precio funciona como una señal que equilibra el sistema, no solo como una forma de cobrar más."
+takeaway: "El precio es una señal que equilibra el sistema, no solo cobra más."
 detail: "El artículo no publica cifras ni arquitectura real: los números de esta presentación son sintéticos."
 sourceLabel: "Shuaib Ullattil, Medium (5 feb 2026)"
 source: "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1"
@@ -465,3 +476,5 @@ layout: "end"
 **¿Qué decisión de tu empresa podría apoyarse en uno de estos tres enfoques?**
 
 www.inno-it.es
+
+<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> · AI Engineer en InnoIT<br>Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.<br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>

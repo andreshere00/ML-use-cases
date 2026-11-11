@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Meme: una figura rubia con la camiseta de AC/DC, con el texto «El algoritmo: esa es de las de pop» y «La camiseta de AC/DC: ahora verás»">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4D225D"/><stop offset="1" stop-color="#1b0b23"/></linearGradient>
+<radialGradient id="spot" cx=".5" cy=".42" r=".5"><stop offset="0" stop-color="#E64366" stop-opacity=".55"/><stop offset="1" stop-color="#E64366" stop-opacity="0"/></radialGradient></defs>
+<rect width="960" height="540" fill="url(#bg)"/><rect width="960" height="540" fill="url(#spot)"/>
+<g fill="#fff" opacity=".9"><circle cx="90" cy="120" r="3"/><circle cx="860" cy="170" r="4"/><circle cx="170" cy="300" r="2"/><circle cx="800" cy="320" r="3"/><circle cx="120" cy="430" r="3"/><circle cx="880" cy="440" r="2"/></g>
+<g transform="translate(480 0)">
+<path d="M-170 540 L-150 400 Q-140 360 -90 345 L90 345 Q140 360 150 400 L170 540 Z" fill="#111"/>
+<path d="M-60 345 Q0 390 60 345 L50 335 Q0 365 -50 335 Z" fill="#d9a384"/>
+<rect x="-26" y="285" width="52" height="64" rx="18" fill="#e8b897"/>
+<path d="M-110 300 Q-190 330 -190 440 L-150 440 Q-150 360 -90 345 Z" fill="#111"/>
+<path d="M110 300 Q190 330 190 440 L150 440 Q150 360 90 345 Z" fill="#111"/>
+<circle cx="-172" cy="450" r="22" fill="#e8b897"/><circle cx="172" cy="450" r="22" fill="#e8b897"/>
+<text x="0" y="450" text-anchor="middle" font-family="Impact,'Arial Black',sans-serif" font-size="64" fill="#fff" letter-spacing="3">AC⚡DC</text>
+<ellipse cx="0" cy="205" rx="82" ry="98" fill="#f1c7a8"/>
+<path d="M-90 215 Q-100 80 0 80 Q100 80 90 215 Q86 150 60 130 Q10 140 -30 118 Q-70 140 -90 215 Z" fill="#E8C55A"/>
+<path d="M-88 190 Q-110 260 -92 320 Q-70 290 -78 230 Z" fill="#E8C55A"/><path d="M88 190 Q110 260 92 320 Q70 290 78 230 Z" fill="#E8C55A"/>
+<path d="M-62 132 Q-10 120 0 138 Q12 120 62 132 L62 150 Q10 140 0 156 Q-10 140 -62 150 Z" fill="#E8C55A"/>
+<path d="M-48 190 Q-32 182 -16 190" stroke="#5a3a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M16 190 Q32 182 48 190" stroke="#5a3a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+<circle cx="-32" cy="206" r="7" fill="#2b2b2b"/><circle cx="32" cy="206" r="7" fill="#2b2b2b"/>
+<path d="M-24 250 Q0 272 24 250 Q0 258 -24 250 Z" fill="#C8102E"/>
+</g>
+<g font-family="Impact,'Arial Black',sans-serif" font-size="46" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" text-anchor="middle" letter-spacing="1">
+<text x="480" y="62">EL ALGORITMO: «ESA ES DE POP»</text><text x="480" y="510">TAYLOR SWIFT CON CAMISETA DE AC/DC</text></g></svg>

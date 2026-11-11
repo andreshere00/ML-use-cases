@@ -970,7 +970,7 @@
   "regression": {
     "id": "regression",
     "title": "idealista: estimar el valor de un inmueble",
-    "subtitle": "Los atributos del inmueble y los inmuebles comparables alimentan la valoración automatizada",
+    "subtitle": "Atributos y comparables alimentan la valoración automatizada",
     "nodes": [
       {
         "id": "property",

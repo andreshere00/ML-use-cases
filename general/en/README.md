@@ -1,6 +1,6 @@
 # Machine learning in real companies
 
-> **Current structure of `slides.md` (25 slides):** title, contents, objectives, regression with idealista, clustering with Spotify, the Uber simulator (problem, data, four algorithms step by step, end-to-end example and challenges), conclusions and next steps (Jupyter notebooks and web app, pending), sources and closing. The description below refers to the previous 49-slide series, which remains in git history.
+> **Current structure of `slides.md` (26 slides):** title, contents, objectives, regression with idealista, clustering with Spotify, the Uber simulator (problem, data, four algorithms step by step, end-to-end example and challenges), conclusions and next steps (Jupyter notebooks and web app, pending), sources and closing. The description below refers to the previous 49-slide series, which remains in git history.
 
 English presentation based on the original InnoIT Slidev template. 12 requested topics are expanded into 15 cases to explain binary, multiclass and multilabel classification separately, and to distinguish regression from forecasting.
 

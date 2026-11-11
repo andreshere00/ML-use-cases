@@ -179,6 +179,17 @@ Source: https://engineering.atspotify.com/2023/12/recursive-embedding-and-cluste
 
 Functional reconstruction of the published solution. Box positions do not represent actual deployment topology. -->
 ---
+layout: "default"
+---
+# When the group picks the wrong group
+
+Marta listened to Taylor Swift, but if one day she puts on an AC/DC T-shirt… is she still in her group?
+
+<img src="/assets/taylor-acdc-meme.svg" alt="Meme: Taylor Swift in an AC/DC T-shirt" style="display:block;margin:14px auto 0;height:350px;max-width:100%;object-fit:contain" />
+
+<!-- Light moment tied to clustering: the groups come from observed behaviour, and if the behaviour changes (someone who listened to pop starts listening to rock), the group assignment can change when the algorithm is run again. That is why stable clusters still need human validation. Humorous illustration created for this deck, not a photograph. -->
+
+---
 layout: "section"
 ---
 03
@@ -227,7 +238,7 @@ Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-hand
 layout: "case"
 company: "Uber (global presence)"
 status: "Explanatory case study; Uber's real models are proprietary"
-takeaway: "Price works as a signal that balances the system, not just as a way to charge more."
+takeaway: "Price is a signal that balances the system, not just a charge."
 detail: "The article publishes no real figures or architecture: the numbers in this deck are synthetic."
 sourceLabel: "Shuaib Ullattil, Medium (5 Feb 2026)"
 source: "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1"
@@ -465,3 +476,5 @@ layout: "end"
 **Which decision in your company could rely on one of these three approaches?**
 
 www.inno-it.es
+
+<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> · AI Engineer at InnoIT<br>I design and build AI and machine learning solutions applied to real use cases.<br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
