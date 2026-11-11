@@ -211,7 +211,7 @@ diagram: "example"
 ---
 # Un viernes a las 18:00, de principio a fin
 
-<!-- Recorrido completo del ejemplo con cifras sintéticas, coherentes con las diapositivas anteriores. El clustering sitúa a Centro entre las zonas de negocios; la serie temporal pronostica 165 solicitudes con lluvia; la regresión da un equilibrio de 1,39 con unos 136 viajes; el bucle sube el multiplicador a 1,40 en cinco minutos y lo estabiliza cerca de 1,4; con una tarifa base de 12,00 euros el pasajero ve 16,80 euros. La tarifa base de 12 euros también es ficticia.
+<!-- Recorrido completo del ejemplo con cifras sintéticas, coherentes con las diapositivas anteriores. La serie temporal pronostica 165 solicitudes con lluvia; el clustering sitúa a Centro entre las zonas de negocios; la regresión da un equilibrio de 1,39 con unos 136 viajes; el bucle sube el multiplicador a 1,40 en cinco minutos y lo estabiliza cerca de 1,4; con una tarifa base de 12,00 euros el pasajero ve 16,80 euros. La tarifa base de 12 euros también es ficticia.
 Fuente: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1 -->
 
 ---

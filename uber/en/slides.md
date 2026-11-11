@@ -211,7 +211,7 @@ diagram: "example"
 ---
 # A Friday at 18:00, end to end
 
-<!-- Full walk-through of the example with synthetic figures, consistent with the previous slides. Clustering places Downtown among the business zones; the time series forecasts 165 requests with rain; the regression gives an equilibrium of 1.39 with about 136 trips; the loop raises the multiplier to 1.40 in five minutes and settles near 1.4; with a base fare of 12.00 euros the rider sees 16.80 euros. The base fare of 12 euros is also fictitious.
+<!-- Full walk-through of the example with synthetic figures, consistent with the previous slides. The time series forecasts 165 requests with rain; clustering places Downtown among the business zones; the regression gives an equilibrium of 1.39 with about 136 trips; the loop raises the multiplier to 1.40 in five minutes and settles near 1.4; with a base fare of 12.00 euros the rider sees 16.80 euros. The base fare of 12 euros is also fictitious.
 Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1 -->
 
 ---

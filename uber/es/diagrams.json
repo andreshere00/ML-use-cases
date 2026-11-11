@@ -221,8 +221,8 @@
         "y": 30,
         "w": 206,
         "h": 210,
-        "title": "1 · Clustering",
-        "body": "Centro: perfil\nde «Negocios»",
+        "title": "1 · Series\ntemporales",
+        "body": "Pronóstico:\n165 solicitudes\nen 15 min\n(con lluvia)",
         "kind": "model",
         "example": false
       },
@@ -232,8 +232,8 @@
         "y": 30,
         "w": 206,
         "h": 210,
-        "title": "2 · Series\ntemporales",
-        "body": "Pronóstico:\n165 solicitudes\nen 15 min\n(con lluvia)",
+        "title": "2 · Clustering",
+        "body": "Centro: perfil\nde «Negocios»",
         "kind": "model",
         "example": false
       },
@@ -306,7 +306,7 @@
       },
       {
         "a": "e",
-        "b": "b",
+        "b": "a",
         "label": "los viajes nuevos vuelven como datos",
         "start": "bottom",
         "end": "bottom",
@@ -316,7 +316,7 @@
             300
           ],
           [
-            335,
+            103,
             300
           ]
         ]
@@ -327,6 +327,6 @@
     "annotations": [],
     "source": "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1",
     "sourceLabel": "Shuaib Ullattil, Medium (5 feb 2026)",
-    "notes": "Recorrido completo del ejemplo con cifras sintéticas: el clustering sitúa a Centro entre las zonas de negocios; la serie temporal pronostica 165 solicitudes con lluvia; la regresión da un equilibrio de 1,39 con unos 136 viajes; el bucle sube el multiplicador a 1,40 en cinco minutos y lo estabiliza cerca de 1,4; con una tarifa base de 12,00 euros, el pasajero ve 16,80 euros."
+    "notes": "Recorrido completo del ejemplo con cifras sintéticas: la serie temporal pronostica 165 solicitudes con lluvia; el clustering sitúa a Centro entre las zonas de negocios; la regresión da un equilibrio de 1,39 con unos 136 viajes; el bucle sube el multiplicador a 1,40 en cinco minutos y lo estabiliza cerca de 1,4; con una tarifa base de 12,00 euros, el pasajero ve 16,80 euros."
   }
 }
