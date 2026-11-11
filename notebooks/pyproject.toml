@@ -1,0 +1,21 @@
+[project]
+name = "ml-use-cases-notebooks"
+version = "0.1.0"
+description = "Notebooks interactivos de los casos de uso de ML (idealista, Cabify, Spotify y Uber)."
+requires-python = ">=3.12"
+dependencies = [
+    "jupyterlab>=4.6",
+    "ipywidgets>=8.1",
+    "numpy>=2.2",
+    "pandas>=2.2",
+    "scipy>=1.15",
+    "scikit-learn>=1.7",
+    "matplotlib>=3.10",
+    # Solo para 03-spotify-clustering
+    "umap-learn>=0.5.9",
+    "hdbscan>=0.8.40",
+    "xgboost>=3.1",  # en macOS necesita OpenMP: brew install libomp
+]
+
+[tool.uv]
+package = false

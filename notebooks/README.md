@@ -13,13 +13,17 @@ Los controles ▶ (*Play*) reproducen los procesos iterativos (descenso de gradi
 
 ## Ejecutar
 
-Requiere Python 3.12+. Desde esta carpeta:
+Las dependencias se gestionan con [uv](https://docs.astral.sh/uv/) (`pyproject.toml` + `uv.lock` con versiones fijadas). Requiere Python 3.12+. Desde esta carpeta:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/jupyter lab
+uv sync
 ```
+
+```bash
+uv run jupyter lab
+```
+
+`uv sync` crea `.venv/` e instala exactamente las versiones del `uv.lock`. Para añadir un paquete usa `uv add <paquete>`.
 
 En macOS, XGBoost (solo lo usa el apartado 6 del notebook de Spotify) necesita OpenMP:
 
