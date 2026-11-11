@@ -10,7 +10,7 @@ Casos de uso de Machine Learning y GenAI llevados a cabo por empresas reales. Ca
 
 - **Presentaciones** de [Slidev](https://sli.dev) con el tema de InnoIT.
 - **Notebooks** de Jupyter interactivos.
-- **Simulador** web del precio dinámico de Uber.
+- **Simuladores** web: precio dinámico de Uber y valoración automática de viviendas de idealista.
 
 ### Contenido
 
@@ -22,6 +22,7 @@ Casos de uso de Machine Learning y GenAI llevados a cabo por empresas reales. Ca
 | [`spotify/`](spotify) (`en`, `es`) | Clustering: segmentación con UMAP + HDBSCAN recursivos (Spotify). |
 | [`uber/`](uber) (`en`, `es`) | Precio dinámico de Uber con cuatro algoritmos: series temporales, clustering, regresión y bucle de precios. |
 | [`uber/simulator/`](uber/simulator) | App web (React + TypeScript) que simula el precio dinámico de Uber en directo. |
+| [`idealista/simulator/`](idealista/simulator) | App web (React + TypeScript) que valora viviendas y simula un mercado de anuncios (idealista). |
 | [`notebooks/`](notebooks) | Notebooks con los cuatro casos paso a paso (idealista, Cabify, Spotify y Uber). |
 
 Cada carpeta de idioma (`<caso>/en`, `<caso>/es`) es un proyecto Slidev independiente: `slides.md`, `theme/`, `public/` y `package.json`.
@@ -30,7 +31,7 @@ Cada carpeta de idioma (`<caso>/en`, `<caso>/es`) es un proyecto Slidev independ
 
 | Para | Necesitas |
 |---|---|
-| Presentaciones y simulador | [Node.js](https://nodejs.org) 22.12+ y [pnpm](https://pnpm.io) (`npm install -g pnpm`, o `npx pnpm@10 …` sin instalar) |
+| Presentaciones y simuladores | [Node.js](https://nodejs.org) 22.12+ y [pnpm](https://pnpm.io) (`npm install -g pnpm`, o `npx pnpm@10 …` sin instalar) |
 | Notebooks | Python 3.12+ y [uv](https://docs.astral.sh/uv/) |
 
 Solo hace falta lo que vayas a usar. Para ver los PDF y los HTML no se necesita nada.
@@ -168,6 +169,32 @@ Se abre en http://localhost:5183.
 
 Más detalles en [`uber/simulator/README.md`](uber/simulator/README.md).
 
+### Simulador idealista
+
+Igual que el de Uber: `pnpm build` + `pnpm preview` para verlo, o `pnpm dev` para desarrollar (http://localhost:5184).
+
+```bash
+cd idealista/simulator
+```
+
+```bash
+pnpm install
+```
+
+```bash
+pnpm dev
+```
+
+Qué se ve en el simulador:
+
+- **Tu vivienda:** elige zona, superficie, dormitorios, reforma y ascensor y obtén la valoración con su rango de error.
+- **Mapa de precios:** las 360 viviendas de entrenamiento coloreadas por €/m² y los comparables elegidos.
+- **Nuevos anuncios:** cada día se publica una vivienda que el modelo no ha visto; se valora y se etiqueta como buen precio, ajustado o alto.
+- **Tu anuncio:** elige el precio de salida, publícalo y mira cuánto tarda en venderse.
+- **Modelo:** cambia el peso de la regresión y el número de comparables y sigue los cuatro pasos en *Bajo el capó*.
+
+`pnpm test` comprueba que reproduce los coeficientes, los comparables y el MAE del notebook. Más detalles en [`idealista/simulator/README.md`](idealista/simulator/README.md).
+
 ### Aviso
 
 Todos los datos son sintéticos y los modelos son líneas base didácticas. **No son los sistemas de idealista, Cabify/Infobip, Spotify ni Uber, ni usan sus datos.**
@@ -180,7 +207,7 @@ Machine Learning and GenAI use cases carried out by real companies. Each case co
 
 - **Presentations** built with [Slidev](https://sli.dev) and the InnoIT theme.
 - **Notebooks:** interactive Jupyter notebooks.
-- **Simulator:** a web app for Uber's dynamic pricing.
+- **Simulators:** web apps for Uber's dynamic pricing and idealista's automated home valuation.
 
 ### Contents
 
@@ -192,6 +219,7 @@ Machine Learning and GenAI use cases carried out by real companies. Each case co
 | [`spotify/`](spotify) (`en`, `es`) | Clustering: segmentation with recursive UMAP + HDBSCAN (Spotify). |
 | [`uber/`](uber) (`en`, `es`) | Uber dynamic pricing with four algorithms: time series, clustering, regression and a pricing loop. |
 | [`uber/simulator/`](uber/simulator) | Web app (React + TypeScript) that simulates Uber's dynamic pricing live. |
+| [`idealista/simulator/`](idealista/simulator) | Web app (React + TypeScript) that values homes and simulates a listings market (idealista). |
 | [`notebooks/`](notebooks) | Notebooks that walk through the four cases (idealista, Cabify, Spotify and Uber) step by step. |
 
 Each language folder (`<case>/en`, `<case>/es`) is an independent Slidev project: `slides.md`, `theme/`, `public/` and `package.json`.
@@ -200,7 +228,7 @@ Each language folder (`<case>/en`, `<case>/es`) is an independent Slidev project
 
 | For | You need |
 |---|---|
-| Presentations and simulator | [Node.js](https://nodejs.org) 22.12+ and [pnpm](https://pnpm.io) (`npm install -g pnpm`, or `npx pnpm@10 …` without installing) |
+| Presentations and simulators | [Node.js](https://nodejs.org) 22.12+ and [pnpm](https://pnpm.io) (`npm install -g pnpm`, or `npx pnpm@10 …` without installing) |
 | Notebooks | Python 3.12+ and [uv](https://docs.astral.sh/uv/) |
 
 You only need what you plan to use. The PDF and HTML files need nothing.
@@ -341,6 +369,32 @@ It opens at http://localhost:5183.
 `pnpm test` checks that the simulator reproduces the numbers from the slides and the notebook.
 
 More details (in Spanish) in [`uber/simulator/README.md`](uber/simulator/README.md).
+
+### idealista simulator
+
+Same as the Uber one: `pnpm build` + `pnpm preview` to view it, or `pnpm dev` to develop (http://localhost:5184).
+
+```bash
+cd idealista/simulator
+```
+
+```bash
+pnpm install
+```
+
+```bash
+pnpm dev
+```
+
+What the simulator shows:
+
+- **Your home:** pick the zone, size, bedrooms, renovation and lift and get the valuation with its error range.
+- **Price map:** the 360 training homes coloured by €/m², plus the chosen comparables.
+- **New listings:** every day a home the model has not seen is listed, valued and tagged as a good, fair or high price.
+- **Your listing:** choose the asking price, publish it and see how long it takes to sell.
+- **Model:** change the regression weight and the number of comparables and follow the four steps in *Bajo el capó* (under the hood).
+
+The interface is in Spanish. `pnpm test` checks that it reproduces the notebook's coefficients, comparables and MAE. More details (in Spanish) in [`idealista/simulator/README.md`](idealista/simulator/README.md).
 
 ### Disclaimer
 
