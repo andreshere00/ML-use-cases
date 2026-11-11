@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { mult, num, pct } from '../format'
 import { DEMAND_SCALE, ELASTICITY, SUPPLY_SENSITIVITY, clockLabel, type Sample, type SimState } from '../sim/engine'
 import { WEIGHTS } from '../sim/forecast'
@@ -81,12 +82,31 @@ function ForecastCard({ s, zoneId }: { s: Sample; zoneId: string }) {
   )
 }
 
+const STEP_MS = 1400
+/** Fotogramas extra en los que se mantiene el resultado final antes de volver a empezar. */
+const HOLD_FRAMES = 3
+
+/** Recorre las iteraciones de k-means en bucle; con movimiento reducido se queda en la última. */
+function useIteration(count: number): number {
+  const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  const [frame, setFrame] = useState(0)
+  useEffect(() => {
+    if (reduced) return
+    const id = setInterval(() => setFrame((f) => (f + 1) % (count + HOLD_FRAMES)), STEP_MS)
+    return () => clearInterval(id)
+  }, [count, reduced])
+  return reduced ? count - 1 : Math.min(frame, count - 1)
+}
+
 function ClusterCard({ zoneId }: { zoneId: string }) {
   const W = 300
   const H = 130
   const sx = (v: number) => 28 + (v / 62) * (W - 38)
   const sy = (v: number) => H - 22 - (v / 55) * (H - 32)
   const kind = KIND_BY_ZONE[zoneId]
+  const it = useIteration(CLUSTERS.history.length)
+  const step = CLUSTERS.history[it]
+  const converged = it === CLUSTERS.history.length - 1
   return (
     <Card step={2} title="Clustering (k-means)" question="¿Qué tipo de zona es?">
       <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={`${ZONE_BY_ID[zoneId].name} pertenece al grupo ${KIND_LABEL[kind]}`}>
@@ -98,22 +118,46 @@ function ClusterCard({ zoneId }: { zoneId: string }) {
         <text x={32} y={12} className="axis-label">
           % de madrugada
         </text>
-        {CLUSTERS.centers.map((c, k) => (
-          <g key={k} transform={`translate(${sx(c[0])}, ${sy(c[1])})`} stroke={KIND_COLOR[KIND_OF_CLUSTER[k]]} strokeWidth={2} opacity={0.55}>
-            <line x1={-7} y1={-7} x2={7} y2={7} />
-            <line x1={-7} y1={7} x2={7} y2={-7} />
-          </g>
+        {/* Rastro de cada centroide desde su posición inicial hasta la iteración actual. */}
+        {step.centers.map((_, k) => (
+          <polyline
+            key={`t${k}`}
+            className="centroid-trail"
+            stroke={KIND_COLOR[KIND_OF_CLUSTER[k]]}
+            points={CLUSTERS.history
+              .slice(0, it + 1)
+              .map((h) => `${sx(h.centers[k][0])},${sy(h.centers[k][1])}`)
+              .join(' ')}
+          />
         ))}
-        {ZONES.map((z) => (
+        {ZONES.map((z, i) => (
           <g key={z.id} transform={`translate(${sx(z.morningPct)}, ${sy(z.nightPct)})`}>
             {z.id === zoneId && <circle r={11} fill="none" stroke="var(--content)" strokeWidth={2} />}
-            <circle r={7.5} fill={KIND_COLOR[KIND_BY_ZONE[z.id]]} />
+            <circle r={7.5} className="cluster-point" fill={KIND_COLOR[KIND_OF_CLUSTER[step.assignments[i]]]} />
             <text className="point-label" y={3}>
               {z.id}
             </text>
           </g>
         ))}
+        {step.centers.map((c, k) => (
+          <g key={k} className="centroid" style={{ transform: `translate(${sx(c[0])}px, ${sy(c[1])}px)` }}>
+            <g stroke={KIND_COLOR[KIND_OF_CLUSTER[k]]} strokeWidth={2.5}>
+              <line x1={-6} y1={-6} x2={6} y2={6} />
+              <line x1={-6} y1={6} x2={6} y2={-6} />
+            </g>
+          </g>
+        ))}
       </svg>
+      <p className="iteration" aria-live="off">
+        <b>
+          Iteración {it + 1} de {CLUSTERS.history.length}
+        </b>
+        {converged
+          ? ' · nadie cambia de grupo: ha convergido'
+          : it === 0
+            ? ' · centros iniciales en A, B e I'
+            : ' · cada centro se mueve a la media de su grupo'}
+      </p>
       <div className="legend-row">
         {(['business', 'residential', 'nightlife'] as ZoneKind[]).map((k) => (
           <span key={k} className={k === kind ? 'current' : ''}>

@@ -1323,6 +1323,28 @@ input {
   fill: var(--content);
 }
 
+.centroid {
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.centroid-trail {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  opacity: 0.6;
+}
+
+.cluster-point {
+  transition: fill 0.4s;
+}
+
+.iteration {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--content-secondary);
+  margin: 4px 0 8px;
+}
+
 .legend-row {
   display: flex;
   flex-wrap: wrap;
@@ -1372,6 +1394,11 @@ input {
   .algo {
     grid-column: 1 / -1;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  /* Con dos columnas los algoritmos van debajo: el mapa no puede quedarse fijo encima de ellos. */
+  .map-wrap {
+    position: static;
   }
 
   .algo > h2,
@@ -1451,7 +1478,9 @@ input {
 @media (prefers-reduced-motion: reduce) {
   .car,
   .zone-fill,
-  .bar {
+  .bar,
+  .centroid,
+  .cluster-point {
     transition: none;
   }
 

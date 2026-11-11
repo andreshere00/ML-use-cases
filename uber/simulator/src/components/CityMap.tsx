@@ -38,28 +38,67 @@ function heat(m: number): string {
   return `rgb(${mix(236, 255)}, ${mix(236, 138)}, ${mix(236, 84)})`
 }
 
-const isHorizontal = (zone: Zone, i: number) => hash(ZONE_INDEX[zone.id], i, 1) < 0.5
+/** Desplazamiento lateral del carril: se circula por la derecha, así los sentidos opuestos no se cruzan. */
+const LANE_OFFSET = 5.5
 
-/** Tramo de calle que recorre un coche dentro de su zona y distancia que avanza en cada tick. */
-const LANE = Z - 28
-const STEP = 24
+interface CarState {
+  key: string
+  pos: [number, number]
+  angle: number
+}
 
-/** Cada coche circula por su calle a velocidad constante y, al llegar al borde, vuelve a entrar por el otro lado. */
-function carState(zone: Zone, i: number, tick: number) {
+/** Huecos de espera: el centro de cada manzana, lejos de los cruces. */
+const SLOTS = [27.5, 82.5, 137.5, 192.5]
+
+interface Lane {
+  street: number
+  horizontal: boolean
+  dir: 1 | -1
+}
+
+/** Los 12 carriles de una zona (3 calles × 2 orientaciones × 2 sentidos), en un orden propio de cada zona. */
+const ZONE_LANES: Lane[][] = ZONES.map((_, zi) => {
+  const lanes: Lane[] = []
+  for (const street of STREETS)
+    for (const horizontal of [true, false]) for (const dir of [1, -1] as const) lanes.push({ street, horizontal, dir })
+  return lanes
+    .map((lane, k) => ({ lane, order: hash(zi, k, 6) }))
+    .sort((a, b) => a.order - b.order)
+    .map((x) => x.lane)
+})
+
+/**
+ * Coloca los `count` coches de una zona con un ciclo de semáforo: en los ticks impares avanzan las calles
+ * horizontales y en los pares las verticales. Cada movimiento es exactamente una manzana, de un hueco de
+ * espera al siguiente, así que mientras unos cruzan los otros esperan fuera del cruce. Los coches de un
+ * mismo carril ocupan huecos distintos y avanzan a la vez, de modo que tampoco se alcanzan.
+ */
+function zoneCars(zone: Zone, count: number, tick: number): CarState[] {
   const zi = ZONE_INDEX[zone.id]
-  const street = STREETS[Math.floor(hash(zi, i, 2) * STREETS.length)]
-  const dir = hash(zi, i, 4) < 0.5 ? 1 : -1
-  const travelled = hash(zi, i, 3) * LANE + tick * STEP
-  const lap = Math.floor(travelled / LANE)
-  const offset = travelled - lap * LANE
-  const along = 14 + (dir === 1 ? offset : LANE - offset)
-  const horizontal = isHorizontal(zone, i)
-  const pos: [number, number] = [
-    zone.col * Z + (horizontal ? along : street),
-    zone.row * Z + (horizontal ? street : along),
-  ]
-  const angle = horizontal ? (dir === 1 ? 0 : 180) : dir === 1 ? 90 : -90
-  return { pos, lap, angle }
+  const lanes = ZONE_LANES[zi]
+  const n = Math.min(count, lanes.length * SLOTS.length)
+  const moves = { h: Math.floor((tick + 1) / 2), v: Math.floor(tick / 2) }
+
+  return Array.from({ length: n }, (_, i) => {
+    const laneIndex = i % lanes.length
+    const lane = lanes[laneIndex]
+    const k = Math.floor(i / lanes.length)
+    // Coches del mismo carril en huecos consecutivos (una manzana entre ellos), con un desfase propio del carril.
+    // Al aparecer o desaparecer un coche, los demás no se recolocan.
+    const start = Math.floor(hash(zi, laneIndex, 7) * SLOTS.length) + k
+    const step = start + (lane.horizontal ? moves.h : moves.v)
+    const lap = Math.floor(step / SLOTS.length)
+    const slot = step - lap * SLOTS.length
+    const along = lane.dir === 1 ? SLOTS[slot] : Z - SLOTS[slot]
+    // Se circula por la derecha: hacia la derecha → carril de abajo; hacia abajo → carril de la izquierda.
+    const side = lane.horizontal ? lane.dir * LANE_OFFSET : -lane.dir * LANE_OFFSET
+    const pos: [number, number] = lane.horizontal
+      ? [zone.col * Z + along, zone.row * Z + lane.street + side]
+      : [zone.col * Z + lane.street + side, zone.row * Z + along]
+    const angle = lane.horizontal ? (lane.dir === 1 ? 0 : 180) : lane.dir === 1 ? 90 : -90
+    // La vuelta forma parte de la clave: al reaparecer por el otro lado no se anima el salto.
+    return { key: `c-${zone.id}-${laneIndex}-${k}-${lap}`, pos, angle }
+  })
 }
 
 function riderPosition(zone: Zone, i: number, tick: number): [number, number] {
@@ -160,12 +199,10 @@ export function CityMap(p: Props) {
           })}
           {ZONES.flatMap((zone) => {
             const s = current(p.sim, zone.id)
-            return Array.from({ length: Math.round(s.drivers / PER_DOT) }, (_, i) => {
-              const { pos, lap, angle } = carState(zone, i, p.sim.tick)
-              // La vuelta forma parte de la clave: al reaparecer por el otro lado no se anima el salto.
+            return zoneCars(zone, Math.round(s.drivers / PER_DOT), p.sim.tick).map(({ key, pos, angle }) => {
               return (
                 <g
-                  key={`c-${zone.id}-${i}-${lap}`}
+                  key={key}
                   className="car"
                   style={{ transform: `translate(${pos[0]}px, ${pos[1]}px)`, transitionDuration: `${p.tickMs}ms` }}
                 >
