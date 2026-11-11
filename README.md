@@ -9,6 +9,7 @@ Casos de uso de Machine Learning y GenAI llevados a cabo por empresas reales, pr
 | `cabify/` | [`en`](cabify/en) | [`es`](cabify/es) | Clasificación binaria: tráfico legítimo o artificial y umbral de bloqueo (Cabify). / Binary classification. |
 | `spotify/` | [`en`](spotify/en) | [`es`](spotify/es) | Clustering: segmentación con UMAP + HDBSCAN recursivos (Spotify). / Clustering. |
 | `uber/` | [`en`](uber/en) | [`es`](uber/es) | Series temporales, clustering, regresión y bucle de precios: precio dinámico (Uber). / Time series, clustering, regression and pricing loop. |
+| `notebooks/` | — | [`es`](notebooks) | Notebooks de Jupyter interactivos con los cuatro casos paso a paso. / Interactive Jupyter notebooks for the four cases, step by step. |
 
 Cada carpeta de idioma es un proyecto Slidev independiente (`slides.md`, `theme/`, `public/`, `package.json`). Each language folder is an independent Slidev project.
 
