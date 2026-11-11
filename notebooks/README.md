@@ -11,6 +11,8 @@ Los casos de uso de las presentaciones, paso a paso y con controles interactivos
 
 Los controles ▶ (*Play*) reproducen los procesos iterativos (descenso de gradiente, k-means, bisección, ticks del bucle de precios).
 
+Todas las gráficas usan el estilo de InnoIT definido en [`innoit_style.py`](innoit_style.py): los colores del tema de las presentaciones (morado `#4D225D`, coral `#E64366`, lavanda `#EDE9EF` y la paleta categórica de los exploradores), la tipografía Urbane y escalas de color propias (`inno` y `inno_div`). La fuente se convierte la primera vez desde `general/es/public/fonts/` a `notebooks/.fonts/` (ignorada por git); si no está disponible, se usa Arial.
+
 ## Ejecutar
 
 Las dependencias se gestionan con [uv](https://docs.astral.sh/uv/) (`pyproject.toml` + `uv.lock` con versiones fijadas). Requiere Python 3.12+. Desde esta carpeta:

@@ -11,6 +11,7 @@ dependencies = [
     "scipy>=1.15",
     "scikit-learn>=1.7",
     "matplotlib>=3.10",
+    "fonttools[woff]>=4.55",  # carga la tipografía Urbane de InnoIT en las gráficas
     # Solo para 03-spotify-clustering
     "umap-learn>=0.5.9",
     "hdbscan>=0.8.40",

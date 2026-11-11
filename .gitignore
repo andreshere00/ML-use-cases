@@ -241,3 +241,6 @@ node_modules
 */*/public/idealista-assets/
 */*/public/*.html
 */*/public/cabify-assets/
+
+# Fuentes Urbane convertidas para matplotlib (notebooks/innoit_style.py)
+notebooks/.fonts/
