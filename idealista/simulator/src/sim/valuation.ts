@@ -1,7 +1,7 @@
 // Mezcla regresión + comparables, error con datos no vistos y explicación aditiva del precio.
 import { comparables, meanPrice, type Comparable } from './comparables'
 import { TEST, type HomeSpec } from './market'
-import { BASELINE, FEATURES, MEANS, MODEL, features, predict } from './regression'
+import { BASELINE, MEANS, MODEL, features, predict } from './regression'
 
 export interface Valuation {
   regression: number
@@ -50,8 +50,10 @@ export function maeCurve(k: number): CurvePoint[] {
   return Array.from({ length: 101 }, (_, i) => ({ w: i / 100, mae: testMAE(i / 100, k) }))
 }
 
+export type ContributionId = 'area' | 'beds' | 'zone' | 'renovated' | 'lift' | 'comparables'
+
 export interface Contribution {
-  label: string
+  id: ContributionId
   value: number
 }
 
@@ -63,22 +65,17 @@ export function explain(spec: HomeSpec, v: Valuation): Contribution[] {
   const x = features(spec)
   const term = (j: number) => v.w * MODEL.coefs[j] * (x[j] - MEANS[j])
   return [
-    { label: FEATURES[0], value: term(0) },
-    { label: 'Dormitorios', value: term(1) },
-    { label: 'Zona', value: term(2) + term(3) },
-    { label: FEATURES[4], value: term(4) },
-    { label: FEATURES[5], value: term(5) },
-    { label: 'Comparables', value: (1 - v.w) * (v.comparablesPrice - BASELINE) },
+    { id: 'area', value: term(0) },
+    { id: 'beds', value: term(1) },
+    { id: 'zone', value: term(2) + term(3) },
+    { id: 'renovated', value: term(4) },
+    { id: 'lift', value: term(5) },
+    { id: 'comparables', value: (1 - v.w) * (v.comparablesPrice - BASELINE) },
   ]
 }
 
 export type PriceTag = 'good' | 'fair' | 'high'
 
-export const TAG_LABEL: Record<PriceTag, string> = {
-  good: 'Buen precio',
-  fair: 'Precio ajustado',
-  high: 'Precio alto',
-}
 
 /** Compara el precio pedido con la valoración: ±5 % se considera ajustado. */
 export function priceTag(asking: number, estimate: number): PriceTag {

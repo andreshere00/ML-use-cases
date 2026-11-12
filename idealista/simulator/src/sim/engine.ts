@@ -17,13 +17,6 @@ export interface Listing {
 
 export type ListingStatus = 'new' | 'visits' | 'reserved' | 'sold'
 
-export const STATUS_LABEL: Record<ListingStatus, string> = {
-  new: 'Nuevo',
-  visits: 'Con visitas',
-  reserved: 'Reservado',
-  sold: 'Vendido',
-}
-
 export function status(l: Listing, day: number): ListingStatus {
   const age = day - l.day
   if (age >= l.sellDays) return 'sold'

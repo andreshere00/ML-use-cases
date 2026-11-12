@@ -123,3 +123,16 @@ export const CheckIcon = ({ size }: { size?: number }) => (
     <path d="m5 12.5 4.5 4.5L19 7.5" />
   </Icon>
 )
+
+export const GlobeIcon = ({ size }: { size?: number }) => (
+  <Icon size={size}>
+    <circle cx={12} cy={12} r={8.5} />
+    <path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5s1.1-6.1 3.5-8.5z" />
+  </Icon>
+)
+
+export const CloseIcon = ({ size }: { size?: number }) => (
+  <Icon size={size}>
+    <path d="M6 6l12 12M18 6 6 18" />
+  </Icon>
+)

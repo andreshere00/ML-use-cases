@@ -1,7 +1,7 @@
-import { euros, num } from '../format'
-import { STATUS_LABEL, liveMAE, status, type Listing } from '../sim/engine'
-import { ZONES } from '../sim/market'
-import { TAG_LABEL, rounded, testMAE } from '../sim/valuation'
+import { euros, keur } from '../format'
+import { useT } from '../i18n'
+import { liveMAE, status, type Listing } from '../sim/engine'
+import { rounded, testMAE } from '../sim/valuation'
 import { HomeIcon } from './Icons'
 import { TAG_TONE } from './ValuationPanel'
 
@@ -12,30 +12,31 @@ const VISIBLE = 6
  * Se valoran al publicarse y el error frente a su precio de referencia es el MAE "en directo".
  */
 export function MarketFeed({ listings, day, w, k }: { listings: Listing[]; day: number; w: number; k: number }) {
+  const t = useT()
   const sold = listings.filter((l) => status(l, day) === 'sold')
   const mae = liveMAE(listings)
 
   return (
     <section className="panel others" aria-labelledby="feed-title">
       <header className="others-head">
-        <h2 id="feed-title">Nuevos anuncios</h2>
+        <h2 id="feed-title">{t.newListings}</h2>
         <span className="others-live">
-          <i aria-hidden="true" /> En directo
+          <i aria-hidden="true" /> {t.live}
         </span>
       </header>
 
       <dl className="others-stats">
         <div>
-          <dt>Publicados</dt>
+          <dt>{t.listed}</dt>
           <dd>{listings.length}</dd>
         </div>
         <div>
-          <dt>Vendidos</dt>
+          <dt>{t.sold}</dt>
           <dd>{sold.length}</dd>
         </div>
-        <div title={`Con las 120 viviendas de prueba: ${euros(Math.round(testMAE(w, k)))}`}>
-          <dt>Error medio</dt>
-          <dd>{num(mae / 1000, 1)} k€</dd>
+        <div title={t.testMaeTitle(Math.round(testMAE(w, k)))}>
+          <dt>{t.meanError}</dt>
+          <dd>{keur(mae, 1)}</dd>
         </div>
       </dl>
 
@@ -50,23 +51,23 @@ export function MarketFeed({ listings, day, w, k }: { listings: Listing[]; day: 
               </span>
               <span className="others-main">
                 <b>
-                  Piso · {h.area} m² · {h.beds} dorm.
+                  {t.flat} · {h.area} m² · {h.beds} {t.beds}
                 </b>
                 <span className="others-route">
-                  {ZONES[h.zone].name}
-                  {h.renovated ? ' · reformado' : ''}
-                  {h.lift ? ' · ascensor' : ''}
+                  {t.zoneName[h.zone]}
+                  {h.renovated ? ` · ${t.renovated}` : ''}
+                  {h.lift ? ` · ${t.lift}` : ''}
                 </span>
                 <span className="others-route">
-                  Valoración {euros(rounded(l.estimate))} · error {euros(Math.round(Math.abs(l.estimate - h.price)))}
+                  {t.feedValuation(rounded(l.estimate), Math.round(Math.abs(l.estimate - h.price)))}
                 </span>
               </span>
               <span className="others-side">
                 <span className="others-price">
                   <em>{euros(l.asking)}</em>
                 </span>
-                <span className={`badge badge-${TAG_TONE[l.tag]}`}>{TAG_LABEL[l.tag]}</span>
-                <span className={`status status-${s}`}>{STATUS_LABEL[s]}</span>
+                <span className={`badge badge-${TAG_TONE[l.tag]}`}>{t.tag[l.tag]}</span>
+                <span className={`status status-${s}`}>{t.status[s]}</span>
               </span>
             </li>
           )

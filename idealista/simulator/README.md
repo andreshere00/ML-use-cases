@@ -9,6 +9,8 @@ Demo en React + TypeScript que imita un portal inmobiliario y encadena, para cad
 
 `src/sim/engine.ts` pone el mercado en marcha: cada día se publica un anuncio de una vivienda de prueba, que el modelo no ha visto; se valora al instante, se etiqueta como buen precio, ajustado o alto y acaba vendiéndose antes o después según su sobreprecio. El usuario puede valorar su propia vivienda, elegir el precio de salida y publicarla. El estilo visual comparte esqueleto con el simulador de Uber, con tokens inspirados en idealista.
 
+La interfaz está en español y en inglés: el botón del globo, arriba a la derecha, abre una ventana para cambiar de idioma, y la elección se recuerda en el navegador. Los textos están en `src/i18n.tsx`.
+
 Datos sintéticos con fines didácticos (semilla 42): no es el modelo de valoración ni los datos de idealista. Las tres zonas son ficticias, y los días de venta y las visitas siguen un modelo ilustrativo.
 
 ## Ejecutar

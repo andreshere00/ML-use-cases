@@ -1,8 +1,9 @@
 import type { KeyboardEvent } from 'react'
 import { euros, keur } from '../format'
+import { useT } from '../i18n'
 import type { Listing } from '../sim/engine'
-import { TRAIN, ZONES, ZONE_PRICE_M2, hash, type HomeSpec } from '../sim/market'
-import { TAG_LABEL, rounded, type PriceTag, type Valuation } from '../sim/valuation'
+import { TRAIN, ZONE_PRICE_M2, hash, type HomeSpec } from '../sim/market'
+import { rounded, type PriceTag, type Valuation } from '../sim/valuation'
 
 interface Props {
   spec: HomeSpec
@@ -107,6 +108,7 @@ const STREETS = [66, 132, 198, 264, 330, 396, 462, 528, 594]
 const RECENT = 8
 
 export function CityMap(p: Props) {
+  const t = useT()
   const anchor = ANCHOR[p.spec.zone]
   const comps = new Set(p.valuation.comparables.map((c) => c.home.id))
   const recent = p.listings.filter((l) => p.day - l.day < RECENT)
@@ -116,7 +118,7 @@ export function CityMap(p: Props) {
     role: 'button',
     tabIndex: p.locked ? -1 : 0,
     'aria-pressed': zone === p.spec.zone,
-    'aria-label': `${ZONES[zone].name}, ${ZONES[zone].description}: ${euros(Math.round(ZONE_PRICE_M2[zone]))} el m²`,
+    'aria-label': t.zoneAria(t.zoneName[zone], t.zoneDesc[zone], Math.round(ZONE_PRICE_M2[zone])),
     onClick: (e: { stopPropagation: () => void }) => {
       e.stopPropagation()
       if (!p.locked) p.onZone(zone)
@@ -131,7 +133,7 @@ export function CityMap(p: Props) {
 
   return (
     <div className="map-wrap">
-      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="map" role="group" aria-label="Mapa de precios por m² de la ciudad ficticia">
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="map" role="group" aria-label={t.mapLabel}>
         <defs>
           <clipPath id="clip-b">
             <path d={path(POLY_B)} />
@@ -181,9 +183,9 @@ export function CityMap(p: Props) {
 
         {[0, 1, 2].map((z) => (
           <g key={z} className="zone-label" transform={`translate(${LABEL[z][0]}, ${LABEL[z][1]})`} aria-hidden="true">
-            <text className="zone-name">{ZONES[z].name}</text>
+            <text className="zone-name">{t.zoneName[z]}</text>
             <text className="zone-kind" y={16}>
-              {ZONES[z].description} · {euros(Math.round(ZONE_PRICE_M2[z]))}/m²
+              {t.zoneDesc[z]} · {t.perM2(Math.round(ZONE_PRICE_M2[z]))}
             </text>
           </g>
         ))}
@@ -202,7 +204,7 @@ export function CityMap(p: Props) {
                 className={`home ${other ? 'home-dim' : ''}`}
               >
                 <title>
-                  {h.area} m² · {h.beds} dorm. · {euros(h.price)} ({euros(Math.round(h.price / h.area))}/m²)
+                  {h.area} m² · {h.beds} {t.beds} · {euros(h.price)} ({t.perM2(Math.round(h.price / h.area))})
                 </title>
               </circle>
             )
@@ -255,17 +257,17 @@ export function CityMap(p: Props) {
       <div className="legend" aria-hidden="true">
         <span>
           <i className="lg-gradient" style={{ background: `linear-gradient(90deg, ${HEAT.join(', ')})` }} />
-          {euros(Math.round(M2_MIN / 100) * 100)} – {euros(Math.round(M2_MAX / 100) * 100)} el m²
+          {t.m2Range(Math.round(M2_MIN / 100) * 100, Math.round(M2_MAX / 100) * 100)}
         </span>
         <span>
-          <i className="lg lg-pin" /> Tu vivienda
+          <i className="lg lg-pin" /> {t.yourHome}
         </span>
         <span>
-          <i className="lg lg-comp" /> {p.valuation.comparables.length} comparables
+          <i className="lg lg-comp" /> {t.nComps(p.valuation.comparables.length)}
         </span>
-        {(['good', 'fair', 'high'] as PriceTag[]).map((t) => (
-          <span key={t}>
-            <i className="lg lg-listing" style={{ background: TAG_COLOR[t] }} /> {TAG_LABEL[t]}
+        {(['good', 'fair', 'high'] as PriceTag[]).map((tag) => (
+          <span key={tag}>
+            <i className="lg lg-listing" style={{ background: TAG_COLOR[tag] }} /> {t.tag[tag]}
           </span>
         ))}
       </div>

@@ -4,6 +4,7 @@ import { CityMap } from './components/CityMap'
 import { MarketFeed } from './components/MarketFeed'
 import { TopBar } from './components/TopBar'
 import { ValuationPanel } from './components/ValuationPanel'
+import { useT } from './i18n'
 import { useSaleProgress, type MyListing } from './sale'
 import { DEFAULT_K } from './sim/comparables'
 import { LAST_DAY, listingsUpTo } from './sim/engine'
@@ -15,6 +16,7 @@ const START_DAY = 3
 const DEFAULT_SPEC: HomeSpec = { area: 90, beds: 2, zone: 1, renovated: true, lift: false }
 
 export function App() {
+  const t = useT()
   const [day, setDay] = useState(START_DAY)
   const [playing, setPlaying] = useState(true)
   const [speed, setSpeed] = useState(1)
@@ -80,10 +82,7 @@ export function App() {
         />
         <AlgoPanel spec={spec} valuation={valuation} k={k} />
       </main>
-      <footer className="disclaimer">
-        Simulador didáctico con datos sintéticos (semilla 42). Reproduce los cálculos de la presentación y del notebook; no
-        es el modelo de valoración ni los datos de idealista.
-      </footer>
+      <footer className="disclaimer">{t.disclaimer}</footer>
     </div>
   )
 }

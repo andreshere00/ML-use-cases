@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { euros, num, pct } from '../format'
+import { euros, pct } from '../format'
+import { homeSummary, useT } from '../i18n'
 import type { MyListing, SaleProgress } from '../sale'
 import { ZONES, ZONE_PRICE_M2, type HomeSpec } from '../sim/market'
-import { TAG_LABEL, daysToSell, priceTag, rounded, salePrice, testMAE, weeklyVisits, type Valuation } from '../sim/valuation'
+import { daysToSell, priceTag, rounded, salePrice, testMAE, weeklyVisits, type Valuation } from '../sim/valuation'
 import { AreaIcon, BedIcon, CheckIcon, ClockIcon, EyeIcon, InfoIcon, LiftIcon, MapIcon, SparkIcon, TagIcon } from './Icons'
 
 interface Props {
@@ -16,47 +17,34 @@ interface Props {
   onClear: () => void
 }
 
-const PHASE_TEXT = {
-  published: 'Anuncio publicado',
-  visits: 'Recibiendo visitas',
-  offers: 'Negociando ofertas',
-  sold: '¡Vivienda vendida!',
-}
-
-const STEPS = [
-  { id: 'published', label: 'Publicado' },
-  { id: 'visits', label: 'Visitas' },
-  { id: 'offers', label: 'Ofertas' },
-] as const
+const STEPS = ['published', 'visits', 'offers'] as const
 
 const ASK_OPTIONS = [-0.1, -0.05, 0, 0.05, 0.1, 0.2]
 
 export const TAG_TONE = { good: 'positive', fair: 'neutral', high: 'negative' } as const
 
-export const homeSummary = (s: HomeSpec) =>
-  `${s.area} m² · ${s.beds} dorm. · ${ZONES[s.zone].name}${s.renovated ? ' · reformado' : ''}${s.lift ? ' · ascensor' : ''}`
-
 function SaleView({ listing, progress, onClear }: { listing: MyListing; progress: SaleProgress; onClear: () => void }) {
+  const t = useT()
   const { phase } = progress
-  const stepIndex = phase === 'sold' ? STEPS.length : STEPS.findIndex((s) => s.id === phase)
+  const stepIndex = phase === 'sold' ? STEPS.length : STEPS.findIndex((s) => s === phase)
   const tag = priceTag(listing.asking, listing.estimate)
   const visits = Math.round((listing.visitsPerWeek * progress.day) / 7)
   const discount = listing.salePrice / listing.asking - 1
 
   return (
-    <section className="panel rider" aria-label="Tu anuncio">
-      <h2 aria-live="polite">{PHASE_TEXT[phase]}</h2>
-      <p className="muted">{homeSummary(listing.spec)}</p>
+    <section className="panel rider" aria-label={t.yourListing}>
+      <h2 aria-live="polite">{t.phase[phase]}</h2>
+      <p className="muted">{homeSummary(t, listing.spec)}</p>
 
-      <ol className="stepper" aria-label="Progreso de la venta">
+      <ol className="stepper" aria-label={t.saleProgress}>
         {STEPS.map((s, i) => {
           const state = i < stepIndex ? 'done' : i === stepIndex ? 'current' : 'todo'
           return (
-            <li key={s.id} className={`trip-step trip-step-${state}`} aria-current={state === 'current' ? 'step' : undefined}>
+            <li key={s} className={`trip-step trip-step-${state}`} aria-current={state === 'current' ? 'step' : undefined}>
               <div className="step-bar">
                 <div style={{ width: `${(state === 'done' ? 1 : state === 'current' ? progress.progress : 0) * 100}%` }} />
               </div>
-              <span>{s.label}</span>
+              <span>{t.step[s]}</span>
             </li>
           )
         })}
@@ -64,10 +52,10 @@ function SaleView({ listing, progress, onClear }: { listing: MyListing; progress
 
       <p className="eta-big">
         {phase === 'sold' ? <CheckIcon size={18} /> : <ClockIcon size={18} />}
-        {phase === 'sold' ? `Vendida en ${listing.sellDays} días` : `Día ${progress.day} del anuncio`}
+        {phase === 'sold' ? t.soldIn(listing.sellDays) : t.listingDay(progress.day)}
         <span className="eta-side">
           <EyeIcon size={16} />
-          {visits} visitas
+          {t.visits(visits)}
         </span>
       </p>
 
@@ -78,38 +66,39 @@ function SaleView({ listing, progress, onClear }: { listing: MyListing; progress
           <span>
             {phase === 'sold'
               ? discount < 0
-                ? `Precio de cierre: has negociado ${pct(discount, 1)} sobre lo anunciado.`
-                : 'Vendida al precio anunciado.'
-              : `Precio anunciado · ${TAG_LABEL[tag].toLowerCase()} según la valoración.`}
+                ? t.negotiated(pct(discount, 1))
+                : t.soldAtAsking
+              : t.askingNote(t.tag[tag])}
           </span>
         </div>
       </div>
 
       <dl className="receipt">
         <div>
-          <dt>Valoración automática</dt>
+          <dt>{t.autoValuation}</dt>
           <dd>{euros(rounded(listing.estimate))}</dd>
         </div>
         <div>
-          <dt>Precio pedido frente a la valoración</dt>
+          <dt>{t.askVsValuation}</dt>
           <dd>
             <span className={`badge badge-${TAG_TONE[tag]}`}>{pct(listing.asking / listing.estimate - 1, 1)}</span>
           </dd>
         </div>
         <div>
-          <dt>Visitas por semana estimadas</dt>
+          <dt>{t.weeklyVisits}</dt>
           <dd>{listing.visitsPerWeek}</dd>
         </div>
       </dl>
 
       <button className={`btn btn-block btn-large ${phase === 'sold' ? 'btn-primary' : 'btn-secondary'}`} onClick={onClear}>
-        {phase === 'sold' ? 'Valorar otra vivienda' : 'Retirar anuncio'}
+        {phase === 'sold' ? t.valueAnother : t.withdraw}
       </button>
     </section>
   )
 }
 
 export function ValuationPanel(p: Props) {
+  const t = useT()
   const [askPct, setAskPct] = useState(0)
 
   if (p.listing && p.progress) return <SaleView listing={p.listing} progress={p.progress} onClear={p.onClear} />
@@ -127,11 +116,11 @@ export function ValuationPanel(p: Props) {
 
   return (
     <section className="panel rider" aria-labelledby="val-title">
-      <h2 id="val-title">Valora tu vivienda</h2>
-      <p className="muted">Gratis y al instante, con viviendas parecidas de tu zona.</p>
+      <h2 id="val-title">{t.valueTitle}</h2>
+      <p className="muted">{t.valueSub}</p>
 
       <fieldset className="form-block">
-        <legend>Zona</legend>
+        <legend>{t.zone}</legend>
         <div className="zone-picker">
           {ZONES.map((z) => (
             <label key={z.id} className={`zone-option ${z.id === spec.zone ? 'selected' : ''}`}>
@@ -142,21 +131,21 @@ export function ValuationPanel(p: Props) {
                 checked={z.id === spec.zone}
                 onChange={() => set({ zone: z.id })}
               />
-              <b>{z.name}</b>
-              <span>{z.description}</span>
+              <b>{t.zoneName[z.id]}</b>
+              <span>{t.zoneDesc[z.id]}</span>
             </label>
           ))}
         </div>
         <p className="map-tip">
           <MapIcon size={14} />
-          También puedes tocar la zona en el mapa
+          {t.mapTip}
         </p>
       </fieldset>
 
       <div className="form-block">
         <label className="form-label" htmlFor="area">
           <AreaIcon size={16} />
-          Superficie construida
+          {t.area}
           <output htmlFor="area">{spec.area} m²</output>
         </label>
         <input
@@ -173,7 +162,7 @@ export function ValuationPanel(p: Props) {
       <fieldset className="form-block">
         <legend className="form-label">
           <BedIcon size={16} />
-          Dormitorios
+          {t.bedrooms}
         </legend>
         <div className="seg-light" role="group">
           {[1, 2, 3, 4].map((b) => (
@@ -187,26 +176,30 @@ export function ValuationPanel(p: Props) {
       <div className="extras">
         <button className={`extra ${spec.renovated ? 'on' : ''}`} role="switch" aria-checked={spec.renovated} onClick={() => set({ renovated: !spec.renovated })}>
           <SparkIcon size={18} />
-          Reformado
+          {t.renovatedCap}
           <span className="switch" aria-hidden="true" />
         </button>
         <button className={`extra ${spec.lift ? 'on' : ''}`} role="switch" aria-checked={spec.lift} onClick={() => set({ lift: !spec.lift })}>
           <LiftIcon size={18} />
-          Ascensor
+          {t.liftCap}
           <span className="switch" aria-hidden="true" />
         </button>
       </div>
 
       <div className="estimate" aria-live="polite">
-        <span className="estimate-label">Valoración estimada</span>
+        <span className="estimate-label">{t.estimate}</span>
         <b className="estimate-price">{euros(estimate)}</b>
         <span className="estimate-range">
-          Entre {euros(rounded(v.price - mae))} y {euros(rounded(v.price + mae))}
+          {t.range(rounded(v.price - mae), rounded(v.price + mae))}
         </span>
         <div className="estimate-meta">
-          <span>{euros(Math.round(perM2))}/m²</span>
-          <span>Regresión {euros(rounded(v.regression))}</span>
-          <span>Comparables {euros(rounded(v.comparablesPrice))}</span>
+          <span>{t.perM2(Math.round(perM2))}</span>
+          <span>
+            {t.regression} {euros(rounded(v.regression))}
+          </span>
+          <span>
+            {t.comps} {euros(rounded(v.comparablesPrice))}
+          </span>
         </div>
       </div>
 
@@ -214,29 +207,26 @@ export function ValuationPanel(p: Props) {
         <InfoIcon />
         <div>
           <b>
-            {Math.abs(vsZone) < 0.03 ? 'En la media de la zona' : vsZone > 0 ? 'Por encima de la media de la zona' : 'Por debajo de la media de la zona'} ·{' '}
+            {Math.abs(vsZone) < 0.03 ? t.atAvg : vsZone > 0 ? t.aboveAvg : t.belowAvg} ·{' '}
             {pct(vsZone)}
           </b>
-          <span>
-            El m² medio en {ZONES[spec.zone].name} es de {euros(Math.round(zoneM2))}. El rango usa el error medio del modelo con viviendas
-            que no ha visto ({euros(Math.round(mae))}).
-          </span>
+          <span>{t.zoneNote(t.zoneName[spec.zone], Math.round(zoneM2), Math.round(mae))}</span>
         </div>
       </div>
 
       <fieldset className="form-block ask">
-        <legend>¿A qué precio la anuncias?</legend>
+        <legend>{t.askQ}</legend>
         <div className="ask-options" role="group">
           {ASK_OPTIONS.map((a) => (
             <button key={a} className={a === askPct ? 'on' : ''} aria-pressed={a === askPct} onClick={() => setAskPct(a)}>
-              {a === 0 ? 'Valoración' : pct(a)}
+              {a === 0 ? t.valuation : pct(a)}
             </button>
           ))}
         </div>
         <p className="ask-meta">
-          <span className={`badge badge-${TAG_TONE[tag]}`}>{TAG_LABEL[tag]}</span>
+          <span className={`badge badge-${TAG_TONE[tag]}`}>{t.tag[tag]}</span>
           <span>
-            <ClockIcon size={14} /> Se vendería en ~{num(days)} días
+            <ClockIcon size={14} /> {t.sellIn(days)}
           </span>
         </p>
       </fieldset>
@@ -257,12 +247,12 @@ export function ValuationPanel(p: Props) {
             })
           }
         >
-          <span>Publicar anuncio</span>
+          <span>{t.publish}</span>
           <span className="cta-price">{euros(asking)}</span>
         </button>
         <p id="price-note" className="price-note">
           <InfoIcon size={14} />
-          Estimación orientativa, no es una tasación oficial.
+          {t.priceNote}
         </p>
       </div>
     </section>

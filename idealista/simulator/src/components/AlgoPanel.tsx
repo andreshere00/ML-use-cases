@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { euros, keur, num, pct } from '../format'
-import { TRAIN, TRUE_COEFS, ZONES, type HomeSpec } from '../sim/market'
-import { BASELINE, FEATURES, GD_HISTORY, MODEL } from '../sim/regression'
+import { euros, keur, num } from '../format'
+import { useT } from '../i18n'
+import { TRAIN, TRUE_COEFS, type HomeSpec } from '../sim/market'
+import { BASELINE, GD_HISTORY, MODEL } from '../sim/regression'
 import { explain, maeCurve, rounded, testMAE, type Valuation } from '../sim/valuation'
 
 function Card(props: { step: number; title: string; question: string; children: React.ReactNode }) {
@@ -36,9 +37,9 @@ function useIteration(count: number): number {
 }
 
 const REAL = [TRUE_COEFS.area, TRUE_COEFS.beds, TRUE_COEFS.zoneB, TRUE_COEFS.zoneC, TRUE_COEFS.renovated, TRUE_COEFS.lift]
-const UNIT = ['€/m²', '€', '€', '€', '€', '€']
 
 function RegressionCard({ v }: { v: Valuation }) {
+  const t = useT()
   const it = useIteration(GD_HISTORY.length)
   const step = GD_HISTORY[it]
   const W = 300
@@ -48,9 +49,9 @@ function RegressionCard({ v }: { v: Valuation }) {
   const sy = (m: number) => H - 6 - (m / maxMae) * (H - 14)
   const line = GD_HISTORY.map((h, i) => `${i ? 'L' : 'M'}${sx(i).toFixed(1)},${sy(h.mae).toFixed(1)}`).join(' ')
   return (
-    <Card step={1} title="Regresión lineal" question="¿Cuánto vale cada característica en todo el mercado?">
-      <ul className="coefs" aria-label={`Iteración ${step.iteration} del descenso de gradiente`}>
-        {FEATURES.map((f, j) => {
+    <Card step={1} title={t.regTitle} question={t.regQ}>
+      <ul className="coefs" aria-label={t.gdAria(step.iteration)}>
+        {t.feature.map((f, j) => {
           const ratio = step.coefs[j] / REAL[j]
           return (
             <li key={f}>
@@ -60,39 +61,39 @@ function RegressionCard({ v }: { v: Valuation }) {
                 <span className="coef-real" style={{ left: '80%' }} />
               </span>
               <span className="coef-value">
-                {num(step.coefs[j])} {UNIT[j]}
+                {j === 0 ? t.perM2(Math.round(step.coefs[j])) : euros(Math.round(step.coefs[j]))}
               </span>
             </li>
           )
         })}
       </ul>
-      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={`Error en entrenamiento ${euros(Math.round(step.mae))}`}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={t.trainErrorAria(Math.round(step.mae))}>
         <line x1={4} y1={H - 6} x2={W - 4} y2={H - 6} className="axis" />
         <path d={line} className="line line-muted" />
         <circle cx={sx(it)} cy={sy(step.mae)} r={4.5} className="now" />
         <text x={W - 4} y={10} className="axis-label" textAnchor="end">
-          error en entrenamiento: {euros(Math.round(step.mae))}
+          {t.trainError(Math.round(step.mae))}
         </text>
       </svg>
       <p className="iteration">
-        <b>Iteración {step.iteration} de 300</b>
-        {it === GD_HISTORY.length - 1 ? ' · los pesos casi no cambian: ha convergido' : ' · cada paso corrige los pesos contra el error'}
+        <b>{t.iteration(step.iteration)}</b>
+        {it === GD_HISTORY.length - 1 ? t.converged : t.correcting}
       </p>
       <div className="legend-row">
         <span>
-          <i style={{ background: 'var(--content)' }} /> Peso aprendido
+          <i style={{ background: 'var(--content)' }} /> {t.learnedWeight}
         </span>
         <span>
-          <i className="tick" /> Valor real de la fórmula
+          <i className="tick" /> {t.trueValue}
         </span>
       </div>
       <dl className="calc">
         <div>
-          <dt>Intercepto (mínimos cuadrados)</dt>
+          <dt>{t.intercept}</dt>
           <dd>{euros(Math.round(MODEL.intercept))}</dd>
         </div>
         <div className="total">
-          <dt>Precio según la regresión</dt>
+          <dt>{t.regPrice}</dt>
           <dd>{euros(Math.round(v.regression))}</dd>
         </div>
       </dl>
@@ -101,6 +102,8 @@ function RegressionCard({ v }: { v: Valuation }) {
 }
 
 function ComparablesCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
+  const t = useT()
+  const zone = t.zoneName[spec.zone]
   const W = 300
   const H = 140
   const zoneRows = useMemo(() => TRAIN.filter((h) => h.zone === spec.zone), [spec.zone])
@@ -108,8 +111,8 @@ function ComparablesCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
   const sx = (a: number) => 30 + ((a - 45) / 95) * (W - 40)
   const sy = (pr: number) => H - 20 - ((pr - 100000) / 420000) * (H - 30)
   return (
-    <Card step={2} title="Comparables" question="¿A cuánto se han vendido las más parecidas de la zona?">
-      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={`${v.comparables.length} comparables en ${ZONES[spec.zone].name}, media ${euros(Math.round(v.comparablesPrice))}`}>
+    <Card step={2} title={t.compTitle} question={t.compQ}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={t.compAria(v.comparables.length, zone, Math.round(v.comparablesPrice))}>
         <line x1={30} y1={H - 20} x2={W - 6} y2={H - 20} className="axis" />
         <line x1={30} y1={6} x2={30} y2={H - 20} className="axis" />
         {[50, 80, 110, 140].map((a) => (
@@ -134,23 +137,23 @@ function ComparablesCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
       </svg>
       <div className="legend-row">
         <span>
-          <i style={{ background: 'var(--border-strong)' }} /> Viviendas de {ZONES[spec.zone].name}
+          <i style={{ background: 'var(--border-strong)' }} /> {t.homesIn(zone)}
         </span>
         <span>
-          <i style={{ background: 'var(--accent)' }} /> Comparables
+          <i style={{ background: 'var(--accent)' }} /> {t.comps}
         </span>
         <span>
-          <i style={{ background: 'var(--brand-strong)' }} /> Tu vivienda
+          <i style={{ background: 'var(--brand-strong)' }} /> {t.yourHome}
         </span>
       </div>
       <table className="comp-table">
         <thead>
           <tr>
             <th>m²</th>
-            <th>Dorm.</th>
-            <th>Extras</th>
-            <th>Distancia</th>
-            <th>Precio</th>
+            <th>{t.thBeds}</th>
+            <th>{t.thExtras}</th>
+            <th>{t.thDistance}</th>
+            <th>{t.thPrice}</th>
           </tr>
         </thead>
         <tbody>
@@ -159,8 +162,8 @@ function ComparablesCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
               <td>{h.area}</td>
               <td>{h.beds}</td>
               <td>
-                {h.renovated ? 'R' : '·'}
-                {h.lift ? 'A' : '·'}
+                {h.renovated ? t.extraR : '·'}
+                {h.lift ? t.extraL : '·'}
               </td>
               <td>{num(distance, 2)}</td>
               <td>{keur(h.price)}</td>
@@ -170,16 +173,17 @@ function ComparablesCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
       </table>
       <dl className="calc">
         <div className="total">
-          <dt>Media de {v.comparables.length} comparables</dt>
+          <dt>{t.compMean(v.comparables.length)}</dt>
           <dd>{euros(Math.round(v.comparablesPrice))}</dd>
         </div>
       </dl>
-      <p className="note">Distancia = (Δm²/30)² + (Δdorm./2)² + 0,25 por cada diferencia de reforma (R) o ascensor (A).</p>
+      <p className="note">{t.distanceNote}</p>
     </Card>
   )
 }
 
 function BlendCard({ v, k }: { v: Valuation; k: number }) {
+  const t = useT()
   const W = 300
   const H = 120
   const curve = useMemo(() => maeCurve(k), [k])
@@ -191,15 +195,15 @@ function BlendCard({ v, k }: { v: Valuation; k: number }) {
   const line = curve.map((c, i) => `${i ? 'L' : 'M'}${sx(c.w).toFixed(1)},${sy(c.mae).toFixed(1)}`).join(' ')
   const mae = testMAE(v.w, k)
   return (
-    <Card step={3} title="Mezcla" question="¿Cuánto pesa cada método para equivocarse menos?">
-      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={`Con peso ${num(v.w, 2)} el error medio es ${euros(Math.round(mae))}`}>
+    <Card step={3} title={t.blendTitle} question={t.blendQ}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={t.blendAria(v.w, Math.round(mae))}>
         <line x1={34} y1={H - 20} x2={W - 6} y2={H - 20} className="axis" />
         <line x1={34} y1={6} x2={34} y2={H - 20} className="axis" />
         <text x={sx(0)} y={H - 6} className="axis-label" textAnchor="start">
-          solo comparables
+          {t.onlyComps}
         </text>
         <text x={sx(1)} y={H - 6} className="axis-label" textAnchor="end">
-          solo regresión
+          {t.onlyReg}
         </text>
         {[lo, hi].map((m) => (
           <text key={m} x={30} y={sy(m) + 3} className="axis-label" textAnchor="end">
@@ -212,10 +216,10 @@ function BlendCard({ v, k }: { v: Valuation; k: number }) {
       </svg>
       <div className="legend-row">
         <span>
-          <i style={{ background: 'var(--accent)' }} /> Error medio con 120 viviendas no vistas
+          <i style={{ background: 'var(--accent)' }} /> {t.unseenError}
         </span>
         <span>
-          <i className="dashed" /> Óptimo en w = {num(best.w, 2)}
+          <i className="dashed" /> {t.best(best.w)}
         </span>
       </div>
       <dl className="calc">
@@ -226,40 +230,42 @@ function BlendCard({ v, k }: { v: Valuation; k: number }) {
           <dd>{euros(Math.round(v.price))}</dd>
         </div>
         <div>
-          <dt>Error medio (MAE) con este peso</dt>
+          <dt>{t.maeAtWeight}</dt>
           <dd>{euros(Math.round(mae))}</dd>
         </div>
         <div className="total">
-          <dt>Valoración (redondeada)</dt>
+          <dt>{t.roundedValuation}</dt>
           <dd>{euros(rounded(v.price))}</dd>
         </div>
       </dl>
-      <p className="note">Mueve «Peso de la regresión» arriba: la regresión generaliza, los comparables capturan lo local.</p>
+      <p className="note">{t.blendNote}</p>
     </Card>
   )
 }
 
 function ExplainCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
+  const t = useT()
   const parts = explain(spec, v)
   const W = 300
   const ROW = 20
   const H = (parts.length + 2) * ROW + 6
   const steps: { label: string; from: number; to: number; kind: 'base' | 'up' | 'down' | 'total' }[] = []
   let acc = BASELINE
-  steps.push({ label: 'Media', from: 0, to: BASELINE, kind: 'base' })
+  steps.push({ label: t.average, from: 0, to: BASELINE, kind: 'base' })
   for (const p of parts) {
-    steps.push({ label: p.label, from: acc, to: acc + p.value, kind: p.value >= 0 ? 'up' : 'down' })
+    steps.push({ label: t.contribution[p.id], from: acc, to: acc + p.value, kind: p.value >= 0 ? 'up' : 'down' })
     acc += p.value
   }
-  steps.push({ label: 'Tu vivienda', from: 0, to: acc, kind: 'total' })
+  steps.push({ label: t.yourHome, from: 0, to: acc, kind: 'total' })
   const values = steps.flatMap((s) => (s.kind === 'base' || s.kind === 'total' ? [s.to] : [s.from, s.to]))
   const lo = Math.min(...values) - 25000
   const hi = Math.max(...values) + 15000
   const sx = (x: number) => 86 + ((x - lo) / (hi - lo)) * (W - 150)
   const top = parts.reduce((a, b) => (Math.abs(b.value) > Math.abs(a.value) ? b : a))
+  const note = t.explainNote(Math.round(BASELINE), t.contribution[top.id], top.value / BASELINE)
   return (
-    <Card step={4} title="Explicabilidad" question="¿Por qué este precio y no otro?">
-      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={`Desde la media ${euros(Math.round(BASELINE))} hasta ${euros(Math.round(acc))}`}>
+    <Card step={4} title={t.explainTitle} question={t.explainQ}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="chart" role="img" aria-label={t.explainAria(Math.round(BASELINE), Math.round(acc))}>
         {steps.map((s, i) => {
           const y = 4 + i * ROW
           const x0 = s.kind === 'base' || s.kind === 'total' ? sx(lo) : sx(Math.min(s.from, s.to))
@@ -279,20 +285,21 @@ function ExplainCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
         })}
       </svg>
       <p className="note">
-        Parte de la valoración media ({euros(Math.round(BASELINE))}). Lo que más mueve tu precio: <b>{top.label.toLowerCase()}</b> (
-        {pct(top.value / BASELINE, 1)}). Cada barra es exacta: peso × coeficiente × (tu valor − media); los comparables aportan
-        (1 − w) × (su media − la media).
+        {note[0]}
+        <b>{note[1]}</b>
+        {note[2]}
       </p>
     </Card>
   )
 }
 
 export function AlgoPanel({ spec, valuation, k }: { spec: HomeSpec; valuation: Valuation; k: number }) {
+  const t = useT()
   return (
-    <section className="panel algo" aria-label="Algoritmos">
-      <h2>Cómo se calcula el precio</h2>
+    <section className="panel algo" aria-label={t.algorithms}>
+      <h2>{t.howTitle}</h2>
       <p className="muted">
-        {spec.area} m² · {spec.beds} dorm. · {ZONES[spec.zone].name}
+        {spec.area} m² · {spec.beds} {t.beds} · {t.zoneName[spec.zone]}
       </p>
       <RegressionCard v={valuation} />
       <ComparablesCard spec={spec} v={valuation} />
