@@ -290,7 +290,7 @@ function ExplainCard({ spec, v }: { spec: HomeSpec; v: Valuation }) {
 export function AlgoPanel({ spec, valuation, k }: { spec: HomeSpec; valuation: Valuation; k: number }) {
   return (
     <section className="panel algo" aria-label="Algoritmos">
-      <h2>Bajo el capó</h2>
+      <h2>Cómo se calcula el precio</h2>
       <p className="muted">
         {spec.area} m² · {spec.beds} dorm. · {ZONES[spec.zone].name}
       </p>

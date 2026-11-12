@@ -222,7 +222,7 @@ Qué se ve en el simulador:
 - **Mapa de precios:** las 360 viviendas de entrenamiento coloreadas por €/m² y los comparables elegidos.
 - **Nuevos anuncios:** cada día se publica una vivienda que el modelo no ha visto; se valora y se etiqueta como buen precio, ajustado o alto.
 - **Tu anuncio:** elige el precio de salida, publícalo y mira cuánto tarda en venderse.
-- **Modelo:** cambia el peso de la regresión y el número de comparables y sigue los cuatro pasos en *Bajo el capó*.
+- **Modelo:** cambia el peso de la regresión y el número de comparables y sigue los cuatro pasos en *Cómo se calcula el precio*.
 
 `pnpm test` comprueba que reproduce los coeficientes, los comparables y el MAE del notebook. Más detalles en [`idealista/simulator/README.md`](idealista/simulator/README.md).
 
@@ -454,7 +454,7 @@ What the simulator shows:
 - **Price map:** the 360 training homes coloured by €/m², plus the chosen comparables.
 - **New listings:** every day a home the model has not seen is listed, valued and tagged as a good, fair or high price.
 - **Your listing:** choose the asking price, publish it and see how long it takes to sell.
-- **Model:** change the regression weight and the number of comparables and follow the four steps in *Bajo el capó* (under the hood).
+- **Model:** change the regression weight and the number of comparables and follow the four steps in *Cómo se calcula el precio* (how the price is worked out).
 
 The interface is in Spanish. `pnpm test` checks that it reproduces the notebook's coefficients, comparables and MAE. More details (in Spanish) in [`idealista/simulator/README.md`](idealista/simulator/README.md).
 
