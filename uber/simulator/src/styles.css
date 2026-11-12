@@ -699,6 +699,13 @@ input {
   gap: 4px;
   color: var(--content) !important;
   font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.product-nearby {
+  flex-basis: 100%;
+  color: var(--content-secondary);
+  font-weight: 400;
 }
 
 .cta {
@@ -980,6 +987,24 @@ input {
   transition: transform 1.6s linear;
 }
 
+.driver-ring {
+  transition: transform 1.6s linear;
+}
+
+.driver-ring circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-dasharray: 4 3;
+  animation: driver-spin 4s linear infinite;
+}
+
+@keyframes driver-spin {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
 .car-body {
   fill: var(--content);
   stroke: #fff;
@@ -1161,6 +1186,13 @@ input {
 .lg-car-fast {
   box-shadow: -5px 0 0 -2px rgba(0, 0, 0, 0.35);
   margin-left: 4px;
+}
+
+.lg-driver {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px dashed var(--accent);
 }
 
 .lg-other {

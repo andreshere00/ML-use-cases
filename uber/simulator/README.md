@@ -22,6 +22,12 @@ Demo en React + TypeScript que imita una app de viajes y encadena, en cada tick 
   - encuentra conductor con más o menos suerte según el ratio demanda/oferta de su zona;
   - se ven esperando en el mapa y en el panel *Otros pasajeros*.
 - **Tu viaje:** elige recogida, destino y vehículo. El precio queda fijado al confirmar.
+- **Espera hasta la recogida** (`src/sim/traffic.ts`):
+  - cada coche del mapa es UberX, Comfort o Black (70/20/10 %);
+  - cuando faltan conductores (R > 1), menos coches están libres;
+  - la espera de cada vehículo es lo que tarda el coche libre más cercano en llegar por las calles, según su velocidad y la lluvia;
+  - por eso cambia en cada tick, es mayor para Black y se ve cuántos hay libres en tu zona;
+  - un anillo marca ese coche en el mapa, y al confirmar es él quien va a recogerte.
 - **Bajo el capó:** cada algoritmo, con sus números del tick actual. El k-means se anima iteración a iteración.
 - **Escenarios:** lluvia, concierto y reactividad η del bucle de precio.
 

@@ -9,6 +9,8 @@ export interface Trip {
   waitMinutes: number
   tripMinutes: number
   startedAt: number
+  /** Coche del mapa que acude: sale de `from` y su calle marca por dónde empieza el recorrido. */
+  driver: { id: string; from: [number, number]; horizontal: boolean }
 }
 
 export type TripPhase = 'searching' | 'pickup' | 'ontrip' | 'done'

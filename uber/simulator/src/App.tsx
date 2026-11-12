@@ -6,6 +6,8 @@ import { RiderPanel } from './components/RiderPanel'
 import { TopBar } from './components/TopBar'
 import { EVENT_TICKS, LAST_TICK, initSim, refreshSim, stepSim, type SimState } from './sim/engine'
 import { otherRides } from './sim/riders'
+import { pickupEstimates } from './sim/traffic'
+import { ZONE_BY_ID } from './sim/world'
 import { useTripProgress, type Trip } from './trip'
 
 type Action =
@@ -45,6 +47,9 @@ export function App() {
   const progress = useTripProgress(trip)
   const finished = sim.tick >= LAST_TICK
   const others = useMemo(() => otherRides(sim), [sim])
+  const [productId, setProductId] = useState('x')
+  const estimates = useMemo(() => pickupEstimates(sim, ZONE_BY_ID[pickupId]), [sim, pickupId])
+  const driver = estimates.find((e) => e.product.id === productId)?.driver ?? null
 
   useEffect(() => {
     if (!playing || finished) return
@@ -91,6 +96,9 @@ export function App() {
             activeField={activeField}
             trip={trip}
             progress={progress}
+            estimates={estimates}
+            productId={productId}
+            onProduct={setProductId}
             onPickup={setPickupId}
             onDest={setDestId}
             onActiveField={setActiveField}
@@ -102,6 +110,7 @@ export function App() {
         <CityMap
           sim={sim}
           others={others}
+          driver={driver}
           pickupId={pickupId}
           destId={destId}
           activeField={activeField}

@@ -5,7 +5,8 @@ import { forecastDemand, liveDeviation, weightedBase } from './forecast'
 import { loopStep } from './pricing'
 import { equilibrium, demandAt, fitElasticity } from './regression'
 import { acceptChance, otherRides } from './riders'
-import { CLUSTERS, KIND_BY_ZONE } from './world'
+import { pickupEstimates } from './traffic'
+import { CLUSTERS, KIND_BY_ZONE, ZONES } from './world'
 
 describe('series temporales', () => {
   it('pronostica 165 solicitudes para Centro, viernes 18:00 con lluvia', () => {
@@ -85,5 +86,25 @@ describe('otros pasajeros', () => {
     expect(otherRides(state)).toEqual(otherRides(state))
     expect(acceptChance(1)).toBe(1)
     expect(acceptChance(2)).toBeLessThan(acceptChance(1.5))
+  })
+})
+
+describe('espera hasta la recogida', () => {
+  it('depende del conductor libre más cercano: cambia con el tiempo y es mayor para Black', () => {
+    let state = initSim(false)
+    const waits: Record<string, number[]> = { x: [], comfort: [], black: [] }
+    for (let i = 0; i < 40; i++) {
+      state = stepSim(state)
+      for (const zone of ZONES)
+        for (const e of pickupEstimates(state, zone)) {
+          waits[e.product.id].push(e.minutes)
+          expect(e.minutes).toBeGreaterThanOrEqual(1)
+          expect(e.minutes).toBeLessThanOrEqual(25)
+        }
+    }
+    const mean = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length
+    expect(new Set(waits.x).size).toBeGreaterThan(3)
+    expect(mean(waits.black)).toBeGreaterThan(mean(waits.x))
+    expect(pickupEstimates(state, ZONES[0])).toEqual(pickupEstimates(state, ZONES[0]))
   })
 })

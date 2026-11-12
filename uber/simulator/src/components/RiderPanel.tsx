@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { euros, mult, num } from '../format'
 import { current, type SimState } from '../sim/engine'
-import { PRODUCTS, baseFare, pickupMinutes, tripKm, tripMinutes } from '../sim/fare'
+import { baseFare, tripKm, tripMinutes } from '../sim/fare'
+import type { PickupEstimate } from '../sim/traffic'
 import { ZONES, ZONE_BY_ID } from '../sim/world'
 import type { Trip, TripProgress } from '../trip'
 import { BoltIcon, ClockIcon, InfoIcon, LockIcon, MapIcon, PersonIcon, SwapIcon } from './Icons'
@@ -14,6 +14,10 @@ interface Props {
   activeField: 'pickup' | 'dest'
   trip: Trip | null
   progress: TripProgress | null
+  /** Espera de cada vehículo según el conductor libre más cercano. */
+  estimates: PickupEstimate[]
+  productId: string
+  onProduct: (id: string) => void
   onPickup: (id: string) => void
   onDest: (id: string) => void
   onActiveField: (field: 'pickup' | 'dest') => void
@@ -142,8 +146,6 @@ function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
 }
 
 export function RiderPanel(p: Props) {
-  const [productId, setProductId] = useState('x')
-
   if (p.trip && p.progress) return <TripView {...p} trip={p.trip} progress={p.progress} />
 
   const pickup = ZONE_BY_ID[p.pickupId]
@@ -153,11 +155,11 @@ export function RiderPanel(p: Props) {
   const minutes = tripMinutes(km, p.sim.rain)
   const surge = zone.m > 1.045
   const sameZone = p.pickupId === p.destId
-  const options = PRODUCTS.map((product) => {
+  const options = p.estimates.map(({ product, driver, minutes: wait, nearby }) => {
     const base = baseFare(product, km, minutes)
-    return { product, base, price: base * zone.m, wait: pickupMinutes(zone.ratio, p.sim.rain, product) }
+    return { product, base, price: base * zone.m, wait, nearby, driver }
   })
-  const selected = options.find((o) => o.product.id === productId)!
+  const selected = options.find((o) => o.product.id === p.productId)!
   const swap = () => {
     p.onPickup(p.destId)
     p.onDest(p.pickupId)
@@ -228,15 +230,15 @@ export function RiderPanel(p: Props) {
 
       <fieldset className="products">
         <legend>Elige un vehículo</legend>
-        {options.map(({ product, base, price, wait }) => (
-          <label key={product.id} className={`product ${product.id === productId ? 'selected' : ''}`}>
+        {options.map(({ product, base, price, wait, nearby, driver }) => (
+          <label key={product.id} className={`product ${product.id === p.productId ? 'selected' : ''}`}>
             <input
               type="radio"
               name="product"
               className="visually-hidden"
               value={product.id}
-              checked={product.id === productId}
-              onChange={() => setProductId(product.id)}
+              checked={product.id === p.productId}
+              onChange={() => p.onProduct(product.id)}
             />
             <span className="product-icon">
               <VehicleArt id={product.id} />
@@ -251,7 +253,10 @@ export function RiderPanel(p: Props) {
               </span>
               <span className="product-eta">
                 <ClockIcon size={14} />
-                Llega en {wait} min
+                {driver ? `Llega en ${wait} min` : 'Sin conductores libres'}{' '}
+                <span className="product-nearby">
+                  {nearby === 0 ? 'ninguno en la zona' : nearby === 1 ? '1 libre en la zona' : `${nearby} libres en la zona`}
+                </span>
               </span>
               <span>{product.description}</span>
             </span>
@@ -271,9 +276,10 @@ export function RiderPanel(p: Props) {
       <div className="cta">
         <button
           className="btn btn-primary btn-block btn-large"
-          disabled={sameZone}
+          disabled={sameZone || !selected.driver}
           aria-describedby={sameZone ? 'route-error' : 'price-note'}
           onClick={() =>
+            selected.driver &&
             p.onRequest({
               pickupId: p.pickupId,
               destId: p.destId,
@@ -283,6 +289,11 @@ export function RiderPanel(p: Props) {
               waitMinutes: selected.wait,
               tripMinutes: minutes,
               startedAt: performance.now(),
+              driver: {
+                id: selected.driver.car.id,
+                from: selected.driver.car.pos,
+                horizontal: selected.driver.car.horizontal,
+              },
             })
           }
         >
