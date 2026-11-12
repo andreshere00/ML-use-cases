@@ -55,6 +55,31 @@ Los exploradores interactivos también funcionan sin conexión: abre en el naveg
 - `spotify/<idioma>/spotify-clustering.html`
 - [`general/en/presentation.html`](general/en/presentation.html): la serie completa en un solo archivo.
 
+### Lanzar todo a la vez
+
+Desde la raíz del repositorio, un solo comando arranca las diez presentaciones, los dos simuladores y JupyterLab:
+
+```bash
+./start-all.sh
+```
+
+| Servidor | URL |
+|---|---|
+| Serie general (`es`, `en`) | http://localhost:3030, http://localhost:3031 |
+| idealista (`es`, `en`) | http://localhost:3032, http://localhost:3033 |
+| Cabify (`es`, `en`) | http://localhost:3034, http://localhost:3035 |
+| Spotify (`es`, `en`) | http://localhost:3036, http://localhost:3037 |
+| Uber (`es`, `en`) | http://localhost:3038, http://localhost:3039 |
+| Simulador Uber | http://localhost:5183 |
+| Simulador idealista | http://localhost:5184 |
+| Notebooks (JupyterLab) | http://localhost:8888/lab |
+
+- Instala las dependencias que falten (`pnpm install` en cada carpeta sin `node_modules/` y `uv sync` en `notebooks/`). Si no tienes pnpm, usa `npx pnpm@10`.
+- No abre pestañas en el navegador: entra en la URL que quieras. Cada presentación sirve también `/presenter` y `/overview`.
+- Para lanzar solo una parte, indica los grupos: `./start-all.sh slides`, `./start-all.sh sims` o `./start-all.sh notebooks` (se pueden combinar).
+- La salida de cada servidor queda en `tmp/start-all/<servidor>.log`.
+- `Ctrl+C` los detiene todos.
+
 ### Lanzar servidor de presentaciones
 
 Desde la carpeta de la presentación que quieras:
@@ -251,6 +276,31 @@ The interactive explorers also work offline: open the `.html` file in each folde
 - `idealista/<language>/idealista-valuation.html`
 - `spotify/<language>/spotify-clustering.html`
 - [`general/en/presentation.html`](general/en/presentation.html): the full series in a single file.
+
+### Run everything at once
+
+From the repository root, one command starts the ten presentations, both simulators and JupyterLab:
+
+```bash
+./start-all.sh
+```
+
+| Server | URL |
+|---|---|
+| General series (`es`, `en`) | http://localhost:3030, http://localhost:3031 |
+| idealista (`es`, `en`) | http://localhost:3032, http://localhost:3033 |
+| Cabify (`es`, `en`) | http://localhost:3034, http://localhost:3035 |
+| Spotify (`es`, `en`) | http://localhost:3036, http://localhost:3037 |
+| Uber (`es`, `en`) | http://localhost:3038, http://localhost:3039 |
+| Uber simulator | http://localhost:5183 |
+| idealista simulator | http://localhost:5184 |
+| Notebooks (JupyterLab) | http://localhost:8888/lab |
+
+- It installs any missing dependencies (`pnpm install` in every folder without `node_modules/`, and `uv sync` in `notebooks/`). Without pnpm installed, it uses `npx pnpm@10`.
+- It does not open browser tabs: go to the URL you want. Each presentation also serves `/presenter` and `/overview`.
+- To start only part of it, name the groups: `./start-all.sh slides`, `./start-all.sh sims` or `./start-all.sh notebooks` (they can be combined).
+- Each server's output goes to `tmp/start-all/<server>.log`.
+- `Ctrl+C` stops them all.
 
 ### Run the presentation server
 
