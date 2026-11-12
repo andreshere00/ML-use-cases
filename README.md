@@ -33,6 +33,7 @@ Cada carpeta de idioma (`<caso>/en`, `<caso>/es`) es un proyecto Slidev independ
 |---|---|
 | Presentaciones y simuladores | [Node.js](https://nodejs.org) 22.12+ y [pnpm](https://pnpm.io) (`npm install -g pnpm`, o `npx pnpm@10 …` sin instalar) |
 | Notebooks | Python 3.12+ y [uv](https://docs.astral.sh/uv/) |
+| Comandos `bun run …` (opcional) | [Bun](https://bun.sh); o usa `npm run …` o `./start-all.sh` |
 
 Solo hace falta lo que vayas a usar. Para ver los PDF y los HTML no se necesita nada.
 
@@ -57,28 +58,33 @@ Los exploradores interactivos también funcionan sin conexión: abre en el naveg
 
 ### Lanzar todo a la vez
 
-Desde la raíz del repositorio, un solo comando arranca las diez presentaciones, los dos simuladores y JupyterLab:
+Desde la raíz del repositorio hay un comando de [Bun](https://bun.sh) para cada cosa. También funcionan con `npm run <script>` o directamente con `./start-all.sh`.
 
 ```bash
-./start-all.sh
+bun run start
 ```
 
-| Servidor | URL |
-|---|---|
-| Serie general (`es`, `en`) | http://localhost:3030, http://localhost:3031 |
-| idealista (`es`, `en`) | http://localhost:3032, http://localhost:3033 |
-| Cabify (`es`, `en`) | http://localhost:3034, http://localhost:3035 |
-| Spotify (`es`, `en`) | http://localhost:3036, http://localhost:3037 |
-| Uber (`es`, `en`) | http://localhost:3038, http://localhost:3039 |
-| Simulador Uber | http://localhost:5183 |
-| Simulador idealista | http://localhost:5184 |
-| Notebooks (JupyterLab) | http://localhost:8888/lab |
+| Comando | Qué lanza | URL |
+|---|---|---|
+| `bun run start` | Todo: las diez presentaciones, los dos simuladores y JupyterLab | (todas las de abajo) |
+| `bun run slides` | Las diez presentaciones | http://localhost:3030 – 3039 |
+| `bun run slides:general:es` · `:en` | Serie general | http://localhost:3030 · 3031 |
+| `bun run slides:idealista:es` · `:en` | idealista | http://localhost:3032 · 3033 |
+| `bun run slides:cabify:es` · `:en` | Cabify | http://localhost:3034 · 3035 |
+| `bun run slides:spotify:es` · `:en` | Spotify | http://localhost:3036 · 3037 |
+| `bun run slides:uber:es` · `:en` | Uber | http://localhost:3038 · 3039 |
+| `bun run sims` | Los dos simuladores | http://localhost:5183 · 5184 |
+| `bun run sim:uber` | Simulador Uber | http://localhost:5183 |
+| `bun run sim:idealista` | Simulador idealista | http://localhost:5184 |
+| `bun run notebooks` | JupyterLab con los notebooks | http://localhost:8888/lab |
+| `bun run setup` | Solo instala las dependencias que falten | — |
+| `bun run test` | Tests de los dos simuladores (`test:uber`, `test:idealista`) | — |
 
-- Instala las dependencias que falten (`pnpm install` en cada carpeta sin `node_modules/` y `uv sync` en `notebooks/`). Si no tienes pnpm, usa `npx pnpm@10`.
+- Antes de lanzar, instala las dependencias que falten (`pnpm install` en cada carpeta sin `node_modules/` y `uv sync` en `notebooks/`). Si no tienes pnpm, usa `npx pnpm@10`.
 - No abre pestañas en el navegador: entra en la URL que quieras. Cada presentación sirve también `/presenter` y `/overview`.
-- Para lanzar solo una parte, indica los grupos: `./start-all.sh slides`, `./start-all.sh sims` o `./start-all.sh notebooks` (se pueden combinar).
-- La salida de cada servidor queda en `tmp/start-all/<servidor>.log`.
+- Con un solo servidor, su salida se ve en la terminal. Con varios, queda en `tmp/start-all/<servidor>.log`.
 - `Ctrl+C` los detiene todos.
+- `./start-all.sh` acepta grupos (`slides`, `sims`, `notebooks`) y servidores concretos (`uber-es`, `uber-sim`…) combinados: `./start-all.sh uber-es uber-sim`. Lista completa con `./start-all.sh --help`.
 
 ### Lanzar servidor de presentaciones
 
@@ -255,6 +261,7 @@ Each language folder (`<case>/en`, `<case>/es`) is an independent Slidev project
 |---|---|
 | Presentations and simulators | [Node.js](https://nodejs.org) 22.12+ and [pnpm](https://pnpm.io) (`npm install -g pnpm`, or `npx pnpm@10 …` without installing) |
 | Notebooks | Python 3.12+ and [uv](https://docs.astral.sh/uv/) |
+| `bun run …` commands (optional) | [Bun](https://bun.sh); or use `npm run …` or `./start-all.sh` |
 
 You only need what you plan to use. The PDF and HTML files need nothing.
 
@@ -279,28 +286,33 @@ The interactive explorers also work offline: open the `.html` file in each folde
 
 ### Run everything at once
 
-From the repository root, one command starts the ten presentations, both simulators and JupyterLab:
+From the repository root there is a [Bun](https://bun.sh) command for each thing. They also work with `npm run <script>` or straight through `./start-all.sh`.
 
 ```bash
-./start-all.sh
+bun run start
 ```
 
-| Server | URL |
-|---|---|
-| General series (`es`, `en`) | http://localhost:3030, http://localhost:3031 |
-| idealista (`es`, `en`) | http://localhost:3032, http://localhost:3033 |
-| Cabify (`es`, `en`) | http://localhost:3034, http://localhost:3035 |
-| Spotify (`es`, `en`) | http://localhost:3036, http://localhost:3037 |
-| Uber (`es`, `en`) | http://localhost:3038, http://localhost:3039 |
-| Uber simulator | http://localhost:5183 |
-| idealista simulator | http://localhost:5184 |
-| Notebooks (JupyterLab) | http://localhost:8888/lab |
+| Command | What it starts | URL |
+|---|---|---|
+| `bun run start` | Everything: the ten presentations, both simulators and JupyterLab | (all of the below) |
+| `bun run slides` | The ten presentations | http://localhost:3030 – 3039 |
+| `bun run slides:general:es` · `:en` | General series | http://localhost:3030 · 3031 |
+| `bun run slides:idealista:es` · `:en` | idealista | http://localhost:3032 · 3033 |
+| `bun run slides:cabify:es` · `:en` | Cabify | http://localhost:3034 · 3035 |
+| `bun run slides:spotify:es` · `:en` | Spotify | http://localhost:3036 · 3037 |
+| `bun run slides:uber:es` · `:en` | Uber | http://localhost:3038 · 3039 |
+| `bun run sims` | Both simulators | http://localhost:5183 · 5184 |
+| `bun run sim:uber` | Uber simulator | http://localhost:5183 |
+| `bun run sim:idealista` | idealista simulator | http://localhost:5184 |
+| `bun run notebooks` | JupyterLab with the notebooks | http://localhost:8888/lab |
+| `bun run setup` | Only installs missing dependencies | — |
+| `bun run test` | Tests for both simulators (`test:uber`, `test:idealista`) | — |
 
-- It installs any missing dependencies (`pnpm install` in every folder without `node_modules/`, and `uv sync` in `notebooks/`). Without pnpm installed, it uses `npx pnpm@10`.
+- Before starting, it installs any missing dependencies (`pnpm install` in every folder without `node_modules/`, and `uv sync` in `notebooks/`). Without pnpm installed, it uses `npx pnpm@10`.
 - It does not open browser tabs: go to the URL you want. Each presentation also serves `/presenter` and `/overview`.
-- To start only part of it, name the groups: `./start-all.sh slides`, `./start-all.sh sims` or `./start-all.sh notebooks` (they can be combined).
-- Each server's output goes to `tmp/start-all/<server>.log`.
+- With a single server, its output shows in the terminal. With several, it goes to `tmp/start-all/<server>.log`.
 - `Ctrl+C` stops them all.
+- `./start-all.sh` takes groups (`slides`, `sims`, `notebooks`) and single servers (`uber-es`, `uber-sim`…), combined: `./start-all.sh uber-es uber-sim`. Full list with `./start-all.sh --help`.
 
 ### Run the presentation server
 

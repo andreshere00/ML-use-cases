@@ -1,0 +1,31 @@
+{
+  "name": "ml-use-cases",
+  "private": true,
+  "description": "Atajos para lanzar las presentaciones, los simuladores y los notebooks (bun run <script>)",
+  "scripts": {
+    "start": "./start-all.sh",
+    "setup": "./start-all.sh --setup",
+
+    "slides": "./start-all.sh slides",
+    "slides:general:es": "./start-all.sh general-es",
+    "slides:general:en": "./start-all.sh general-en",
+    "slides:idealista:es": "./start-all.sh idealista-es",
+    "slides:idealista:en": "./start-all.sh idealista-en",
+    "slides:cabify:es": "./start-all.sh cabify-es",
+    "slides:cabify:en": "./start-all.sh cabify-en",
+    "slides:spotify:es": "./start-all.sh spotify-es",
+    "slides:spotify:en": "./start-all.sh spotify-en",
+    "slides:uber:es": "./start-all.sh uber-es",
+    "slides:uber:en": "./start-all.sh uber-en",
+
+    "sims": "./start-all.sh sims",
+    "sim:uber": "./start-all.sh uber-sim",
+    "sim:idealista": "./start-all.sh idealista-sim",
+
+    "notebooks": "./start-all.sh notebooks",
+
+    "test": "bun run test:uber && bun run test:idealista",
+    "test:uber": "bun run --cwd uber/simulator test",
+    "test:idealista": "bun run --cwd idealista/simulator test"
+  }
+}
