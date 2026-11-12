@@ -81,7 +81,7 @@ bun run start
 | `bun run test` | Tests de los dos simuladores (`test:uber`, `test:idealista`) | — |
 
 - Antes de lanzar, instala las dependencias que falten (`pnpm install` en cada carpeta sin `node_modules/` y `uv sync` en `notebooks/`). Si no tienes pnpm, usa `npx pnpm@10`.
-- No abre pestañas en el navegador: entra en la URL que quieras. Cada presentación sirve también `/presenter` y `/overview`.
+- Abre cada servidor en una pestaña del navegador en cuanto responde. Para no abrir nada, añade `--no-open`: `bun run start --no-open`. Cada presentación sirve también `/presenter` y `/overview`.
 - Con un solo servidor, su salida se ve en la terminal. Con varios, queda en `tmp/start-all/<servidor>.log`.
 - `Ctrl+C` los detiene todos.
 - `./start-all.sh` acepta grupos (`slides`, `sims`, `notebooks`) y servidores concretos (`uber-es`, `uber-sim`…) combinados: `./start-all.sh uber-es uber-sim`. Lista completa con `./start-all.sh --help`.
@@ -309,7 +309,7 @@ bun run start
 | `bun run test` | Tests for both simulators (`test:uber`, `test:idealista`) | — |
 
 - Before starting, it installs any missing dependencies (`pnpm install` in every folder without `node_modules/`, and `uv sync` in `notebooks/`). Without pnpm installed, it uses `npx pnpm@10`.
-- It does not open browser tabs: go to the URL you want. Each presentation also serves `/presenter` and `/overview`.
+- It opens each server in a browser tab as soon as it responds. To open nothing, add `--no-open`: `bun run start --no-open`. Each presentation also serves `/presenter` and `/overview`.
 - With a single server, its output shows in the terminal. With several, it goes to `tmp/start-all/<server>.log`.
 - `Ctrl+C` stops them all.
 - `./start-all.sh` takes groups (`slides`, `sims`, `notebooks`) and single servers (`uber-es`, `uber-sim`…), combined: `./start-all.sh uber-es uber-sim`. Full list with `./start-all.sh --help`.

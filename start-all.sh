@@ -6,10 +6,12 @@
 #   ./start-all.sh slides sims        # grupos: slides, sims, notebooks
 #   ./start-all.sh uber-es uber-sim   # servidores concretos (ver lista abajo)
 #   ./start-all.sh --setup            # solo instala las dependencias que falten
+#   ./start-all.sh --no-open ...      # no abre el navegador
 #
 # Servidores: general-es general-en idealista-es idealista-en cabify-es cabify-en
 #             spotify-es spotify-en uber-es uber-en uber-sim idealista-sim notebooks
 #
+# Cada servidor se abre en el navegador en cuanto responde (salvo con --no-open).
 # Con un solo servidor, su salida va a la terminal. Con varios, va a tmp/start-all/.
 # Ctrl+C los detiene todos.
 
@@ -35,10 +37,11 @@ idealista-sim|idealista/simulator|5184|vite|sims
 notebooks|notebooks|8888|jupyter|notebooks
 "
 
-usage() { sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'; }
+usage() { sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; }
 
 # --- Argumentos -> lista de servidores seleccionados -------------------------
 SETUP_ONLY=0
+OPEN_BROWSER=1
 SELECTED=""
 select_where() { # $1 = columna (1 nombre, 5 grupo), $2 = valor
   local hits
@@ -47,16 +50,17 @@ select_where() { # $1 = columna (1 nombre, 5 grupo), $2 = valor
   SELECTED="$SELECTED $hits"
 }
 
-[ $# -eq 0 ] && set -- all
 for arg in "$@"; do
   case "$arg" in
     -h|--help) usage; exit 0 ;;
+    --no-open) OPEN_BROWSER=0 ;;
     --setup) SETUP_ONLY=1; select_where 5 slides; select_where 5 sims; select_where 5 notebooks ;;
     all) select_where 5 slides; select_where 5 sims; select_where 5 notebooks ;;
     *) select_where 5 "$arg" || select_where 1 "$arg" || {
          echo "Desconocido: $arg" >&2; echo >&2; usage >&2; exit 1; } ;;
   esac
 done
+[ -n "$SELECTED" ] || { select_where 5 slides; select_where 5 sims; select_where 5 notebooks; }
 # Quita duplicados conservando el orden.
 SELECTED="$(echo $SELECTED | tr ' ' '\n' | awk '!seen[$0]++' | tr '\n' ' ')"
 
@@ -85,6 +89,21 @@ command_for() { # $1 = tipo, $2 = puerto
   esac
 }
 
+# Abre la URL en el navegador en cuanto el servidor responde (máx. 3 minutos).
+open_when_ready() { # $1 = url
+  [ "$OPEN_BROWSER" = 1 ] || return 0
+  local opener
+  if command -v open >/dev/null 2>&1; then opener=open
+  elif command -v xdg-open >/dev/null 2>&1; then opener=xdg-open
+  else return 0; fi
+  (
+    for _ in $(seq 1 180); do
+      if curl -s -o /dev/null --max-time 2 "$1"; then $opener "$1" >/dev/null 2>&1; exit 0; fi
+      sleep 1
+    done
+  ) &
+}
+
 url_for() { [ "$1" = jupyter ] && echo "http://localhost:$2/lab" || echo "http://localhost:$2"; }
 
 # --- Preparar dependencias ----------------------------------------------------
@@ -110,6 +129,7 @@ if [ $# -eq 1 ]; then
 $(echo "$CATALOG" | awk -F'|' -v n="$1" '$1 == n')
 EOF
   echo "$name -> $(url_for "$kind" "$port")"
+  open_when_ready "$(url_for "$kind" "$port")"
   cd "$ROOT/$dir" && exec $(command_for "$kind" "$port")
 fi
 
@@ -125,6 +145,7 @@ $(echo "$CATALOG" | awk -F'|' -v n="$name" '$1 == n')
 EOF
   (cd "$ROOT/$dir" && exec $(command_for "$kind" "$port")) >"$LOG_DIR/$name.log" 2>&1 &
   printf '  %-15s %s\n' "$name" "$(url_for "$kind" "$port")"
+  open_when_ready "$(url_for "$kind" "$port")"
 done
 echo
 echo "Pulsa Ctrl+C para detenerlos todos."
