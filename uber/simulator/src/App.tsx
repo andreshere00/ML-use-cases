@@ -8,6 +8,7 @@ import { EVENT_TICKS, LAST_TICK, initSim, refreshSim, stepSim, type SimState } f
 import { otherRides } from './sim/riders'
 import { pickupEstimates } from './sim/traffic'
 import { ZONE_BY_ID } from './sim/world'
+import { useI18n } from './i18n'
 import { useTripProgress, type Trip } from './trip'
 
 type Action =
@@ -37,6 +38,7 @@ function reducer(state: SimState, action: Action): SimState {
 const TICK_MS = 1600
 
 export function App() {
+  const { t } = useI18n()
   const [sim, dispatch] = useReducer(reducer, undefined, () => initSim())
   const [playing, setPlaying] = useState(true)
   const [speed, setSpeed] = useState(1)
@@ -121,10 +123,7 @@ export function App() {
         />
         <AlgoPanel sim={sim} zoneId={pickupId} />
       </main>
-      <footer className="disclaimer">
-        Simulador didáctico con datos sintéticos. Reproduce los cálculos de la presentación y del notebook; no es el
-        sistema de precios de Uber.
-      </footer>
+      <footer className="disclaimer">{t.disclaimer}</footer>
     </div>
   )
 }

@@ -1,19 +1,21 @@
-import { euros, mult, num } from '../format'
+import { euros, mult, share } from '../format'
+import { useI18n } from '../i18n'
 import { acceptChance, type OtherRide, type RideStatus } from '../sim/riders'
 import { ZONE_BY_ID } from '../sim/world'
 
-const STATUS: Record<RideStatus, { label: string; tone: string }> = {
-  searching: { label: 'Buscando', tone: 'info' },
-  pickup: { label: 'Recogida', tone: 'positive' },
-  ontrip: { label: 'En viaje', tone: 'neutral' },
-  declined: { label: 'Rechaza el precio', tone: 'negative' },
-  unserved: { label: 'Sin conductor', tone: 'negative' },
+const TONE: Record<RideStatus, string> = {
+  searching: 'info',
+  pickup: 'positive',
+  ontrip: 'neutral',
+  declined: 'negative',
+  unserved: 'negative',
 }
 
 const VISIBLE = 6
 
 /** Otros pasajeros pidiendo a la vez: muestra cómo el precio y la escasez afectan a todos, no solo a nosotros. */
 export function OthersFeed({ rides, tick }: { rides: OtherRide[]; tick: number }) {
+  const { t } = useI18n()
   const fresh = rides.filter((r) => r.createdTick === tick)
   const active = rides.filter((r) => r.status !== 'declined' && r.status !== 'unserved').length
   const recent = rides.filter((r) => tick - r.createdTick <= 1)
@@ -23,33 +25,32 @@ export function OthersFeed({ rides, tick }: { rides: OtherRide[]; tick: number }
   return (
     <section className="panel others" aria-labelledby="others-title">
       <header className="others-head">
-        <h2 id="others-title">Otros pasajeros</h2>
+        <h2 id="others-title">{t.others.title}</h2>
         <span className="others-live">
-          <i aria-hidden="true" /> En directo
+          <i aria-hidden="true" /> {t.others.live}
         </span>
       </header>
 
       <dl className="others-stats">
         <div>
-          <dt>Nuevas</dt>
+          <dt>{t.others.fresh}</dt>
           <dd>{fresh.length}</dd>
         </div>
         <div>
-          <dt>Activas</dt>
+          <dt>{t.others.active}</dt>
           <dd>{active}</dd>
         </div>
         <div>
-          <dt>Aceptan</dt>
-          <dd>{num(avgAccept * 100)} %</dd>
+          <dt>{t.others.accept}</dt>
+          <dd>{share(avgAccept)}</dd>
         </div>
       </dl>
 
       {rides.length === 0 ? (
-        <p className="hint">Aún no hay más solicitudes.</p>
+        <p className="hint">{t.others.empty}</p>
       ) : (
         <ul className="others-list" aria-live="polite" aria-relevant="additions">
           {rides.slice(0, VISIBLE).map((r) => {
-            const s = STATUS[r.status]
             return (
               <li key={r.id} className="others-item">
                 <span className="others-avatar" aria-hidden="true">
@@ -62,7 +63,7 @@ export function OthersFeed({ rides, tick }: { rides: OtherRide[]; tick: number }
                   </span>
                 </span>
                 <span className="others-side">
-                  <span className={`badge badge-${s.tone}`}>{s.label}</span>
+                  <span className={`badge badge-${TONE[r.status]}`}>{t.others.status[r.status]}</span>
                   <span className="others-price">
                     {r.productName} · {euros(r.price)}
                     {r.m > 1.045 && <em> · {mult(r.m)}</em>}
@@ -74,10 +75,7 @@ export function OthersFeed({ rides, tick }: { rides: OtherRide[]; tick: number }
         </ul>
       )}
       {declined > 0 && (
-        <p className="hint">
-          {declined === 1 ? 'Una persona ha' : `${declined} personas han`} descartado el viaje por el precio: es la
-          elasticidad del algoritmo 3 en acción.
-        </p>
+        <p className="hint">{t.others.declined(declined)}</p>
       )}
     </section>
   )

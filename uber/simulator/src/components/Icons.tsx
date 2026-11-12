@@ -102,3 +102,22 @@ export const LockIcon = ({ size }: { size?: number }) => (
     <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
   </Icon>
 )
+
+export const GlobeIcon = () => (
+  <Icon>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+  </Icon>
+)
+
+export const CloseIcon = () => (
+  <Icon>
+    <path d="M6 6l12 12M18 6 6 18" />
+  </Icon>
+)
+
+export const CheckIcon = () => (
+  <Icon>
+    <path d="m5 12.5 4.5 4.5L19 7.5" />
+  </Icon>
+)

@@ -1,4 +1,5 @@
 import { euros, mult, num } from '../format'
+import { useI18n } from '../i18n'
 import { current, type SimState } from '../sim/engine'
 import { baseFare, tripKm, tripMinutes } from '../sim/fare'
 import type { PickupEstimate } from '../sim/traffic'
@@ -25,18 +26,7 @@ interface Props {
   onClear: () => void
 }
 
-const PHASE_TEXT = {
-  searching: 'Buscando un conductor cercano…',
-  pickup: 'Tu conductor va de camino',
-  ontrip: 'En viaje hacia tu destino',
-  done: 'Has llegado',
-}
-
-const STEPS = [
-  { id: 'searching', label: 'Buscando' },
-  { id: 'pickup', label: 'Recogida' },
-  { id: 'ontrip', label: 'En viaje' },
-] as const
+const STEPS = ['searching', 'pickup', 'ontrip'] as const
 
 function ZoneSelect(props: {
   id: string
@@ -73,8 +63,9 @@ function ZoneSelect(props: {
 }
 
 function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
+  const { t } = useI18n()
   const { phase, progress } = p.progress
-  const stepIndex = phase === 'done' ? STEPS.length : STEPS.findIndex((s) => s.id === phase)
+  const stepIndex = phase === 'done' ? STEPS.length : STEPS.findIndex((s) => s === phase)
   const pickupName = ZONE_BY_ID[p.trip.pickupId].name
   const minutesLeft =
     phase === 'pickup'
@@ -85,21 +76,21 @@ function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
   const mNow = current(p.sim, p.trip.pickupId).m
 
   return (
-    <section className="panel rider" aria-label="Viaje en curso">
-      <h2 aria-live="polite">{PHASE_TEXT[phase]}</h2>
+    <section className="panel rider" aria-label={t.rider.tripInProgress}>
+      <h2 aria-live="polite">{t.rider.phase[phase]}</h2>
       <p className="muted">
         {pickupName} → {ZONE_BY_ID[p.trip.destId].name} · {p.trip.productName}
       </p>
 
-      <ol className="stepper" aria-label="Progreso del viaje">
+      <ol className="stepper" aria-label={t.rider.progress}>
         {STEPS.map((s, i) => {
           const state = i < stepIndex ? 'done' : i === stepIndex ? 'current' : 'todo'
           return (
-            <li key={s.id} className={`trip-step trip-step-${state}`} aria-current={state === 'current' ? 'step' : undefined}>
+            <li key={s} className={`trip-step trip-step-${state}`} aria-current={state === 'current' ? 'step' : undefined}>
               <div className="step-bar">
                 <div style={{ width: `${(state === 'done' ? 1 : state === 'current' ? progress : 0) * 100}%` }} />
               </div>
-              <span>{s.label}</span>
+              <span>{t.rider.steps[s]}</span>
             </li>
           )
         })}
@@ -108,7 +99,7 @@ function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
       {minutesLeft !== null && (
         <p className="eta-big">
           <ClockIcon size={18} />
-          {phase === 'pickup' ? `Llega en ${minutesLeft} min` : `Llegas en ${minutesLeft} min`}
+          {phase === 'pickup' ? t.rider.driverArrives(minutesLeft) : t.rider.youArrive(minutesLeft)}
         </p>
       )}
 
@@ -116,13 +107,13 @@ function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
         <LockIcon size={18} />
         <div>
           <b>{euros(p.trip.price)}</b>
-          <span>Precio cerrado con {mult(p.trip.m)}. No cambia durante el viaje.</span>
+          <span>{t.rider.priceLocked(mult(p.trip.m))}</span>
         </div>
       </div>
 
       <dl className="receipt">
         <div>
-          <dt>Multiplicador ahora en {pickupName}</dt>
+          <dt>{t.rider.multiplierNow(pickupName)}</dt>
           <dd>
             {mult(mNow)}{' '}
             <span className={mNow > p.trip.m ? 'delta up' : mNow < p.trip.m ? 'delta down' : 'delta'}>
@@ -131,7 +122,7 @@ function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
           </dd>
         </div>
         <div>
-          <dt>Espera y trayecto estimados</dt>
+          <dt>{t.rider.waitAndTrip}</dt>
           <dd>
             {p.trip.waitMinutes} + {p.trip.tripMinutes} min
           </dd>
@@ -139,13 +130,14 @@ function TripView(p: Props & { trip: Trip; progress: TripProgress }) {
       </dl>
 
       <button className={`btn btn-block btn-large ${phase === 'done' ? 'btn-primary' : 'btn-secondary'}`} onClick={p.onClear}>
-        {phase === 'done' ? 'Pedir otro viaje' : 'Cancelar viaje'}
+        {phase === 'done' ? t.rider.another : t.rider.cancel}
       </button>
     </section>
   )
 }
 
 export function RiderPanel(p: Props) {
+  const { t } = useI18n()
   if (p.trip && p.progress) return <TripView {...p} trip={p.trip} progress={p.progress} />
 
   const pickup = ZONE_BY_ID[p.pickupId]
@@ -167,13 +159,13 @@ export function RiderPanel(p: Props) {
 
   return (
     <section className="panel rider" aria-labelledby="rider-title">
-      <h2 id="rider-title">Pide un viaje</h2>
+      <h2 id="rider-title">{t.rider.title}</h2>
 
       <div className="route">
         <div className="route-fields">
           <ZoneSelect
             id="pickup"
-            label="Recogida"
+            label={t.rider.pickup}
             value={p.pickupId}
             active={p.activeField === 'pickup'}
             marker="dot"
@@ -182,7 +174,7 @@ export function RiderPanel(p: Props) {
           />
           <ZoneSelect
             id="dest"
-            label="Destino"
+            label={t.rider.dest}
             value={p.destId}
             active={p.activeField === 'dest'}
             marker="square"
@@ -191,23 +183,23 @@ export function RiderPanel(p: Props) {
             onChange={p.onDest}
           />
         </div>
-        <button className="swap" onClick={swap} aria-label="Intercambiar recogida y destino" title="Intercambiar recogida y destino">
+        <button className="swap" onClick={swap} aria-label={t.rider.swap} title={t.rider.swap}>
           <SwapIcon />
         </button>
       </div>
 
       {sameZone ? (
         <p id="route-error" className="field-error" role="alert">
-          La recogida y el destino son la misma zona. Elige otro destino.
+          {t.rider.sameZone}
         </p>
       ) : (
         <p className="route-meta">
           <span>
-            {num(km, 1)} km · {minutes} min de trayecto
+            {t.rider.route(num(km, 1), minutes)}
           </span>
           <span className="map-tip">
             <MapIcon size={14} />
-            Toca el mapa para elegir {p.activeField === 'pickup' ? 'la recogida' : 'el destino'}
+            {t.rider.mapTip(p.activeField === 'pickup')}
           </span>
         </p>
       )}
@@ -216,20 +208,20 @@ export function RiderPanel(p: Props) {
         {surge ? <BoltIcon /> : <InfoIcon />}
         <div>
           <b>
-            {surge ? 'Tarifas más altas por la demanda' : 'Tarifa normal'} · {mult(zone.m)}
+            {surge ? t.rider.surgeTitle : t.rider.normalTitle} · {mult(zone.m)}
           </b>
           <span>
             {surge
-              ? `Hay ${Math.round(zone.demand)} solicitudes para ${Math.round(zone.drivers)} conductores en ${pickup.name}.`
+              ? t.rider.surgeBody(Math.round(zone.demand), Math.round(zone.drivers), pickup.name)
               : zone.ratio > 1
-                ? `La demanda empieza a superar a los conductores en ${pickup.name}.`
-                : `Hay conductores suficientes en ${pickup.name}.`}
+                ? t.rider.risingBody(pickup.name)
+                : t.rider.enoughBody(pickup.name)}
           </span>
         </div>
       </div>
 
       <fieldset className="products">
-        <legend>Elige un vehículo</legend>
+        <legend>{t.rider.chooseVehicle}</legend>
         {options.map(({ product, base, price, wait, nearby, driver }) => (
           <label key={product.id} className={`product ${product.id === p.productId ? 'selected' : ''}`}>
             <input
@@ -246,25 +238,25 @@ export function RiderPanel(p: Props) {
             <span className="product-text">
               <span className="product-name">
                 <b>{product.name}</b>
-                <span className="seats" aria-label={`${product.seats} plazas`}>
+                <span className="seats" aria-label={t.rider.seats(product.seats)}>
                   <PersonIcon size={12} />
                   {product.seats}
                 </span>
               </span>
               <span className="product-eta">
                 <ClockIcon size={14} />
-                {driver ? `Llega en ${wait} min` : 'Sin conductores libres'}{' '}
+                {driver ? t.rider.arrivesIn(wait) : t.rider.noDrivers}{' '}
                 <span className="product-nearby">
-                  {nearby === 0 ? 'ninguno en la zona' : nearby === 1 ? '1 libre en la zona' : `${nearby} libres en la zona`}
+                  {t.rider.nearby(nearby)}
                 </span>
               </span>
-              <span>{product.description}</span>
+              <span>{t.product[product.id]}</span>
             </span>
             <span className="product-price">
               <b>{euros(price)}</b>
               {surge && (
                 <s>
-                  <span className="visually-hidden">Sin recargo: </span>
+                  <span className="visually-hidden">{t.rider.withoutSurge}</span>
                   {euros(base)}
                 </s>
               )}
@@ -297,12 +289,12 @@ export function RiderPanel(p: Props) {
             })
           }
         >
-          <span>Confirmar {selected.product.name}</span>
+          <span>{t.rider.confirm(selected.product.name)}</span>
           <span className="cta-price">{euros(selected.price)}</span>
         </button>
         <p id="price-note" className="price-note">
           <LockIcon size={14} />
-          Pagas este precio aunque la tarifa cambie durante el viaje.
+          {t.rider.priceNote}
         </p>
       </div>
     </section>

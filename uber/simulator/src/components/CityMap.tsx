@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
-import { mult } from '../format'
+import { mult, num } from '../format'
+import { useI18n } from '../i18n'
 import { current, type SimState } from '../sim/engine'
-import { KIND_BY_ZONE, KIND_LABEL, ZONES, ZONE_BY_ID, ZONE_INDEX, hash, type Zone } from '../sim/world'
+import { KIND_BY_ZONE, ZONES, ZONE_BY_ID, ZONE_INDEX, hash, type Zone } from '../sim/world'
 import type { OtherRide } from '../sim/riders'
 import { PER_DOT, SLOTS, STREETS, Z, zoneCars, type Driver } from '../sim/traffic'
 import type { Trip, TripProgress } from '../trip'
@@ -108,6 +109,7 @@ function otherSpots(rides: OtherRide[]): Map<string, [number, number]> {
 }
 
 export function CityMap(p: Props) {
+  const { t } = useI18n()
   const routeFrom = center(ZONE_BY_ID[p.trip?.pickupId ?? p.pickupId])
   const routeTo = center(ZONE_BY_ID[p.trip?.destId ?? p.destId])
   const hasRoute = routeFrom[0] !== routeTo[0] || routeFrom[1] !== routeTo[1]
@@ -126,20 +128,20 @@ export function CityMap(p: Props) {
   }
 
   return (
-    <section className="map-wrap" aria-label="Mapa de la ciudad">
-      <svg className="map" viewBox={`0 0 ${SIZE} ${SIZE}`} role="group" aria-label="Nueve zonas de la ciudad">
+    <section className="map-wrap" aria-label={t.map.region}>
+      <svg className="map" viewBox={`0 0 ${SIZE} ${SIZE}`} role="group" aria-label={t.map.zones}>
         {ZONES.map((zone) => {
           const s = current(p.sim, zone.id)
           const x = zone.col * Z
           const y = zone.row * Z
-          const role = zone.id === p.pickupId ? 'recogida' : zone.id === p.destId ? 'destino' : null
+          const role = zone.id === p.pickupId ? 'pickup' : zone.id === p.destId ? 'dest' : null
           return (
             <g
               key={zone.id}
               className="zone"
               role="button"
               tabIndex={0}
-              aria-label={`${zone.name}, ${KIND_LABEL[KIND_BY_ZONE[zone.id]]}, multiplicador ${mult(s.m)}${role ? `, ${role}` : ''}`}
+              aria-label={t.map.zoneLabel(zone.name, t.kind[KIND_BY_ZONE[zone.id]], mult(s.m), role)}
               onClick={() => p.onSelect(zone.id)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -284,7 +286,7 @@ export function CityMap(p: Props) {
                   {zone.name}
                 </text>
                 <text x={x + 16} y={y + 44} className="zone-kind">
-                  {KIND_LABEL[KIND_BY_ZONE[zone.id]]}
+                  {t.kind[KIND_BY_ZONE[zone.id]]}
                 </text>
                 <g transform={`translate(${x + 16}, ${y + Z - 42})`}>
                   <rect width={62} height={26} rx={13} className={surge ? 'pill pill-surge' : 'pill'} />
@@ -321,23 +323,23 @@ export function CityMap(p: Props) {
 
       <div className="legend">
         <span>
-          <i className="lg lg-car" /> ≈ {PER_DOT} conductores
+          <i className="lg lg-car" /> {t.map.drivers(PER_DOT)}
         </span>
         <span>
-          <i className="lg lg-car lg-car-fast" /> rápido · <i className="lg lg-car" /> medio ·{' '}
-          <i className="lg lg-car lg-car-slow" /> lento
+          <i className="lg lg-car lg-car-fast" /> {t.map.fast} · <i className="lg lg-car" /> {t.map.medium} ·{' '}
+          <i className="lg lg-car lg-car-slow" /> {t.map.slow}
         </span>
         <span>
-          <i className="lg lg-rider" /> ≈ {PER_DOT} solicitudes sin conductor
+          <i className="lg lg-rider" /> {t.map.unmet(PER_DOT)}
         </span>
         <span>
-          <i className="lg lg-driver" /> tu conductor más cercano
+          <i className="lg lg-driver" /> {t.map.nearest}
         </span>
         <span>
-          <i className="lg lg-other" /> otro pasajero esperando
+          <i className="lg lg-other" /> {t.map.otherRider}
         </span>
         <span className="lg-scale">
-          1,0× <i className="lg-gradient" /> 2,0× o más
+          {num(1, 1)}× <i className="lg-gradient" /> {t.map.orMore}
         </span>
       </div>
     </section>

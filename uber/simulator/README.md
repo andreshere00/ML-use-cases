@@ -30,6 +30,7 @@ Demo en React + TypeScript que imita una app de viajes y encadena, en cada tick 
   - un anillo marca ese coche en el mapa, y al confirmar es él quien va a recogerte.
 - **Bajo el capó:** cada algoritmo, con sus números del tick actual. El k-means se anima iteración a iteración.
 - **Escenarios:** lluvia, concierto y reactividad η del bucle de precio.
+- **Idioma:** el botón del globo, arriba a la derecha, abre una ventana para cambiar entre castellano e inglés (`src/i18n.tsx`). La elección se recuerda en el navegador.
 
 Datos sintéticos con fines didácticos: no es el sistema de precios de Uber.
 
