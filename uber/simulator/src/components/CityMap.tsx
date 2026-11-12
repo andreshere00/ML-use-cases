@@ -282,17 +282,25 @@ export function CityMap(p: Props) {
             const y = zone.row * Z
             return (
               <g key={zone.id}>
-                <text x={x + 16} y={y + 28} className="zone-name">
-                  {zone.name}
-                </text>
-                <text x={x + 16} y={y + 44} className="zone-kind">
-                  {t.kind[KIND_BY_ZONE[zone.id]]}
-                </text>
+                {/*
+                  El grupo interior no lleva `transform`: así, en móvil, el `scale` de CSS amplía el rótulo
+                  desde su esquina en vez de multiplicar también la traslación.
+                */}
+                <g transform={`translate(${x + 16}, ${y + 28})`}>
+                  <g className="zone-tag">
+                    <text className="zone-name">{zone.name}</text>
+                    <text y={16} className="zone-kind">
+                      {t.kind[KIND_BY_ZONE[zone.id]]}
+                    </text>
+                  </g>
+                </g>
                 <g transform={`translate(${x + 16}, ${y + Z - 42})`}>
-                  <rect width={62} height={26} rx={13} className={surge ? 'pill pill-surge' : 'pill'} />
-                  <text x={31} y={17.5} className={surge ? 'pill-text pill-text-surge' : 'pill-text'}>
-                    {mult(m)}
-                  </text>
+                  <g className="pill-tag">
+                    <rect width={62} height={26} rx={13} className={surge ? 'pill pill-surge' : 'pill'} />
+                    <text x={31} y={17.5} className={surge ? 'pill-text pill-text-surge' : 'pill-text'}>
+                      {mult(m)}
+                    </text>
+                  </g>
                 </g>
               </g>
             )

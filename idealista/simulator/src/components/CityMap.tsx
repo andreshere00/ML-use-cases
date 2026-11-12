@@ -183,10 +183,13 @@ export function CityMap(p: Props) {
 
         {[0, 1, 2].map((z) => (
           <g key={z} className="zone-label" transform={`translate(${LABEL[z][0]}, ${LABEL[z][1]})`} aria-hidden="true">
-            <text className="zone-name">{t.zoneName[z]}</text>
-            <text className="zone-kind" y={16}>
-              {t.zoneDesc[z]} · {t.perM2(Math.round(ZONE_PRICE_M2[z]))}
-            </text>
+            {/* Grupo interior sin `transform`: en móvil el `scale` de CSS lo amplía sin desplazarlo. */}
+            <g className="map-tag">
+              <text className="zone-name">{t.zoneName[z]}</text>
+              <text className="zone-kind" y={16}>
+                {t.zoneDesc[z]} · {t.perM2(Math.round(ZONE_PRICE_M2[z]))}
+              </text>
+            </g>
           </g>
         ))}
 
@@ -233,8 +236,10 @@ export function CityMap(p: Props) {
                 <rect x={-6} y={-6} width={12} height={12} rx={3} transform="rotate(45)" fill={TAG_COLOR[l.tag]} className="listing-body" />
                 {fresh && (
                   <g transform="translate(0, -24)" className="listing-label">
-                    <rect x={-34} y={-11} width={68} height={22} rx={11} />
-                    <text y={4}>{keur(l.asking)}</text>
+                    <g className="map-tag map-tag-center">
+                      <rect x={-34} y={-11} width={68} height={22} rx={11} />
+                      <text y={4}>{keur(l.asking)}</text>
+                    </g>
                   </g>
                 )}
               </g>
@@ -243,13 +248,16 @@ export function CityMap(p: Props) {
         </g>
 
         <g className="my-home" transform={`translate(${anchor[0]}, ${anchor[1]})`}>
-          <path d="M0,0 C-4,-8 -14,-14 -14,-26 A14,14 0 1 1 14,-26 C14,-14 4,-8 0,0Z" className="pin" />
-          <path d="M-6,-25 L0,-31 L6,-25 V-19 H-6Z" className="pin-house" />
-          <g transform="translate(0, -52)">
-            <rect x={-44} y={-13} width={88} height={26} rx={13} className="pin-label" />
-            <text y={5} className="pin-text">
-              {keur(rounded(p.valuation.price))}
-            </text>
+          {/* En móvil el pin crece desde la punta, que sigue marcando la vivienda. */}
+          <g className="map-tag map-tag-tip">
+            <path d="M0,0 C-4,-8 -14,-14 -14,-26 A14,14 0 1 1 14,-26 C14,-14 4,-8 0,0Z" className="pin" />
+            <path d="M-6,-25 L0,-31 L6,-25 V-19 H-6Z" className="pin-house" />
+            <g transform="translate(0, -52)">
+              <rect x={-44} y={-13} width={88} height={26} rx={13} className="pin-label" />
+              <text y={5} className="pin-text">
+                {keur(rounded(p.valuation.price))}
+              </text>
+            </g>
           </g>
         </g>
       </svg>

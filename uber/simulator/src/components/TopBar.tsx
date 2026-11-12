@@ -108,7 +108,7 @@ export function TopBar(p: Props) {
 
       <div className="tb-actions">
         <button
-          className="btn btn-tertiary reset"
+          className="btn btn-tertiary reset lang-btn"
           onClick={() => setLangOpen(true)}
           aria-haspopup="dialog"
           aria-label={`${t.language.button}: ${lang === 'es' ? 'Español' : 'English'}`}
@@ -117,9 +117,10 @@ export function TopBar(p: Props) {
           <GlobeIcon />
           {lang.toUpperCase()}
         </button>
-        <button className="btn btn-tertiary reset" onClick={p.onReset}>
+        <button className="btn btn-tertiary reset" onClick={p.onReset} title={t.top.reset}>
           <ResetIcon />
-          {t.top.reset}
+          {/* En móvil queda solo el icono; el texto sigue siendo el nombre accesible del botón. */}
+          <span className="reset-label">{t.top.reset}</span>
         </button>
       </div>
       <LanguageDialog open={langOpen} onClose={() => setLangOpen(false)} />

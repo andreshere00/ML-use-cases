@@ -25,6 +25,21 @@
   box-sizing: border-box;
 }
 
+/* iOS no debe agrandar el texto al girar el móvil. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Sin espera de doble toque para hacer zoom en los controles. */
+button,
+select,
+input,
+label,
+.zone {
+  touch-action: manipulation;
+}
+
 body {
   margin: 0;
   font-family: var(--font);
@@ -59,6 +74,7 @@ input {
 
 .app {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -144,8 +160,10 @@ input {
   color: var(--content);
 }
 
-.icon-btn-primary:hover:not(:disabled) {
-  background: #e8e8e8;
+@media (hover: hover) {
+  .icon-btn-primary:hover:not(:disabled) {
+    background: #e8e8e8;
+  }
 }
 
 .icon-btn:disabled {
@@ -263,16 +281,20 @@ input {
   color: var(--content);
 }
 
-.btn-primary:hover:not(:disabled) {
-  background: var(--brand-strong);
+@media (hover: hover) {
+  .btn-primary:hover:not(:disabled) {
+    background: var(--brand-strong);
+  }
 }
 
 .btn-secondary {
   background: var(--bg-secondary);
 }
 
-.btn-secondary:hover {
-  background: var(--bg-tertiary);
+@media (hover: hover) {
+  .btn-secondary:hover {
+    background: var(--bg-tertiary);
+  }
 }
 
 .topbar .btn-primary {
@@ -281,8 +303,10 @@ input {
   min-width: 104px;
 }
 
-.topbar .btn-primary:hover:not(:disabled) {
-  background: #e8e8e8;
+@media (hover: hover) {
+  .topbar .btn-primary:hover:not(:disabled) {
+    background: #e8e8e8;
+  }
 }
 
 .topbar .btn-primary:disabled {
@@ -295,8 +319,10 @@ input {
   color: #fff;
 }
 
-.btn-tertiary:hover {
-  background: #333;
+@media (hover: hover) {
+  .btn-tertiary:hover {
+    background: #333;
+  }
 }
 
 .btn-block {
@@ -347,8 +373,10 @@ input {
   transition: background 0.15s;
 }
 
-.chip:hover:not(:disabled) {
-  background: #4b4b4b;
+@media (hover: hover) {
+  .chip:hover:not(:disabled) {
+    background: #4b4b4b;
+  }
 }
 
 .chip.on {
@@ -493,8 +521,10 @@ input {
   transition: background 0.15s, box-shadow 0.15s;
 }
 
-.zone-option:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .zone-option:hover {
+    background: var(--bg-secondary);
+  }
 }
 
 .zone-option.selected {
@@ -555,9 +585,11 @@ input {
   padding: 0 4px;
 }
 
-.seg-light button:hover:not(.on),
-.ask-options button:hover:not(.on) {
-  background: var(--bg-tertiary);
+@media (hover: hover) {
+  .seg-light button:hover:not(.on),
+  .ask-options button:hover:not(.on) {
+    background: var(--bg-tertiary);
+  }
 }
 
 .seg-light button.on,
@@ -861,8 +893,10 @@ input {
   transition: fill 0.3s;
 }
 
-.zone:hover .zone-fill {
-  filter: brightness(0.97);
+@media (hover: hover) {
+  .zone:hover .zone-fill {
+    filter: brightness(0.97);
+  }
 }
 
 .zone-selected .zone-fill {
@@ -1791,8 +1825,10 @@ rect.zone-fill {
   cursor: pointer;
 }
 
-.lang-close:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .lang-close:hover {
+    background: var(--bg-secondary);
+  }
 }
 
 .lang-options {
@@ -1817,8 +1853,10 @@ rect.zone-fill {
   transition: border-color 0.15s, background 0.15s;
 }
 
-.lang-option:hover {
-  border-color: var(--border-strong);
+@media (hover: hover) {
+  .lang-option:hover {
+    border-color: var(--border-strong);
+  }
 }
 
 .lang-option.on {
@@ -1907,8 +1945,8 @@ rect.zone-fill {
   }
 }
 
-@media (max-width: 560px) {
-  /* Objetivos táctiles de 44 px en móvil. */
+/* Objetivos táctiles de 44 px en móvil y en cualquier pantalla táctil (también tabletas). */
+@media (max-width: 560px), (pointer: coarse) {
   .icon-btn,
   .chip,
   .reset,
@@ -1920,19 +1958,90 @@ rect.zone-fill {
     width: 44px;
   }
 
+  .tb-row {
+    height: auto;
+  }
+
   .segmented button {
     height: 40px;
     min-width: 44px;
   }
 
-  .tb-group,
+  /* Cerrar el diálogo de idioma: la X se queda igual, crece su área de toque. */
+  .lang-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Dormitorios y ajuste de precio: de 36 a 44 px. */
+  .seg-light button,
+  .ask-options button {
+    height: 44px;
+  }
+}
+
+@media (max-width: 560px) {
+  /*
+   * La barra superior ocupaba casi media pantalla. Marca, idioma y reinicio comparten la primera
+   * fila (los grupos van detrás con `order`) y "Reiniciar" se queda en icono.
+   */
+  .topbar {
+    align-items: center;
+  }
+
+  .brand {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .tb-group {
+    order: 1;
+    flex: 1 1 100%;
+  }
+
+  .tb-actions {
+    margin-left: auto;
+  }
+
+  .reset:not(.lang-btn) {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .reset-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
   .slider input {
     flex: 1 1 auto;
   }
 
   .tb-row {
-    height: auto;
     flex-wrap: wrap;
+  }
+
+  /* El mapa se encoge a la mitad: rótulos, precios y pin crecen para seguir leyéndose. */
+  .map-tag {
+    scale: 1.5;
+    transform-box: fill-box;
+    transform-origin: 0 0;
+  }
+
+  .map-tag-center {
+    scale: 1.4;
+    transform-origin: 50% 50%;
+  }
+
+  .map-tag-tip {
+    scale: 1.35;
+    transform-origin: 50% 100%;
   }
 }
 

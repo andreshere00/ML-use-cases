@@ -25,6 +25,21 @@
   box-sizing: border-box;
 }
 
+/* iOS no debe agrandar el texto al girar el móvil. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Sin espera de doble toque para hacer zoom en los controles. */
+button,
+select,
+input,
+label,
+.zone {
+  touch-action: manipulation;
+}
+
 body {
   margin: 0;
   font-family: var(--font);
@@ -59,6 +74,7 @@ input {
 
 .app {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -144,8 +160,10 @@ input {
   color: var(--content);
 }
 
-.icon-btn-primary:hover:not(:disabled) {
-  background: #e8e8e8;
+@media (hover: hover) {
+  .icon-btn-primary:hover:not(:disabled) {
+    background: #e8e8e8;
+  }
 }
 
 .icon-btn:disabled {
@@ -263,16 +281,20 @@ input {
   color: #fff;
 }
 
-.btn-primary:hover:not(:disabled) {
-  background: #333;
+@media (hover: hover) {
+  .btn-primary:hover:not(:disabled) {
+    background: #333;
+  }
 }
 
 .btn-secondary {
   background: var(--bg-secondary);
 }
 
-.btn-secondary:hover {
-  background: var(--bg-tertiary);
+@media (hover: hover) {
+  .btn-secondary:hover {
+    background: var(--bg-tertiary);
+  }
 }
 
 .topbar .btn-primary {
@@ -281,8 +303,10 @@ input {
   min-width: 104px;
 }
 
-.topbar .btn-primary:hover:not(:disabled) {
-  background: #e8e8e8;
+@media (hover: hover) {
+  .topbar .btn-primary:hover:not(:disabled) {
+    background: #e8e8e8;
+  }
 }
 
 .topbar .btn-primary:disabled {
@@ -295,8 +319,10 @@ input {
   color: #fff;
 }
 
-.btn-tertiary:hover {
-  background: #333;
+@media (hover: hover) {
+  .btn-tertiary:hover {
+    background: #333;
+  }
 }
 
 .btn-block {
@@ -347,8 +373,10 @@ input {
   transition: background 0.15s;
 }
 
-.chip:hover:not(:disabled) {
-  background: #4b4b4b;
+@media (hover: hover) {
+  .chip:hover:not(:disabled) {
+    background: #4b4b4b;
+  }
 }
 
 .chip.on {
@@ -484,27 +512,31 @@ input {
   transition: background 0.15s;
 }
 
-.swap:hover {
-  background: var(--bg-tertiary);
+@media (hover: hover) {
+  .swap:hover {
+    background: var(--bg-tertiary);
+  }
 }
 
+/*
+ * El select ocupa la tarjeta entera (56 px): en móvil un toque en cualquier punto abre la lista,
+ * no solo sobre el texto. La etiqueta y el marcador se pintan encima sin capturar el toque.
+ */
 .field {
   position: relative;
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 12px;
-  align-items: center;
+  display: block;
   min-height: 56px;
-  padding: 6px 16px;
+  padding: 0;
   background: var(--bg-secondary);
   border: 2px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
 }
 
-.field:hover {
-  background: var(--bg-tertiary);
+@media (hover: hover) {
+  .field:hover {
+    background: var(--bg-tertiary);
+  }
 }
 
 .field.active {
@@ -514,11 +546,6 @@ input {
 
 .field.invalid {
   border-color: var(--negative);
-}
-
-/* El select ocupa todo el campo, así la zona clicable es la tarjeta entera. */
-.field select {
-  grid-column: 2;
 }
 
 .field:focus-within {
@@ -558,11 +585,13 @@ input {
 
 .field .dot,
 .field .square {
-  grid-row: 1 / 3;
+  position: absolute;
+  left: 19px;
+  top: calc(50% - 5px);
   width: 10px;
   height: 10px;
   background: var(--content);
-  justify-self: center;
+  pointer-events: none;
 }
 
 .field .dot {
@@ -571,7 +600,6 @@ input {
 
 .field .dot,
 .field .square {
-  position: relative;
   z-index: 3;
   box-shadow: 0 0 0 3px var(--bg-secondary);
 }
@@ -582,20 +610,35 @@ input {
 }
 
 .field-label {
+  position: absolute;
+  top: 6px;
+  left: 44px;
+  z-index: 2;
   font-size: 12px;
   line-height: 16px;
   color: var(--content-tertiary);
+  pointer-events: none;
 }
 
 .field select {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  min-height: 52px;
   border: 0;
+  border-radius: 6px;
   background: transparent;
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
-  padding: 0;
-  width: 100%;
+  padding: 22px 16px 6px 44px;
   cursor: pointer;
+}
+
+/* Anillo de foco por dentro de la tarjeta, ahora que el select la ocupa entera. */
+.field select:focus-visible {
+  outline-offset: -2px;
 }
 
 .notice {
@@ -667,8 +710,10 @@ input {
   transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
-.product:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .product:hover {
+    background: var(--bg-secondary);
+  }
 }
 
 .product.selected {
@@ -934,8 +979,10 @@ input {
   transition: fill 0.8s linear;
 }
 
-.zone:hover .zone-fill {
-  filter: brightness(0.96);
+@media (hover: hover) {
+  .zone:hover .zone-fill {
+    filter: brightness(0.96);
+  }
 }
 
 .street line {
@@ -1176,8 +1223,10 @@ input {
   cursor: pointer;
 }
 
-.lang-close:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .lang-close:hover {
+    background: var(--bg-secondary);
+  }
 }
 
 .lang-options {
@@ -1203,8 +1252,10 @@ input {
   cursor: pointer;
 }
 
-.lang-option:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .lang-option:hover {
+    background: var(--bg-secondary);
+  }
 }
 
 .lang-option.selected {
@@ -1911,8 +1962,8 @@ input {
   }
 }
 
-@media (max-width: 560px) {
-  /* Objetivos táctiles de 44 px en móvil. */
+/* Objetivos táctiles de 44 px en móvil y en cualquier pantalla táctil (también tabletas). */
+@media (max-width: 560px), (pointer: coarse) {
   .icon-btn,
   .chip,
   .reset,
@@ -1924,19 +1975,79 @@ input {
     width: 44px;
   }
 
+  .tb-row {
+    height: auto;
+  }
+
   .segmented button {
     height: 40px;
     min-width: 44px;
   }
 
-  .tb-group,
+  /* Cerrar el diálogo de idioma: la X se queda igual, crece su área de toque. */
+  .lang-close {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 560px) {
+  /*
+   * La barra superior ocupaba casi media pantalla. Marca, idioma y reinicio comparten la primera
+   * fila (los grupos van detrás con `order`) y "Reiniciar" se queda en icono.
+   */
+  .topbar {
+    align-items: center;
+  }
+
+  .brand {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .tb-group {
+    order: 1;
+    flex: 1 1 100%;
+  }
+
+  .tb-actions {
+    margin-left: auto;
+  }
+
+  .reset:not(.lang-btn) {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .reset-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
   .slider input {
     flex: 1 1 auto;
   }
 
   .tb-row {
-    height: auto;
     flex-wrap: wrap;
+  }
+
+  /* El mapa se encoge a la mitad: los rótulos crecen para seguir leyéndose (unos 11 px). */
+  .zone-tag,
+  .pill-tag {
+    scale: 1.4;
+    transform-box: fill-box;
+    transform-origin: 0 0;
+  }
+
+  .zone-kind {
+    font-size: 12px;
   }
 }
 

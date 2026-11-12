@@ -105,10 +105,6 @@ export function TopBar(p: Props) {
       </div>
 
       <div className="tb-actions">
-        <button className="btn btn-tertiary reset" onClick={p.onReset}>
-          <ResetIcon />
-          {t.reset}
-        </button>
         <button
           className="btn btn-tertiary reset lang-btn"
           onClick={() => setLangOpen(true)}
@@ -118,6 +114,11 @@ export function TopBar(p: Props) {
         >
           <GlobeIcon />
           {lang.toUpperCase()}
+        </button>
+        <button className="btn btn-tertiary reset" onClick={p.onReset} title={t.reset}>
+          <ResetIcon />
+          {/* En móvil queda solo el icono; el texto sigue siendo el nombre accesible del botón. */}
+          <span className="reset-label">{t.reset}</span>
         </button>
       </div>
       <LanguageDialog open={langOpen} onClose={() => setLangOpen(false)} />
