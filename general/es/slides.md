@@ -39,25 +39,25 @@ layout: "two-cols"
 
 ::left::
 
-## Qué vamos a aprender
+## Comprender las técnicas
 
-Diferenciar **predecir un valor** (regresión) de **descubrir grupos** (clustering) y entender para qué sirve cada tarea.
+**Distinguir** regresión (predecir un número), clasificación (etiquetas conocidas) y clustering (grupos sin etiquetas).
 
-Ver cómo lo hacen empresas reales: idealista valora inmuebles y Spotify segmenta usuarios.
+**Explicar** cómo idealista valora inmuebles y Spotify segmenta usuarios.
 
-Ver cómo **se combinan varias técnicas** en un solo sistema: el precio dinámico de Uber.
+**Describir** cómo Uber encadena series temporales, clustering, regresión y un bucle de control para fijar precios.
 
 ::right::
 
-## Qué te llevas
+## Analizar un caso real
 
-Una forma de leer cualquier caso de uso: **datos → modelo → decisión**.
+**Descomponer** cualquier caso de uso en **datos → modelo → decisión**.
 
-Un ejemplo numérico de cada técnica, para entender cómo funciona por dentro.
+**Valorar** los límites de cada enfoque: qué datos necesita, cómo se valida y qué puede salir mal.
 
-Los límites de cada enfoque: qué datos necesita, cómo se valida y qué puede salir mal.
+**Identificar** los riesgos de llevarlo a producción: privacidad, percepción de justicia y escala.
 
-<!-- Los objetivos son de comprensión, no de implementación. Las demostraciones y los ejemplos usan datos sintéticos; las fuentes describen el despliegue documentado por cada empresa. Más adelante se verán simulaciones en Jupyter Notebook y una aplicación web para Uber. -->
+<!-- Al terminar la sesión, cada asistente debería ser capaz de hacer estas seis cosas. Los objetivos son de comprensión y análisis, no de implementación: la columna izquierda recorre las tres secciones (idealista, Spotify y Uber) y la derecha da un método para leer cualquier caso, que se repasa en Retos y ética y en Conclusiones. Las demostraciones y los ejemplos numéricos usan datos sintéticos; las fuentes describen el despliegue documentado por cada empresa. Más adelante se verán simulaciones en Jupyter Notebook y una aplicación web para Uber. -->
 ---
 layout: "section"
 ---

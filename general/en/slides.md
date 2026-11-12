@@ -39,25 +39,25 @@ layout: "two-cols"
 
 ::left::
 
-## What we will learn
+## Understand the techniques
 
-Tell **predicting a value** (regression) apart from **discovering groups** (clustering) and what each task is for.
+**Distinguish** regression (predicting a number), classification (known labels) and clustering (groups without labels).
 
-See how real companies do it: idealista values properties and Spotify segments users.
+**Explain** how idealista values properties and how Spotify segments its users.
 
-See how **several techniques combine** in one system: Uber dynamic pricing.
+**Describe** how Uber chains time series, clustering, regression and a control loop to set prices.
 
 ::right::
 
-## What you take away
+## Analyse a real case
 
-A way to read any use case: **data → model → decision**.
+**Break down** any use case into **data → model → decision**.
 
-A numeric example of each technique, to see how it works inside.
+**Assess** the limits of each approach: what data it needs, how it is validated and what can go wrong.
 
-The limits of each approach: what data it needs, how it is validated and what can go wrong.
+**Identify** the risks of taking it to production: privacy, perceived fairness and scale.
 
-<!-- The objectives are about understanding, not implementation. The demos and examples use synthetic data; the sources describe each company's documented deployment. Jupyter Notebook simulations and a web app for Uber will come later. -->
+<!-- By the end of the session, every attendee should be able to do these six things. The objectives are about understanding and analysis, not implementation: the left column follows the three sections (idealista, Spotify and Uber) and the right one gives a method to read any case, revisited in Challenges and ethics and in Conclusions. The demos and numeric examples use synthetic data; the sources describe each company's documented deployment. Jupyter Notebook simulations and a web app for Uber will come later. -->
 ---
 layout: "section"
 ---
