@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#000"/>
+  <!-- Coche visto desde arriba, como en el mapa -->
+  <rect x="11" y="24" width="34" height="20" rx="7" fill="#fff"/>
+  <rect x="31" y="27.5" width="8" height="13" rx="2.5" fill="#000"/>
+  <rect x="18" y="28" width="5" height="12" rx="2" fill="#000"/>
+  <!-- Flecha de precio dinámico -->
+  <circle cx="49" cy="17" r="11" fill="#ff8a54"/>
+  <path d="M49 23V11M43.5 16.5 49 11l5.5 5.5" fill="none" stroke="#000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
