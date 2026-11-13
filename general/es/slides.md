@@ -17,7 +17,7 @@ layout: "cover"
 
 Predecir, agrupar y combinar: de idealista y Spotify al simulador de Uber
 
-InnoIT
+<div class="cover-speaker"><div class="cover-speaker-label">Ponente</div><div class="cover-speaker-name">Andrés Herencia <span>· AI Engineer en InnoIT</span></div><div class="cover-speaker-bio">Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.</div></div>
 
 <!-- Hilo conductor: empezamos con dos casos sencillos y completos (predecir un número con idealista, descubrir grupos con Spotify) y terminamos con un sistema que los combina (Uber). Los dos primeros incluyen una demostración interactiva; el tercero, un recorrido paso a paso con números sintéticos. -->
 ---
@@ -33,31 +33,54 @@ layout: "agenda"
 
 <div class="agenda-note">Tres casos reales de menos a más integrado. Las cifras de las demostraciones son sintéticas.</div>
 ---
-layout: "two-cols"
+layout: "default"
 ---
-# Objetivos
+# Objetivo de la presentación
 
-::left::
+<p class="goal-lead">La IA y el <strong>machine learning</strong> ya están en las aplicaciones que usamos cada día. Hoy veremos <strong>qué hay detrás</strong> y <strong>cómo se implementa</strong> cada caso de uso.</p>
 
-## Comprender las técnicas
+<div class="goal-apps">
+  <div class="goal-app" style="--c:#B1D400"><div class="goal-app-q">¿Cuánto vale este piso?</div><div class="goal-app-a">Buscas casa y el portal te da un precio estimado al instante.</div></div>
+  <div class="goal-app" style="--c:#1DB954"><div class="goal-app-q">¿Qué tipo de oyente eres?</div><div class="goal-app-a">La app de música agrupa a millones de usuarios por cómo escuchan.</div></div>
+  <div class="goal-app" style="--c:#000"><div class="goal-app-q">¿Por qué hoy cuesta más?</div><div class="goal-app-a">Pides un coche con lluvia y la tarifa sube para atraer conductores.</div></div>
+</div>
 
-**Distinguir** regresión (predecir un número), clasificación (etiquetas conocidas) y clustering (grupos sin etiquetas).
+<div class="goal-steps"><span class="goal-steps-label">Cada caso, con el mismo método:</span><span class="step">Datos</span><span class="arrow">→</span><span class="step">Modelo</span><span class="arrow">→</span><span class="step">Decisión</span></div>
 
-**Explicar** cómo idealista valora inmuebles y Spotify segmenta usuarios.
+<!-- Punto de partida: no hablamos de IA en abstracto, sino de funciones que todos hemos usado. Las tres preguntas corresponden a los tres casos de la sesión (idealista, Spotify y Uber). El objetivo es doble: entender qué técnica de machine learning resuelve cada problema y ver cómo se implementa, descomponiendo cada caso en datos, modelo y decisión. Las demostraciones y los ejemplos numéricos usan datos sintéticos; las fuentes describen el despliegue documentado por cada empresa. -->
+---
+layout: "default"
+---
+# Tres casos de uso
 
-**Describir** cómo Uber encadena series temporales, clustering, regresión y un bucle de control para fijar precios.
+<div class="uc-grid">
+  <div class="uc-card uc-idealista">
+    <div class="uc-logo"><img src="/assets/companies/idealista-data-logo.png" alt="idealista/data" /></div>
+    <div class="uc-body">
+      <div class="uc-meta"><span class="uc-num">01</span><span class="uc-tag">Regresión</span></div>
+      <div class="uc-task">Predecir el valor de una vivienda</div>
+      <ul class="uc-points"><li>Modelo hedónico y comparables</li><li>Demo: valora un piso</li></ul>
+    </div>
+  </div>
+  <div class="uc-card uc-spotify">
+    <div class="uc-logo"><img src="/assets/companies/spotify-logo-green.png" alt="Spotify" /></div>
+    <div class="uc-body">
+      <div class="uc-meta"><span class="uc-num">02</span><span class="uc-tag">Clustering</span></div>
+      <div class="uc-task">Agrupar oyentes sin etiquetas</div>
+      <ul class="uc-points"><li>K-means y segmentos de usuarios</li><li>Demo: explora los grupos</li></ul>
+    </div>
+  </div>
+  <div class="uc-card uc-uber">
+    <div class="uc-logo"><img src="/assets/companies/uber-logo.svg" alt="Uber" /></div>
+    <div class="uc-body">
+      <div class="uc-meta"><span class="uc-num">03</span><span class="uc-tag">Sistema completo</span></div>
+      <div class="uc-task">Fijar el precio dinámico</div>
+      <ul class="uc-points"><li>Demanda, zonas y precio</li><li>Simulador web paso a paso</li></ul>
+    </div>
+  </div>
+</div>
 
-::right::
-
-## Analizar un caso real
-
-**Descomponer** cualquier caso de uso en **datos → modelo → decisión**.
-
-**Valorar** los límites de cada enfoque: qué datos necesita, cómo se valida y qué puede salir mal.
-
-**Identificar** los riesgos de llevarlo a producción: privacidad, percepción de justicia y escala.
-
-<!-- Al terminar la sesión, cada asistente debería ser capaz de hacer estas seis cosas. Los objetivos son de comprensión y análisis, no de implementación: la columna izquierda recorre las tres secciones (idealista, Spotify y Uber) y la derecha da un método para leer cualquier caso, que se repasa en Retos y ética y en Conclusiones. Las demostraciones y los ejemplos numéricos usan datos sintéticos; las fuentes describen el despliegue documentado por cada empresa. Más adelante se verán simulaciones en Jupyter Notebook y una aplicación web para Uber. -->
+<!-- Los tres casos van de menos a más integrado. idealista: regresión para estimar el valor de un inmueble (modelo hedónico y comparables), con una demo de 480 inmuebles sintéticos. Spotify: diferencia entre clasificación y clustering, y K-means para segmentar usuarios, con una demo interactiva. Uber: un sistema que encadena series temporales, clustering, regresión y un bucle de control para el precio dinámico, con un simulador web. Todas las cifras de las demos son sintéticas. -->
 ---
 layout: "section"
 ---
@@ -73,7 +96,6 @@ layout: "case"
 company: "idealista/data (España)"
 status: "Servicio comercial de valoración automática"
 takeaway: "La regresión estima un número a partir de las características de una observación."
-detail: "La empresa revela el enfoque de valoración, pero no el estimador exacto."
 sourceLabel: "idealista/data e idealista labs"
 source: "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/"
 ---
@@ -83,23 +105,25 @@ source: "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/v
 
 ## Concepto
 
-Estimar un número continuo a partir de variables explicativas.
+Estimar un número a partir de variables.
 
 ## Caso de uso real
 
-idealista/data combina comparables y ML hedónico para estimar el valor de los inmuebles a partir de su ubicación y sus atributos.
+Comparables y ML hedónico para valorar inmuebles.
 
 ::right::
 
 ## Ventaja
 
-Produce estimaciones coherentes en grandes carteras de inmuebles.
+Valoraciones coherentes a gran escala.
 
 ## Limitación
 
-La falta de atributos y los cambios del mercado reducen la precisión. Las estimaciones difieren de los precios de venta reales.
+Pierde precisión si faltan datos o cambia el mercado.
 
 <!--
+La empresa revela el enfoque de valoración, pero no el estimador exacto.
+
 Un modelo hedónico relaciona el valor de un inmueble con atributos como la ubicación, el tamaño y el tipo de propiedad. Un regresor lineal es una línea base didáctica interpretable; la empresa no dice que su estimador en producción sea una regresión lineal. La valoración automática combina ML con inmuebles comparables. La estimación de un modelo no es un precio de venta garantizado ni una tasación formal. Evaluar el MAE en euros y los errores porcentuales, segmentados por ubicación y tipo de inmueble. La predicción por sí sola no identifica los factores causales del precio.
 
 Fuente principal: https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/
@@ -132,7 +156,6 @@ layout: "case"
 company: "Spotify (Suecia)"
 status: "Método documentado de investigación de usuarios"
 takeaway: "El clustering descubre grupos que los investigadores pueden analizar después."
-detail: "Spotify usa XGBoost y SHAP para explicar los segmentos resultantes."
 sourceLabel: "Spotify Engineering"
 source: "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering"
 ---
@@ -142,23 +165,25 @@ source: "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clust
 
 ## Concepto
 
-Descubrir grupos con comportamiento similar sin etiquetas de grupo predefinidas.
+Agrupar datos parecidos sin etiquetas previas.
 
 ## Caso de uso real
 
-Spotify combina UMAP con HDBSCAN recursivo para descubrir segmentos más finos de usuarios.
+UMAP y HDBSCAN para segmentar usuarios.
 
 ::right::
 
 ## Ventaja
 
-Encuentra segmentos inesperados y apoya la investigación dirigida de usuarios.
+Descubre segmentos inesperados.
 
 ## Limitación
 
-La elección de variables condiciona los grupos. Los clusters estables siguen necesitando validación humana.
+Los grupos dependen de las variables elegidas.
 
 <!--
+Spotify usa XGBoost y SHAP para explicar los segmentos resultantes.
+
 UMAP comprime datos de alta dimensión. HDBSCAN descubre grupos densos y puede dejar algunas observaciones como ruido. Recursión significa repetir ese proceso dentro de un grupo. Después, Spotify entrena modelos XGBoost uno-contra-todos y usa SHAP para entender las variables asociadas a cada cluster. Esta fuente describe segmentación e investigación de usuarios. No establece que Discover Weekly use este pipeline. Evaluar la estabilidad entre muestras y elecciones de variables, y validar después la utilidad con los investigadores.
 
 Fuente principal: https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering
@@ -239,7 +264,6 @@ layout: "case"
 company: "Uber (presencia global)"
 status: "Caso de estudio divulgativo; los modelos reales de Uber son propietarios"
 takeaway: "El precio es una señal que equilibra el sistema, no solo cobra más."
-detail: "El artículo no publica cifras ni arquitectura real: los números de esta presentación son sintéticos."
 sourceLabel: "Shuaib Ullattil, Medium (5 feb 2026)"
 source: "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1"
 ---
@@ -249,23 +273,25 @@ source: "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-han
 
 ## Concepto
 
-Predecir la demanda por zona y ajustar el precio en tiempo real.
+Predecir la demanda y ajustar el precio.
 
 ## Caso de uso real
 
-Series temporales, clustering y regresión para fijar el precio dinámico.
+Series temporales, clustering y regresión.
 
 ::right::
 
 ## Ventaja
 
-Menos esperas y una oferta de conductores más estable.
+Menos esperas, oferta más estable.
 
 ## Limitación
 
-Las subidas bruscas se perciben como injustas y exigen datos sensibles.
+Las subidas bruscas parecen injustas.
 
 <!--
+El artículo no publica cifras ni arquitectura real: los números de esta presentación son sintéticos.
+
 El artículo es una descripción divulgativa de un caso de estudio sobre Big Data y minería de datos. Nombra cuatro técnicas: regresión (sensibilidad de la demanda al precio), clustering (zonas con comportamiento parecido), series temporales (patrones por hora, día y estación) y analítica predictiva (histórico más datos en tiempo real). No indica algoritmos concretos, parámetros, cifras de mejora ni arquitectura. Las diapositivas siguientes reconstruyen cada técnica con la versión más sencilla posible y datos sintéticos, para entender cómo funciona, no cómo la implementa Uber.
 
 Fuente principal: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
@@ -476,5 +502,7 @@ layout: "end"
 **¿Qué decisión de tu empresa podría apoyarse en uno de estos tres enfoques?**
 
 www.inno-it.es
+
+<SimulatorQr label="Prueba los simuladores" hint="Uber · idealista, desde el móvil" />
 
 <div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> · AI Engineer en InnoIT<br>Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.<br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
