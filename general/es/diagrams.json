@@ -631,7 +631,7 @@
   "clustering": {
     "id": "clustering",
     "title": "Spotify: descubrir y explicar grupos",
-    "subtitle": "La recursión usa las variables originales dentro de un cluster seleccionado",
+    "subtitle": "Primero se descubren los grupos; después, un modelo explica qué los define",
     "nodes": [
       {
         "id": "users",
@@ -672,8 +672,8 @@
         "y": 26,
         "w": 236,
         "h": 148,
-        "title": "Seleccionar un cluster",
-        "body": "Tomar sus filas de\nvariables originales",
+        "title": "Grupos descubiertos",
+        "body": "Cada oyente en un grupo\no marcado como ruido",
         "kind": "output",
         "example": false
       },
@@ -746,23 +746,6 @@
         "start": "right",
         "end": "left",
         "via": null
-      },
-      {
-        "a": "cluster",
-        "b": "umap",
-        "label": "repetir dentro del cluster",
-        "start": "bottom",
-        "end": "bottom",
-        "via": [
-          [
-            1018,
-            185
-          ],
-          [
-            418,
-            185
-          ]
-        ]
       },
       {
         "a": "dataset",

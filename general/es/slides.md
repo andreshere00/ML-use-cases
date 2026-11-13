@@ -21,18 +21,6 @@ Predecir, agrupar y combinar: de idealista y Spotify al simulador de Uber
 
 <!-- Hilo conductor: empezamos con dos casos sencillos y completos (predecir un número con idealista, descubrir grupos con Spotify) y terminamos con un sistema que los combina (Uber). Los dos primeros incluyen una demostración interactiva; el tercero, un recorrido paso a paso con números sintéticos. -->
 ---
-layout: "agenda"
----
-# Índice
-
-1. Objetivos
-2. Predicción: idealista
-3. Clasificación y agrupamiento: Spotify
-4. Juntamos todo: simulador de Uber
-5. Conclusiones y próximos pasos
-
-<div class="agenda-note">Tres casos reales de menos a más integrado. Las cifras de las demostraciones son sintéticas.</div>
----
 layout: "default"
 ---
 # Objetivo de la presentación
@@ -67,7 +55,7 @@ layout: "default"
     <div class="uc-body">
       <div class="uc-meta"><span class="uc-num">02</span><span class="uc-tag">Clustering</span></div>
       <div class="uc-task">Agrupar oyentes sin etiquetas</div>
-      <ul class="uc-points"><li>K-means y segmentos de usuarios</li><li>Demo: explora los grupos</li></ul>
+      <ul class="uc-points"><li>UMAP y HDBSCAN para segmentar</li><li>Demo: explora los grupos</li></ul>
     </div>
   </div>
   <div class="uc-card uc-uber">
@@ -80,7 +68,7 @@ layout: "default"
   </div>
 </div>
 
-<!-- Los tres casos van de menos a más integrado. idealista: regresión para estimar el valor de un inmueble (modelo hedónico y comparables), con una demo de 480 inmuebles sintéticos. Spotify: diferencia entre clasificación y clustering, y K-means para segmentar usuarios, con una demo interactiva. Uber: un sistema que encadena series temporales, clustering, regresión y un bucle de control para el precio dinámico, con un simulador web. Todas las cifras de las demos son sintéticas. -->
+<!-- Los tres casos van de menos a más integrado. idealista: regresión para estimar el valor de un inmueble (modelo hedónico y comparables), con una demo de 480 inmuebles sintéticos. Spotify: clustering con UMAP y HDBSCAN para segmentar usuarios, y XGBoost con SHAP para explicar cada grupo, con una demo interactiva. Uber: un sistema que encadena series temporales, clustering, regresión y un bucle de control para el precio dinámico, con un simulador web. Todas las cifras de las demos son sintéticas. -->
 ---
 layout: "section"
 ---
@@ -88,14 +76,11 @@ layout: "section"
 
 # Predicción: idealista
 
-Primera tarea: estimar un número a partir de las características de una observación
-
 <!-- Contexto. La regresión es la tarea de predicción más intuitiva: dado un conjunto de atributos, estimar un valor continuo. Es la base de muchos sistemas de valoración y, más adelante, de la sensibilidad de la demanda al precio en el caso de Uber. -->
 ---
 layout: "case"
 company: "idealista/data (España)"
 status: "Servicio comercial de valoración automática"
-takeaway: "La regresión estima un número a partir de las características de una observación."
 sourceLabel: "idealista/data e idealista labs"
 source: "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/"
 ---
@@ -148,14 +133,11 @@ layout: "section"
 
 # Clasificación y agrupamiento: Spotify
 
-Segunda tarea: descubrir grupos cuando no hay etiquetas previas
-
 <!-- Contexto. Pasamos de predecir un número a organizar los datos. En clasificación las etiquetas ya existen y se aprenden; en clustering no, y el algoritmo propone los grupos. Spotify lo usa para segmentar usuarios y entender cada segmento. Este es el mismo principio que más tarde agrupará las zonas de una ciudad en el caso de Uber. -->
 ---
 layout: "case"
 company: "Spotify (Suecia)"
 status: "Método documentado de investigación de usuarios"
-takeaway: "El clustering descubre grupos que los investigadores pueden analizar después."
 sourceLabel: "Spotify Engineering"
 source: "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering"
 ---
@@ -197,7 +179,7 @@ diagram: "clustering"
 ---
 # <span style="color:#1ED760">Spotify</span>: descubrir y explicar grupos
 
-<!-- Vista interactiva: demostración Vue/SVG de nueve etapas con 684 oyentes sintéticos, ajustes calculados de UMAP/HDBSCAN, modelos sustitutos XGBoost y TreeSHAP nativo exacto. Sin datos de usuarios de Spotify ni parámetros internos. El PDF conserva el diagrama de visión general. Archivos complementarios: spotify-clustering.html, spotify-clustering-walkthrough.pdf y SPOTIFY-EXPLORER.md. Logotipo de la empresa: kit de prensa oficial de Spotify, https://newsroom.spotify.com/media-kit/logo-and-brand-assets/ .
+<!-- Vista interactiva: demostración Vue/SVG de siete etapas (la recursión de Spotify, con re-embedding y jerarquía, se trabaja solo en el notebook 03-spotify-clustering) con 684 oyentes sintéticos, ajustes calculados de UMAP/HDBSCAN, modelos sustitutos XGBoost y TreeSHAP nativo exacto. Sin datos de usuarios de Spotify ni parámetros internos. El PDF conserva el diagrama de visión general. Archivos complementarios: spotify-clustering.html, spotify-clustering-walkthrough.pdf y SPOTIFY-EXPLORER.md. Logotipo de la empresa: kit de prensa oficial de Spotify, https://newsroom.spotify.com/media-kit/logo-and-brand-assets/ .
 
 Spotify vuelve a ejecutar recursivamente UMAP y HDBSCAN sobre los puntos de datos originales de un cluster seleccionado. Entrena modelos XGBoost uno-contra-todos sobre las variables originales y las etiquetas de cluster resultantes, y después usa SHAP para la explicación. Este no es un diagrama de Discover Weekly.
 Fuente: https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering
@@ -220,8 +202,6 @@ layout: "section"
 03
 
 # Juntamos todo: simulador de Uber
-
-Un sistema real no usa una técnica, sino varias encadenadas
 ---
 layout: "two-cols"
 ---
@@ -258,46 +238,12 @@ Visión general del problema. Uber conecta en tiempo real a quien pide un viaje 
 
 Los números del diagrama (165 solicitudes y 110 conductores en Centro, viernes a las 18:00) son un ejemplo sintético que se mantiene durante toda la presentación. No son datos de Uber.
 Fuente: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
--->
----
-layout: "case"
-company: "Uber (presencia global)"
-status: "Caso de estudio divulgativo; los modelos reales de Uber son propietarios"
-takeaway: "El precio es una señal que equilibra el sistema, no solo cobra más."
-sourceLabel: "Shuaib Ullattil, Medium (5 feb 2026)"
-source: "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1"
----
-# Precio dinámico y demanda
 
-::left::
-
-## Concepto
-
-Predecir la demanda y ajustar el precio.
-
-## Caso de uso real
-
-Series temporales, clustering y regresión.
-
-::right::
-
-## Ventaja
-
-Menos esperas, oferta más estable.
-
-## Limitación
-
-Las subidas bruscas parecen injustas.
-
-<!--
 El artículo no publica cifras ni arquitectura real: los números de esta presentación son sintéticos.
 
 El artículo es una descripción divulgativa de un caso de estudio sobre Big Data y minería de datos. Nombra cuatro técnicas: regresión (sensibilidad de la demanda al precio), clustering (zonas con comportamiento parecido), series temporales (patrones por hora, día y estación) y analítica predictiva (histórico más datos en tiempo real). No indica algoritmos concretos, parámetros, cifras de mejora ni arquitectura. Las diapositivas siguientes reconstruyen cada técnica con la versión más sencilla posible y datos sintéticos, para entender cómo funciona, no cómo la implementa Uber.
 
-Fuente principal: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
-
 Publicación: 5 feb 2026. Consultado: 10 de noviembre de 2026.
-Las ventajas y limitaciones son puntos didácticos de análisis, salvo que se atribuyan expresamente.
 -->
 ---
 layout: "table"
@@ -505,4 +451,4 @@ www.inno-it.es
 
 <SimulatorQr label="Prueba los simuladores" hint="Uber · idealista, desde el móvil" />
 
-<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> · AI Engineer en InnoIT<br>Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.<br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
+<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>

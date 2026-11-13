@@ -5,7 +5,7 @@ import data from '../../data/spotify-demo.json'
 const props=defineProps({ initialStage:{type:Number,default:-1}, initialPreset:{type:String,default:'balanced'}, onSlideBoundary:Function,printStage:{type:Number,default:null}})
 const root=ref(null),stage=ref(props.initialStage),presetId=ref(props.initialPreset),contextId=ref('root')
 const cluster=ref(0),observation=ref(0),details=ref(false),playing=ref(false),shapMode=ref('local')
-const stages=['Variables','UMAP','HDBSCAN','Re-embedding','Jerarquía','XGBoost','SHAP','Explicabilidad']
+const stages=['Variables','UMAP','HDBSCAN','XGBoost','SHAP','Explicabilidad']
 const colours=['#4D225D','#E64366','#237C82','#A16A16','#466DB4','#8F5195','#6B7933','#C65D36','#395E59','#88566B']
 const preset=computed(()=>data.presets.find(p=>p.id===presetId.value)||data.presets[1])
 const node=computed(()=>preset.value.nodes[contextId.value]||preset.value.nodes.root)
@@ -59,13 +59,11 @@ onBeforeUnmount(()=>{clearInterval(timer);window.removeEventListener('keydown',o
 watch(()=>props.printStage,v=>{if(v!=null)stage.value=Math.max(-1,Math.min(stages.length-1,v))},{immediate:true})
 defineExpose({go,reset,enter,stage,presetId,contextId})
 
-const titles=['Un vector de variables original para cada oyente','UMAP hace visibles los vecindarios','HDBSCAN descubre grupos basados en densidad','La recursión parte de las filas de variables originales','La jerarquía registra cada paso de descubrimiento','Un modelo supervisado aprende la pertenencia descubierta','SHAP explica el predictor de pertenencia','Qué significan los resultados']
+const titles=['Un vector de variables original para cada oyente','UMAP hace visibles los vecindarios','HDBSCAN descubre grupos basados en densidad','Un modelo supervisado aprende la pertenencia descubierta','SHAP explica el predictor de pertenencia','Qué significan los resultados']
 const explanations=[
   'La escucha de Ana se convierte en una fila numérica. Aquí calculamos seis variables de comportamiento. Los recuentos de artistas serían entradas adicionales.',
   'Con variables de artistas adecuadas, Ana y Luis podrían aparecer cerca porque comparten artistas. UMAP muestra similitud, no una etiqueta de género.',
   'Un grupo denso podría contener a Ana y a Luis, mientras que Marta queda en otro sitio. Los colores muestran los grupos descubiertos. Nuestro gráfico usa datos de comportamiento sintéticos.',
-  'Analiza de nuevo el grupo de Ana con sus filas originales. Esto podría revelar hábitos más finos dentro de su grupo más amplio.',
-  'El grupo amplio de Ana podría dividirse en subgrupos. El árbol registra qué usuarios entran en cada nuevo ajuste. Haz clic en una rama para inspeccionar su población calculada.',
   'XGBoost aprende a predecir el grupo de Ana frente al resto, usando las variables originales y las etiquetas descubiertas.',
   'SHAP explica la puntuación de grupo de un oyente. La escucha indie podría importar con variables de artistas. Estas barras explican el comportamiento.',
   'Traduce la explicación del modelo en una descripción del grupo y luego valida esa descripción con oyentes.'
@@ -80,7 +78,7 @@ const explanations=[
     <div class="sp-workspace">
       <div class="sp-visual" :style="{animationName:stage%2?'spRevealOdd':'spRevealEven'}">
         <div class="sp-plot-heading">
-          <span>{{ stage===-1?'Las personas detrás del caso de uso':stage===0?'Variables originales':stage===3?'Un nuevo ajuste, no un gráfico ampliado':stage===4?'Jerarquía de clusters calculada':stage===5?'Entrenamiento uno contra el resto':stage===6?'Contribuciones TreeSHAP calculadas':stage===7?'Por qué hace falta interpretar':'Coordenadas UMAP calculadas' }}</span>
+          <span>{{ stage===-1?'Las personas detrás del caso de uso':stage===0?'Variables originales':stage===3?'Entrenamiento uno contra el resto':stage===4?'Contribuciones TreeSHAP calculadas':stage===5?'Por qué hace falta interpretar':'Coordenadas UMAP calculadas' }}</span>
           <span v-if="stage===1||stage===2" class="sp-light">{{ counts }}</span>
         </div>
 
@@ -112,34 +110,6 @@ const explanations=[
         </template>
 
         <template v-else-if="stage===3">
-          <svg class="sp-recursion" viewBox="0 0 700 280" role="img" aria-label="Cluster padre seleccionado, filas de variables originales y nuevo embedding hijo ajustado">
-            <defs><marker id="sp-recursion-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#4D225D"/></marker></defs>
-            <text x="18" y="25" class="sp-svg-label">1. Seleccionar {{ selected?.name }}</text>
-            <circle v-for="(p,i) in node.positions" :key="node.ids[i]" :cx="pointX(p,210,5)" :cy="pointY(p,175,45)" r="2.1" :fill="pointFill(node.labels[i])" :opacity="node.labels[i]===selected?.label?0.95:0.12"/>
-            <path d="M225 140 H265" class="sp-arrow" marker-end="url(#sp-recursion-arrow)"/>
-            <text x="275" y="25" class="sp-svg-label">2. Filas X originales</text>
-            <rect x="278" y="68" width="125" height="150" fill="#EDE9EF"/>
-            <g v-for="(id,i) in (selected?.memberIds||[]).slice(0,6)" :key="id"><text x="286" :y="89+i*22" class="sp-svg-small">L{{ id+1 }}</text><rect v-for="j in 6" :key="j" :x="332+(j-1)*10" :y="78+i*22" width="7" height="12" :fill="pointFill(selected.label)" :opacity=".15+data.values[id][j-1]/(j<3?280:1)*.7"/></g>
-            <text x="279" y="243" class="sp-svg-small">{{ selected?.n }} × 6 variables</text>
-            <path d="M414 140 H454" class="sp-arrow" marker-end="url(#sp-recursion-arrow)"/>
-            <text x="468" y="25" class="sp-svg-label">3. Reajustar ambos modelos</text>
-            <template v-if="child"><circle v-for="(p,i) in child.positions" :key="child.ids[i]" :cx="pointX(p,218,462)" :cy="pointY(p,175,45)" r="2.6" :fill="pointFill(child.labels[i])"/><text x="470" y="243" class="sp-svg-small">{{ child.clusters.length }} grupos · {{ child.noise }} ruido</text></template>
-            <template v-else><text x="470" y="125" class="sp-svg-label">Límite de profundidad alcanzado</text><text x="470" y="151" class="sp-svg-small">Un ajuste recursivo en esta demo</text></template>
-          </svg>
-          <div class="sp-chart-note">Las nuevas coordenadas proceden de un nuevo ajuste de UMAP sobre las filas originales seleccionadas.</div>
-        </template>
-
-        <div v-else-if="stage===4" class="sp-tree">
-          <button class="sp-tree-root" @click="enter('root')">Población completa <b>{{ data.n }}</b></button>
-          <div class="sp-tree-branches"><div v-for="c in preset.nodes.root.clusters" :key="c.label" class="sp-tree-branch">
-            <button :style="{borderTopColor:pointFill(c.label)}" @click="contextId='root';choose(c.label);stage=3">{{ c.name }} <b>{{ c.n }} oyentes</b></button>
-            <template v-if="c.child"><button v-for="sub in preset.nodes[c.child].clusters" :key="sub.label" class="sp-tree-child" @click="enter(c.child);choose(sub.label)"><i :style="{background:pointFill(sub.label)}"/>{{ c.name }}.{{ sub.label+1 }} <b>{{ sub.n }}</b></button><small>{{ preset.nodes[c.child].noise }} ruido en el ajuste hijo</small></template>
-            <small v-else>Sin ajuste recursivo</small>
-          </div></div>
-          <div class="sp-chart-note">El ruido queda sin asignar. Los recuentos de los hijos pueden sumar menos que el padre.</div>
-        </div>
-
-        <template v-else-if="stage===5">
           <svg class="sp-model-flow" viewBox="0 0 700 300" role="img" aria-label="Las variables originales y las etiquetas de pertenencia descubiertas entrenan un modelo sustituto XGBoost">
             <defs><marker id="sp-model-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#4D225D"/></marker></defs>
             <rect x="15" y="30" width="195" height="88" fill="#EDE9EF"/><text x="30" y="58" class="sp-svg-label">Variables originales X</text><text x="30" y="87" class="sp-svg-body">{{ node.ids.length }} filas × 6</text>
@@ -152,7 +122,7 @@ const explanations=[
           </svg>
         </template>
 
-        <template v-else-if="stage===6">
+        <template v-else-if="stage===4">
           <div class="sp-shap-switch"><button :class="{chosen:shapMode==='local'}" @click="shapMode='local'">Este oyente</button><button :class="{chosen:shapMode==='global'}" @click="shapMode='global'">Mean |SHAP|</button><span>{{ shapMode==='local'?'Contribución con signo al log-odds de pertenencia':'Magnitud media en este nodo' }}</span></div>
           <svg class="sp-shap" viewBox="0 0 700 250" role="img" aria-label="Contribuciones SHAP calculadas de las variables originales">
             <line x1="410" y1="16" x2="410" y2="216" class="sp-axis"/>
@@ -162,7 +132,7 @@ const explanations=[
           <div class="sp-shap-equation" v-if="shapMode==='local'">Base {{ model?.base.toFixed(2) }} + Σ SHAP {{ rawShap.reduce((a,b)=>a+b,0).toFixed(2) }} = log-odds {{ rawMargin.toFixed(2) }} <b>P({{ selected?.name }}) = {{ pct(score) }}</b></div>
           <div class="sp-chart-note" v-else>La magnitud mide la dependencia del modelo, no la dirección ni la causalidad.</div>
         </template>
-        <div v-else-if="stage===7" class="sp-meaning">
+        <div v-else-if="stage===5" class="sp-meaning">
           <div class="sp-meaning-step"><span>Personas</span><p>Ana y Luis escuchan a AC/DC y a Metallica. Marta escucha a Taylor Swift.</p></div>
           <div class="sp-meaning-step"><span>Grupo</span><p>Los recuentos de reproducciones por artista podrían agrupar a Ana y a Luis, separados de Marta.</p></div>
           <div class="sp-meaning-step"><span>Por qué</span><p>Una explicación podría identificar la escucha de rock y metal como la señal principal del grupo.</p></div>
@@ -174,7 +144,7 @@ const explanations=[
       <aside class="sp-explanation" :class="{'sp-details-open':details}">
         <div class="sp-panel-top"><span>{{ stage+2 }} / {{ stages.length+1 }}</span><button @click="details=!details" :aria-expanded="details">{{ details?'Cerrar detalles':'Detalles técnicos' }}</button></div>
         <template v-if="!details&&stage===-1"><h3>Un ejemplo concreto de escucha</h3><p>Ana y Luis comparten artistas. ¿Podemos descubrir su grupo y explicar qué lo hace diferente?</p><div class="sp-readout"><b>Sigue a las mismas personas</b><span>Cada paso siguiente explica qué supondría el algoritmo para Ana, Luis y Marta.</span><small>Historia ilustrativa. Los gráficos calculados usan variables de comportamiento sintéticas, sin recuentos de artistas ni usuarios con nombre.</small></div></template>
-        <template v-else-if="!details&&stage===7">
+        <template v-else-if="!details&&stage===5">
           <h3>Qué significan los resultados</h3>
           <div class="sp-readout sp-meaning-controls"><label>Grupo <select aria-label="Seleccionar modelo de interpretación" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }}</option></select></label><label>Oyente <select aria-label="Seleccionar oyente para la interpretación" :value="observation" @change="pickObservation($event.target.value)"><option v-for="id in node.ids" :key="id" :value="id">L{{ String(id+1).padStart(3,'0') }}</option></select></label></div>
           <p class="sp-interpretation"><b>En todos los oyentes</b><br>{{ globalDrivers.map(d=>data.features[d.index].name).join(' y ') }} tienen los mayores efectos medios.</p>
@@ -187,21 +157,17 @@ const explanations=[
           <div v-if="stage===1" class="sp-readout"><b>{{ node.ids.length }} × 6 → {{ node.ids.length }} × 2</b><span>Fiabilidad (trustworthiness) con 10 vecinos: {{ node.trustworthiness.toFixed(3) }}</span><small>Diagnóstico de vecindad local, no validez del segmento.</small></div>
           <div v-if="stage===2&&node.clusters.length" class="sp-readout"><label>Inspeccionar grupo <select aria-label="Seleccionar cluster" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }} · {{ c.n }} oyentes</option></select></label><b>{{ pct((selected?.n||0)/node.ids.length) }} de este nodo</b><span>Ruido: {{ node.noise }} / {{ node.ids.length }}</span></div>
           <div v-if="stage===2&&!node.clusters.length" class="sp-readout"><b>No existe objetivo de pertenencia</b><span>Las {{ node.ids.length }} filas quedan sin asignar. La recursión puede detenerse sin producir una partición más fina.</span></div>
-          <div v-if="stage===3" class="sp-readout"><label>Cluster padre <select aria-label="Seleccionar padre recursivo" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }} · {{ c.n }} filas</option></select></label><button v-if="child" class="sp-primary" @click="enter(child.id)">Inspeccionar ajuste hijo de {{ selected.name }}</button><span v-else>Límite de profundidad de la demo: vuelve a la población completa para explorar otra rama.</span></div>
-          <div v-if="stage===4" class="sp-readout"><b>{{ Object.keys(preset.nodes).length }} ajustes calculados</b><span>Cada hijo tiene sus propias coordenadas UMAP y asignaciones HDBSCAN.</span></div>
-          <div v-if="stage===5" class="sp-readout"><label>Modelo de pertenencia <select aria-label="Seleccionar modelo XGBoost" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }} contra el resto</option></select></label><span>{{ model?.metrics.trainN }} entrenamiento / {{ model?.metrics.testN }} reservados</span><small>La partición prueba la reproducción de etiquetas, no el descubrimiento de clusters con usuarios nuevos.</small></div>
-          <div v-if="stage===6" class="sp-readout"><label>Explicar la pertenencia a <select aria-label="Seleccionar modelo SHAP" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }}</option></select></label><label>Oyente <select aria-label="Seleccionar oyente" :value="observation" @change="pickObservation($event.target.value)"><option v-for="id in node.ids" :key="id" :value="id">L{{ String(id+1).padStart(3,'0') }}{{ model?.testIds.includes(id)?' · reservado':'' }}</option></select></label><small>{{ isTest?'Oyente reservado':'Oyente de entrenamiento' }}. Las puntuaciones binarias independientes no tienen por qué sumar 1.</small></div>
+          <div v-if="stage===3" class="sp-readout"><label>Modelo de pertenencia <select aria-label="Seleccionar modelo XGBoost" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }} contra el resto</option></select></label><span>{{ model?.metrics.trainN }} entrenamiento / {{ model?.metrics.testN }} reservados</span><small>La partición prueba la reproducción de etiquetas, no el descubrimiento de clusters con usuarios nuevos.</small></div>
+          <div v-if="stage===4" class="sp-readout"><label>Explicar la pertenencia a <select aria-label="Seleccionar modelo SHAP" :value="selected?.label" @change="choose($event.target.value)"><option v-for="c in node.clusters" :key="c.label" :value="c.label">{{ c.name }}</option></select></label><label>Oyente <select aria-label="Seleccionar oyente" :value="observation" @change="pickObservation($event.target.value)"><option v-for="id in node.ids" :key="id" :value="id">L{{ String(id+1).padStart(3,'0') }}{{ model?.testIds.includes(id)?' · reservado':'' }}</option></select></label><small>{{ isTest?'Oyente reservado':'Oyente de entrenamiento' }}. Las puntuaciones binarias independientes no tienen por qué sumar 1.</small></div>
         </template>
         <div v-else class="sp-technical">
           <h3>Configuración real de la demo</h3>
           <p v-if="stage===0"><b>Entrada:</b> una observación por fila. Los porcentajes se mantienen como fracciones en X. La estandarización usa la media y la desviación típica de toda la población. Ninguna etiqueta del generador entra en el clustering.</p>
           <p v-if="stage===1"><b>Operación de UMAP:</b> construye un grafo de vecinos en el espacio de variables estandarizado, asigna pesos difusos a las aristas y luego optimiza una disposición de baja dimensión. La animación solo interpola las vistas finales.</p>
           <p v-if="stage===2"><b>Operación de HDBSCAN:</b> distancia de alcanzabilidad mutua = max(coreₖ(a), coreₖ(b), d(a,b)). Construye la jerarquía de densidad, condensa las ramas pequeñas y selecciona clusters por exceso de masa. Esta demo agrupa el embedding 2D.</p>
-          <p v-if="stage===3"><b>Reajuste:</b> X_hijo = X[IDs de fila del padre]. Usa las seis columnas originales con el escalador global. Recalcula los vecinos y ambos modelos. Se excluyen las coordenadas 2D anteriores.</p>
-          <p v-if="stage===4"><b>Significado del árbol:</b> es el árbol de análisis recursivo, no el árbol de densidad condensado interno de HDBSCAN. Un hijo puede no producir ningún grupo. El ruido queda sin asignar en cada ajuste.</p>
-          <p v-if="stage===5"><b>Objetivo:</b> yᶜᵢ = 1[etiquetaᵢ = c]. Cada modelo recibe la X original y un objetivo binario. El ruido es negativo para todos los modelos de cluster. Una partición reservada mide la reproducción de etiquetas descubiertas fijas.</p>
-          <p v-if="stage===6"><b>Aditividad:</b> f_c(x) = E[f_c(X)] + Σⱼ φⱼ. Aquí f_c es el log-odds bruto. P(c) = 1/(1 + exp(−f_c(x))). La media de |φ| se calcula sobre este nodo y no solo sobre sus miembros positivos.</p>
-          <p v-if="stage===7"><b>Interpretación:</b> los factores globales ordenan el SHAP absoluto medio sobre todas las filas de este nodo. La afirmación local usa la mayor contribución SHAP absoluta con signo para el oyente y el modelo de pertenencia seleccionados. Un valor positivo empuja hacia la pertenencia y uno negativo, lejos de ella. Los valores de las variables proceden de la fila de entrada original.</p>
+          <p v-if="stage===3"><b>Objetivo:</b> yᶜᵢ = 1[etiquetaᵢ = c]. Cada modelo recibe la X original y un objetivo binario. El ruido es negativo para todos los modelos de cluster. Una partición reservada mide la reproducción de etiquetas descubiertas fijas.</p>
+          <p v-if="stage===4"><b>Aditividad:</b> f_c(x) = E[f_c(X)] + Σⱼ φⱼ. Aquí f_c es el log-odds bruto. P(c) = 1/(1 + exp(−f_c(x))). La media de |φ| se calcula sobre este nodo y no solo sobre sus miembros positivos.</p>
+          <p v-if="stage===5"><b>Interpretación:</b> los factores globales ordenan el SHAP absoluto medio sobre todas las filas de este nodo. La afirmación local usa la mayor contribución SHAP absoluta con signo para el oyente y el modelo de pertenencia seleccionados. Un valor positivo empuja hacia la pertenencia y uno negativo, lejos de ella. Los valores de las variables proceden de la fila de entrada original.</p>
           <p><b>Datos:</b> {{ data.n }} filas sintéticas, 6 variables. Estandarización global. Semilla {{ data.seed }}.</p>
           <p><b>UMAP:</b> n_neighbors={{ node.parameters.n_neighbors }}, min_dist={{ node.parameters.min_dist }}, métrica euclídea, 2 dimensiones.</p>
           <p><b>HDBSCAN:</b> min_cluster_size={{ node.parameters.min_cluster_size }}, min_samples={{ node.parameters.min_samples }}, selección EOM. Etiqueta de ruido −1.</p>

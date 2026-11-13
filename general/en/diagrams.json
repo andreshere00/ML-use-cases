@@ -631,7 +631,7 @@
   "clustering": {
     "id": "clustering",
     "title": "Spotify: discovering and explaining groups",
-    "subtitle": "The recursion uses original features within a selected cluster",
+    "subtitle": "First discover the groups; then a model explains what defines them",
     "nodes": [
       {
         "id": "users",
@@ -672,8 +672,8 @@
         "y": 26,
         "w": 236,
         "h": 148,
-        "title": "Select a cluster",
-        "body": "Take its original\nfeature rows",
+        "title": "Discovered groups",
+        "body": "Each listener in a group\nor marked as noise",
         "kind": "output",
         "example": false
       },
@@ -746,23 +746,6 @@
         "start": "right",
         "end": "left",
         "via": null
-      },
-      {
-        "a": "cluster",
-        "b": "umap",
-        "label": "repeat within cluster",
-        "start": "bottom",
-        "end": "bottom",
-        "via": [
-          [
-            1018,
-            185
-          ],
-          [
-            418,
-            185
-          ]
-        ]
       },
       {
         "a": "dataset",

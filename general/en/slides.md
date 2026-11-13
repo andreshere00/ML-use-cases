@@ -21,18 +21,6 @@ Predict, group and combine: from idealista and Spotify to the Uber simulator
 
 <!-- Storyline: we start with two simple, complete cases (predicting a number with idealista, discovering groups with Spotify) and finish with a system that combines them (Uber). The first two include an interactive demo; the third is a step-by-step walkthrough with synthetic numbers. -->
 ---
-layout: "agenda"
----
-# Contents
-
-1. Objectives
-2. Prediction: idealista
-3. Classification and clustering: Spotify
-4. Putting it together: the Uber simulator
-5. Conclusions and next steps
-
-<div class="agenda-note">Three real cases, from simple to integrated. The demo figures are synthetic.</div>
----
 layout: "default"
 ---
 # What this session is about
@@ -67,7 +55,7 @@ layout: "default"
     <div class="uc-body">
       <div class="uc-meta"><span class="uc-num">02</span><span class="uc-tag">Clustering</span></div>
       <div class="uc-task">Group listeners without labels</div>
-      <ul class="uc-points"><li>K-means and user segments</li><li>Demo: explore the groups</li></ul>
+      <ul class="uc-points"><li>UMAP and HDBSCAN to segment</li><li>Demo: explore the groups</li></ul>
     </div>
   </div>
   <div class="uc-card uc-uber">
@@ -80,7 +68,7 @@ layout: "default"
   </div>
 </div>
 
-<!-- The three cases go from simple to integrated. idealista: regression to estimate a property's value (hedonic model and comparables), with a demo of 480 synthetic properties. Spotify: the difference between classification and clustering, and K-means to segment users, with an interactive demo. Uber: a system that chains time series, clustering, regression and a control loop for dynamic pricing, with a web simulator. All demo figures are synthetic. -->
+<!-- The three cases go from simple to integrated. idealista: regression to estimate a property's value (hedonic model and comparables), with a demo of 480 synthetic properties. Spotify: clustering with UMAP and HDBSCAN to segment users, and XGBoost with SHAP to explain each group, with an interactive demo. Uber: a system that chains time series, clustering, regression and a control loop for dynamic pricing, with a web simulator. All demo figures are synthetic. -->
 ---
 layout: "section"
 ---
@@ -88,14 +76,11 @@ layout: "section"
 
 # Prediction: idealista
 
-First task: estimate a number from the characteristics of an observation
-
 <!-- Context. Regression is the most intuitive prediction task: given a set of attributes, estimate a continuous value. It underlies many valuation systems and, later, the sensitivity of demand to price in the Uber case. -->
 ---
 layout: "case"
 company: "idealista/data (Spain)"
 status: "Commercial automated valuation service"
-takeaway: "Regression estimates a number from the characteristics of an observation."
 sourceLabel: "idealista/data and idealista labs"
 source: "https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/valoracion-automatica/"
 ---
@@ -148,14 +133,11 @@ layout: "section"
 
 # Classification and clustering: Spotify
 
-Second task: discover groups when there are no prior labels
-
 <!-- Context. We move from predicting a number to organising the data. In classification the labels already exist and are learned; in clustering they do not, and the algorithm proposes the groups. Spotify uses it to segment users and understand each segment. The same principle will later group the zones of a city in the Uber case. -->
 ---
 layout: "case"
 company: "Spotify (Sweden)"
 status: "Documented user-research method"
-takeaway: "Clustering discovers groups that researchers can then investigate."
 sourceLabel: "Spotify Engineering"
 source: "https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering"
 ---
@@ -197,7 +179,7 @@ diagram: "clustering"
 ---
 # <span style="color:#1ED760">Spotify</span>: discovering and explaining groups
 
-<!-- Interactive view: nine-stage Vue/SVG demonstration using 684 synthetic listeners, computed UMAP/HDBSCAN fits, XGBoost surrogates and exact native TreeSHAP. No Spotify user data or internal parameters. The PDF retains the overview diagram. Companion files: spotify-clustering.html, spotify-clustering-walkthrough.pdf and SPOTIFY-EXPLORER.md. Company logo: official Spotify press kit, https://newsroom.spotify.com/media-kit/logo-and-brand-assets/ .
+<!-- Interactive view: seven-stage Vue/SVG demonstration using 684 synthetic listeners (Spotify’s recursion, with re-embedding and hierarchy, is covered only in notebook 03-spotify-clustering), computed UMAP/HDBSCAN fits, XGBoost surrogates and exact native TreeSHAP. No Spotify user data or internal parameters. The PDF retains the overview diagram. Companion files: spotify-clustering.html, spotify-clustering-walkthrough.pdf and SPOTIFY-EXPLORER.md. Company logo: official Spotify press kit, https://newsroom.spotify.com/media-kit/logo-and-brand-assets/ .
 
 Spotify recursively reruns UMAP and HDBSCAN on the original data points of a selected cluster. It trains one-versus-all XGBoost models on the original features and resulting cluster labels, then uses SHAP for explanation. This is not a diagram of Discover Weekly.
 Source: https://engineering.atspotify.com/2023/12/recursive-embedding-and-clustering
@@ -220,8 +202,6 @@ layout: "section"
 03
 
 # Putting it together: the Uber simulator
-
-A real system does not use one technique, but several chained together
 ---
 layout: "two-cols"
 ---
@@ -258,43 +238,10 @@ Overview of the problem. Uber connects, in real time, whoever asks for a ride wi
 
 The numbers in the diagram (165 requests and 110 drivers in Downtown, Friday at 18:00) are a synthetic example kept throughout the presentation. They are not Uber data.
 Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
--->
----
-layout: "case"
-company: "Uber (global presence)"
-status: "Explanatory case study; Uber's real models are proprietary"
-takeaway: "Price is a signal that balances the system, not just a charge."
-sourceLabel: "Shuaib Ullattil, Medium (5 Feb 2026)"
-source: "https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1"
----
-# Dynamic pricing and demand
 
-::left::
-
-## Concept
-
-Predict demand and adjust the price.
-
-## Real use case
-
-Time series, clustering and regression.
-
-::right::
-
-## Advantage
-
-Shorter waits, steadier supply.
-
-## Limitation
-
-Sharp surges feel unfair.
-
-<!--
 The article publishes no real figures or architecture: the numbers in this deck are synthetic.
 
 The article is an explanatory description of a Big Data and data mining case study. It names four techniques: regression (sensitivity of demand to price), clustering (zones with similar behaviour), time series (patterns by hour, day and season) and predictive analytics (history plus real-time data). It does not state specific algorithms, parameters, improvement figures or architecture. The following slides rebuild each technique in its simplest possible version with synthetic data, to understand how it works, not how Uber implements it.
-
-Main source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
 
 Published: 5 Feb 2026. Consulted: 10 November 2026.
 The advantages and limitations are didactic analysis points, unless explicitly attributed.
@@ -505,4 +452,4 @@ www.inno-it.es
 
 <SimulatorQr label="Try the simulators" hint="Uber · idealista, on your phone" />
 
-<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> · AI Engineer at InnoIT<br>I design and build AI and machine learning solutions applied to real use cases.<br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
+<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
