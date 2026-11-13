@@ -445,8 +445,6 @@ layout: "end"
 ---
 # Gracias
 
-**¿Qué decisión de tu empresa podría apoyarse en uno de estos tres enfoques?**
-
 www.inno-it.es
 
 <SimulatorQr label="Prueba los simuladores" hint="Uber · idealista, desde el móvil" />

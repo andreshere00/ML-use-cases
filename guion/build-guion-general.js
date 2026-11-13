@@ -272,7 +272,7 @@ c.push(
   say('Aquí están las tres fuentes: la página de idealista/data, el artículo de Spotify Engineering y el artículo divulgativo sobre Uber. Recordad que los datos de las demos son sintéticos.'),
 
   slide('Gracias', '2 min + preguntas'),
-  say('Os dejo una pregunta: ¿qué decisión de vuestra empresa podría apoyarse en uno de estos tres enfoques? ¿Predecir un número, descubrir grupos o combinar varias piezas?'),
+  say('Muchas gracias. Si queréis seguir con el tema, aquí tenéis mi LinkedIn y la web de InnoIT. Abrimos turno de preguntas.'),
   cue('señala el QR: desde el móvil se pueden probar los simuladores de Uber e idealista. Deja la diapositiva puesta durante las preguntas.'),
 )
 

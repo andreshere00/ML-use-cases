@@ -446,8 +446,6 @@ layout: "end"
 ---
 # Thank you
 
-**Which decision in your company could rely on one of these three approaches?**
-
 www.inno-it.es
 
 <SimulatorQr label="Try the simulators" hint="Uber · idealista, on your phone" />
