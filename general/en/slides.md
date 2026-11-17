@@ -407,31 +407,48 @@ The three challenges (privacy, perception of fairness and technical scale) come 
 Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
 -->
 ---
-layout: "two-cols"
+layout: "default"
 ---
 # Conclusions and next steps
 
-::left::
+<div class="ml-grid">
+  <div class="ml-card ml-temporal">
+    <div class="ml-tag">Prediction over time</div>
+    <div class="ml-name">Forecasting</div>
+    <div class="ml-tech">Time series</div>
+    <p class="ml-what">Predicts future values from history and context.</p>
+    <div class="ml-seen"><b>Seen in</b> Uber: Friday 18:00 demand</div>
+    <div class="ml-watch"><b>Watch out:</b> a new event breaks the pattern.</div>
+  </div>
+  <div class="ml-card ml-sup">
+    <div class="ml-tag">Supervised</div>
+    <div class="ml-name">Prediction</div>
+    <div class="ml-tech">Regression</div>
+    <p class="ml-what">Estimates a number from features and examples with their real value.</p>
+    <div class="ml-seen"><b>Seen in</b> idealista (price) and Uber (demand versus price)</div>
+    <div class="ml-watch"><b>Watch out:</b> an estimate is not a sale price.</div>
+  </div>
+  <div class="ml-card ml-sup">
+    <div class="ml-tag">Supervised</div>
+    <div class="ml-name">Classification</div>
+    <div class="ml-tech">XGBoost · CatBoost</div>
+    <p class="ml-what">Learns to assign known labels to each observation.</p>
+    <div class="ml-seen"><b>Seen in</b> Spotify: which group each listener belongs to, explained with SHAP</div>
+    <div class="ml-watch"><b>Watch out:</b> only as good as its labels.</div>
+  </div>
+  <div class="ml-card ml-unsup">
+    <div class="ml-tag">Unsupervised</div>
+    <div class="ml-name">Unsupervised classification</div>
+    <div class="ml-tech">Clustering</div>
+    <p class="ml-what">Discovers similar groups without prior labels.</p>
+    <div class="ml-seen"><b>Seen in</b> Spotify (UMAP + HDBSCAN) and Uber (k-means zones)</div>
+    <div class="ml-watch"><b>Watch out:</b> the groups need validation.</div>
+  </div>
+</div>
 
-## Conclusions
+<div class="ml-bottom"><div class="ml-combine"><b>Real systems combine them:</b> Uber chains forecasting, clustering, regression and a control loop.</div><div class="ml-next"><b>Next steps</b><span>Jupyter notebooks for each case</span><span>Dynamic pricing web simulator</span><span>Try it on your own data</span></div></div>
 
-**Regression** estimates a number, but does not guarantee a sale price.
-
-**Clustering** discovers groups without labels, and the groups need validation.
-
-**Real systems combine techniques**: Uber chains time series, clustering, regression and a control loop.
-
-::right::
-
-## Next steps
-
-**Jupyter notebooks** to simulate each case step by step.
-
-**A web app** that simulates the behaviour of Uber dynamic pricing.
-
-Try the ideas with your own data and measure the impact on a specific decision.
-
-<!-- The conclusions are didactic analysis, not claims by the companies. The next steps (notebooks and web app) will be covered later. -->
+<!-- Four types of machine learning problem, in the order they appear in the Uber system: forecasting, predicting a number (regression), assigning known labels (supervised classification) and discovering groups (clustering). Forecasting is trained on its own history: the future value acts as the label. In Spotify, XGBoost is used as a classifier to explain the discovered groups; CatBoost is an equivalent boosted-tree alternative. The conclusions are teaching analysis, not company claims. -->
 ---
 layout: "default"
 class: "references-slide"

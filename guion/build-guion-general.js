@@ -77,7 +77,7 @@ c.push(
   new Paragraph({ spacing: { after: 360 }, children: [run('idealista · Spotify · Uber', { size: 30, color: PURPLE })] }),
   say('Texto de apoyo para presentar el deck general, diapositiva a diapositiva. La sesión recorre tres casos reales de menos a más integrado: predecir un número (idealista), descubrir grupos (Spotify) y un sistema que combina varias técnicas para fijar un precio (Uber).'),
   ficha([
-    ['Duración', 'Unos 53 minutos, más preguntas.'],
+    ['Duración', 'Unos 54 minutos, más preguntas.'],
     ['Público', 'Perfil no técnico o con nociones básicas. No hace falta saber programar.'],
     ['Idea que debe quedar', 'Detrás de las apps que usamos cada día hay machine learning, y cualquier caso se entiende con el mismo método: datos → modelo → decisión.'],
     ['Material', 'Deck en Slidev (con las dos demostraciones interactivas), PDF de respaldo y los simuladores web (QR en la última diapositiva).'],
@@ -261,12 +261,16 @@ c.push(
 // =========================== CIERRE ===========================
 c.push(
   h1('Cierre'),
-  slide('Conclusiones y próximos pasos', '2 min'),
-  say('Tres ideas para llevarse:'),
-  bullet('estima un número, pero no garantiza un precio de venta.', 'La regresión'),
-  bullet('descubre grupos sin etiquetas, y esos grupos hay que validarlos.', 'El clustering'),
-  bullet('Uber encadena series temporales, clustering, regresión y un bucle de control.', 'Los sistemas reales combinan técnicas:'),
-  say('Y los próximos pasos: notebooks de Jupyter para simular cada caso paso a paso, una aplicación web que simula el precio dinámico de Uber, y lo más importante, probar estas ideas con vuestros propios datos y medirlas en una decisión concreta.'),
+  slide('Conclusiones y próximos pasos', '3 min'),
+  say('Recapitulemos. Hemos visto cuatro tipos de problema de machine learning, y conviene saber distinguirlos porque cada uno responde a una pregunta distinta:'),
+  bullet('¿qué va a pasar? Predice valores futuros a partir del histórico y del contexto. Lo vimos en Uber, con la demanda del viernes a las 18:00. Su punto débil: un evento que nunca ha ocurrido rompe el patrón.', 'Forecasting (series temporales):'),
+  bullet('¿cuánto? Estima un número a partir de variables, aprendiendo de ejemplos con su valor real. Lo vimos en idealista, con el precio, y en Uber, con cómo cae la demanda al subir el precio. Una estimación no es un precio de venta.', 'Predicción con regresión (supervisado):'),
+  bullet('¿de qué tipo es? Asigna etiquetas conocidas. Lo vimos en Spotify: un modelo de árboles como XGBoost (o CatBoost) aprende a qué grupo pertenece cada oyente y, con SHAP, nos dice por qué. Solo es tan bueno como sus etiquetas.', 'Clasificación supervisada:'),
+  bullet('¿qué grupos hay? Descubre grupos sin etiquetas previas. Lo vimos en Spotify con UMAP y HDBSCAN, y en Uber con k-means para las zonas. Los grupos siempre hay que validarlos.', 'Clasificación no supervisada (clustering):'),
+  say('Y la idea final: los sistemas reales no usan una sola técnica. Uber encadena forecasting, clustering, regresión y un bucle de control.'),
+  ask('de estas cuatro preguntas (qué va a pasar, cuánto, de qué tipo, qué grupos hay), ¿cuál os haríais en vuestro trabajo?'),
+  say('Próximos pasos: los notebooks de Jupyter para recorrer cada caso, el simulador web del precio dinámico, y lo más importante, probar estas ideas con vuestros propios datos.'),
+  warn('el forecasting se entrena con el propio histórico (el valor futuro hace de etiqueta); si alguien pregunta, no es clustering ni aprendizaje sin datos.'),
 
   slide('Fuentes', '20 s'),
   say('Aquí están las tres fuentes: la página de idealista/data, el artículo de Spotify Engineering y el artículo divulgativo sobre Uber. Recordad que los datos de las demos son sintéticos.'),
