@@ -454,7 +454,9 @@ layout: "end"
 
 www.inno-it.es
 
-<SimulatorQr label="Try the simulators" hint="Uber · idealista, on your phone" />
-<SimulatorQr variant="second" src="/qr/github.svg" label="See the code" hint="Source code on GitHub" />
+<div class="inno-end-qrs">
+<SimulatorQr variant="row" label="Try the simulators" hint="Uber · idealista, on your phone" />
+<SimulatorQr variant="row" src="/qr/github.svg" label="See the code" hint="Source code on GitHub" />
+</div>
 
-<div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> <span style="opacity:.85">· AI Engineer at InnoIT</span><br><span style="opacity:.85">I design and build AI and machine learning solutions applied to real use cases.</span><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
+<div style="font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> <span style="opacity:.85">· AI Engineer at InnoIT</span><br><span style="opacity:.85">I design and build AI and machine learning solutions applied to real use cases.</span><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
