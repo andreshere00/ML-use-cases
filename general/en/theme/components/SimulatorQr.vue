@@ -21,7 +21,7 @@ defineProps({
 <style scoped>
 .inno-qr{position:absolute;right:72px;bottom:118px;width:228px;margin:0;padding:16px 16px 14px;background:#fff;border-radius:22px;color:var(--inno-purple);text-align:center}
 .inno-qr img{display:block;width:196px;height:196px}
-.inno-qr figcaption{margin-top:10px;line-height:1.25;min-height:62px}
+.inno-qr figcaption{margin-top:10px;line-height:1.25;min-height:100px}
 .inno-qr b{display:block;font-size:18px;font-weight:600;color:var(--inno-coral)}
 .inno-qr span{display:block;font-size:14px;margin-top:2px}
 .inno-qr--second{right:324px}
