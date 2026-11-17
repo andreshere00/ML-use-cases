@@ -97,3 +97,4 @@
 .ml-next{display:flex;align-items:center;gap:10px;font-size:16px}
 .ml-next b{font-weight:600;margin-right:4px}
 .ml-next span{background:var(--inno-purple);color:#fff;padding:4px 12px}
+.inno-progress{position:absolute;top:0;left:0;right:0;height:8px;background:var(--inno-lavender);z-index:10}.inno-progress-fill{height:100%;background:var(--inno-coral)}.inno-dark .inno-progress{background:rgba(255,255,255,.2)}
