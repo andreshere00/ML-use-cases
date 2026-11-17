@@ -2,8 +2,8 @@
 # Lanza los servidores del repositorio: presentaciones Slidev, simuladores y JupyterLab.
 #
 # Uso:
-#   ./start-all.sh                    # presentaciones + notebooks + deploy (ngrok con los dos simuladores)
-#   ./start-all.sh all                # todo, incluidos los simuladores por separado
+#   ./start-all.sh                    # presentación general (es + en), simuladores, notebooks y deploy (ngrok)
+#   ./start-all.sh --all              # todo a la vez: las diez presentaciones, simuladores, notebooks y deploy
 #   ./start-all.sh slides sims        # grupos: slides, sims, notebooks, deploy
 #   ./start-all.sh uber-es uber-sim   # servidores concretos (ver lista abajo)
 #   ./start-all.sh --setup            # solo instala las dependencias que falten
@@ -14,7 +14,6 @@
 #
 # "deploy" compila los dos simuladores, los sirve juntos (uber/ e idealista/) y abre
 # el túnel de ngrok (ver deploy/README.md). Sin ngrok instalado, los sirve solo en local.
-# Por eso, sin argumentos no se lanzan los simuladores por separado.
 #
 # Cada servidor se abre en el navegador en cuanto responde (salvo con --no-open y salvo
 # deploy). Con un solo servidor, su salida va a la terminal. Con varios, va a tmp/start-all/.
@@ -51,7 +50,7 @@ notebooks|notebooks|8888|jupyter|notebooks
 deploy|.|$DEPLOY_PORT|deploy|deploy
 "
 
-usage() { sed -n '2,22p' "$0" | sed 's/^# \{0,1\}//'; }
+usage() { sed -n '2,21p' "$0" | sed 's/^# \{0,1\}//'; }
 
 # --- Argumentos -> lista de servidores seleccionados -------------------------
 SETUP_ONLY=0
@@ -69,13 +68,16 @@ for arg in "$@"; do
     -h|--help) usage; exit 0 ;;
     --no-open) OPEN_BROWSER=0 ;;
     --setup) SETUP_ONLY=1; select_where 5 slides; select_where 5 sims; select_where 5 notebooks ;;
-    all) select_where 5 slides; select_where 5 sims; select_where 5 notebooks; select_where 5 deploy ;;
+    --all|all) select_where 5 slides; select_where 5 sims; select_where 5 notebooks; select_where 5 deploy ;;
     *) select_where 5 "$arg" || select_where 1 "$arg" || {
          echo "Desconocido: $arg" >&2; echo >&2; usage >&2; exit 1; } ;;
   esac
 done
-# Sin argumentos: los simuladores van juntos en deploy, no por separado.
-[ -n "$SELECTED" ] || { select_where 5 slides; select_where 5 notebooks; select_where 5 deploy; }
+# Sin argumentos: la presentación general (es + en), los simuladores, los notebooks y deploy.
+[ -n "$SELECTED" ] || {
+  select_where 1 general-es; select_where 1 general-en; select_where 5 sims
+  select_where 5 notebooks; select_where 5 deploy
+}
 # Quita duplicados conservando el orden.
 SELECTED="$(echo $SELECTED | tr ' ' '\n' | awk '!seen[$0]++' | tr '\n' ' ')"
 
