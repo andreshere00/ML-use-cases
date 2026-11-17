@@ -395,35 +395,6 @@ Juega con las cuatro piezas del sistema y mira cómo reacciona el precio.
 <SimulatorQr variant="big" src="/qr/uber.svg" label="Escanea con el móvil" hint="Simulador de precio dinámico" />
 
 ---
-layout: "two-cols"
----
-# Retos y ética
-
-::left::
-
-## Privacidad
-
-Ubicaciones en tiempo real de pasajeros y conductores: exigen consentimiento, seguridad y gobierno del dato.
-
-## Percepción de justicia
-
-Subir precios en emergencias o con mal tiempo se vive como abusivo, aunque equilibre el sistema.
-
-::right::
-
-## Escala técnica
-
-Flujos de millones de usuarios con baja latencia; los modelos se vigilan y se reentrenan.
-
-## Ideas para mitigar
-
-Tope al multiplicador, precio visible antes de confirmar y avisos claros al usuario.
-
-<!--
-Los tres retos (privacidad, percepción de justicia y escala técnica) proceden del artículo. Las ideas de mitigación son propuestas didácticas para el debate, no medidas que el artículo atribuya a Uber.
-Fuente: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
--->
----
 layout: "default"
 ---
 # Conclusiones y próximos pasos

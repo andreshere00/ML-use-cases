@@ -396,35 +396,6 @@ Play with the four pieces of the system and see how the price reacts.
 <SimulatorQr variant="big" src="/qr/uber.svg" label="Scan with your phone" hint="Dynamic pricing simulator" />
 
 ---
-layout: "two-cols"
----
-# Challenges and ethics
-
-::left::
-
-## Privacy
-
-Real-time locations of riders and drivers: they require consent, security and data governance.
-
-## Perception of fairness
-
-Raising prices in emergencies or bad weather feels abusive, even if it balances the system.
-
-::right::
-
-## Technical scale
-
-Streams from millions of users with low latency; models are monitored and retrained.
-
-## Ideas to mitigate
-
-A cap on the multiplier, a price shown before confirming and clear notices to the user.
-
-<!--
-The three challenges (privacy, perception of fairness and technical scale) come from the article. The mitigation ideas are didactic proposals for discussion, not measures that the article attributes to Uber.
-Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1
--->
----
 layout: "default"
 ---
 # Conclusions and next steps
