@@ -244,3 +244,6 @@ node_modules
 
 # Fuentes Urbane convertidas para matplotlib (notebooks/innoit_style.py)
 notebooks/.fonts/
+
+# Despliegue con ngrok: configuración local
+deploy/ngrok.env

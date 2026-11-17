@@ -254,3 +254,5 @@ layout: "end"
 ¿Qué te parecería injusto aunque fuera eficiente?
 
 www.inno-it.es
+
+<SimulatorQr label="Prueba el simulador" hint="Precio dinámico, desde el móvil" />

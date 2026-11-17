@@ -3,5 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: 5183 },
+  // allowedHosts: permite abrir el servidor de desarrollo a través de ngrok.
+  server: { port: 5183, allowedHosts: ['.ngrok-free.dev', '.ngrok-free.app', '.ngrok.app'] },
 })

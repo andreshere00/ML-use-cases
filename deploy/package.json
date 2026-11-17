@@ -1,0 +1,14 @@
+{
+  "name": "ml-use-cases-deploy",
+  "private": true,
+  "type": "module",
+  "description": "Publica los simuladores con ngrok y genera los QR de las presentaciones",
+  "scripts": {
+    "start": "./deploy.sh",
+    "local": "./deploy.sh --local",
+    "qr": "node make-qr.mjs"
+  },
+  "dependencies": {
+    "qrcode": "1.5.4"
+  }
+}

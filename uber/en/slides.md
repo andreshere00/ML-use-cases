@@ -254,3 +254,5 @@ layout: "end"
 What would feel unfair to you even if it were efficient?
 
 www.inno-it.es
+
+<SimulatorQr label="Try the simulator" hint="Dynamic pricing, on your phone" />

@@ -4,14 +4,38 @@
     {
       "name": "uber-simulator",
       "runtimeExecutable": "/opt/homebrew/bin/node",
-      "runtimeArgs": ["uber/simulator/node_modules/vite/bin/vite.js", "uber/simulator", "--port", "5183", "--strictPort"],
+      "runtimeArgs": [
+        "uber/simulator/node_modules/vite/bin/vite.js",
+        "uber/simulator",
+        "--port",
+        "5183",
+        "--strictPort"
+      ],
       "port": 5183
     },
     {
       "name": "idealista-simulator",
       "runtimeExecutable": "/opt/homebrew/bin/node",
-      "runtimeArgs": ["idealista/simulator/node_modules/vite/bin/vite.js", "idealista/simulator", "--port", "5184", "--strictPort"],
+      "runtimeArgs": [
+        "idealista/simulator/node_modules/vite/bin/vite.js",
+        "idealista/simulator",
+        "--port",
+        "5184",
+        "--strictPort"
+      ],
       "port": 5184
+    },
+    {
+      "name": "general-es-slides",
+      "runtimeExecutable": "/opt/homebrew/bin/node",
+      "runtimeArgs": [
+        "node_modules/@slidev/cli/bin/slidev.mjs",
+        "slides.md",
+        "--port",
+        "3030"
+      ],
+      "port": 3030,
+      "cwd": "general/es"
     }
   ]
 }

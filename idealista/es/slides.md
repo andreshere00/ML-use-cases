@@ -122,3 +122,5 @@ layout: "end"
 ¿Qué necesitarías para predecirla?
 
 www.inno-it.es
+
+<SimulatorQr label="Prueba el simulador" hint="Valoración, desde el móvil" />

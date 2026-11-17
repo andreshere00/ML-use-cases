@@ -24,6 +24,7 @@ Casos de uso de Machine Learning y GenAI llevados a cabo por empresas reales. Ca
 | [`uber/simulator/`](uber/simulator) | App web (React + TypeScript) que simula el precio dinámico de Uber en directo. |
 | [`idealista/simulator/`](idealista/simulator) | App web (React + TypeScript) que valora viviendas y simula un mercado de anuncios (idealista). |
 | [`notebooks/`](notebooks) | Notebooks con los cuatro casos paso a paso (idealista, Cabify, Spotify y Uber). |
+| [`deploy/`](deploy) | Publicación de los simuladores con ngrok y códigos QR de las presentaciones. |
 
 Cada carpeta de idioma (`<caso>/en`, `<caso>/es`) es un proyecto Slidev independiente: `slides.md`, `theme/`, `public/` y `package.json`.
 

@@ -24,6 +24,10 @@
 
     "notebooks": "./start-all.sh notebooks",
 
+    "deploy": "./deploy/deploy.sh",
+    "deploy:local": "./deploy/deploy.sh --local",
+    "qr": "node deploy/make-qr.mjs",
+
     "test": "bun run test:uber && bun run test:idealista",
     "test:uber": "bun run --cwd uber/simulator test",
     "test:idealista": "bun run --cwd idealista/simulator test"

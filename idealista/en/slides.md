@@ -122,3 +122,5 @@ layout: "end"
 What would you need to predict it?
 
 www.inno-it.es
+
+<SimulatorQr label="Try the simulator" hint="Valuation, on your phone" />
