@@ -124,3 +124,4 @@ What would you need to predict it?
 www.inno-it.es
 
 <SimulatorQr label="Try the simulator" hint="Valuation, on your phone" />
+<SimulatorQr variant="second" src="/qr/github.svg" label="See the code" hint="Source code on GitHub" />

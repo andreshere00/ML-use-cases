@@ -215,6 +215,15 @@ diagram: "example"
 Fuente: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1 -->
 
 ---
+layout: "end"
+---
+# Prueba el simulador de Uber
+
+Juega con las cuatro piezas del sistema y mira cómo reacciona el precio.
+
+<SimulatorQr variant="big" src="/qr/uber.svg" label="Escanea con el móvil" hint="Simulador de precio dinámico" />
+
+---
 layout: "two-cols"
 ---
 # Retos y ética
@@ -256,3 +265,4 @@ layout: "end"
 www.inno-it.es
 
 <SimulatorQr label="Prueba el simulador" hint="Precio dinámico, desde el móvil" />
+<SimulatorQr variant="second" src="/qr/github.svg" label="Ver el código" hint="Código fuente en GitHub" />

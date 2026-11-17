@@ -215,6 +215,15 @@ diagram: "example"
 Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1 -->
 
 ---
+layout: "end"
+---
+# Try the Uber simulator
+
+Play with the four pieces of the system and see how the price reacts.
+
+<SimulatorQr variant="big" src="/qr/uber.svg" label="Scan with your phone" hint="Dynamic pricing simulator" />
+
+---
 layout: "two-cols"
 ---
 # Challenges and ethics
@@ -256,3 +265,4 @@ What would feel unfair to you even if it were efficient?
 www.inno-it.es
 
 <SimulatorQr label="Try the simulator" hint="Dynamic pricing, on your phone" />
+<SimulatorQr variant="second" src="/qr/github.svg" label="See the code" hint="Source code on GitHub" />

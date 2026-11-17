@@ -124,3 +124,4 @@ layout: "end"
 www.inno-it.es
 
 <SimulatorQr label="Prueba el simulador" hint="Valoración, desde el móvil" />
+<SimulatorQr variant="second" src="/qr/github.svg" label="Ver el código" hint="Código fuente en GitHub" />

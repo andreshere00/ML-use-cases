@@ -127,6 +127,15 @@ Fuente: https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/va
 Fuente adicional: https://www.idealista.com/labs/blog/?p=3987
 Reconstrucción funcional de la solución publicada. La posición de los cuadros no representa la topología real del despliegue. -->
 ---
+layout: "end"
+---
+# Prueba el simulador de idealista
+
+Estima tú mismo el valor de una vivienda: cambia sus características y mira cómo se ajustan la comparación y el modelo.
+
+<SimulatorQr variant="big" src="/qr/idealista.svg" label="Escanea con el móvil" hint="Simulador de valoración" />
+
+---
 layout: "section"
 ---
 02
@@ -377,6 +386,15 @@ diagram: "uberExample"
 <!-- Recorrido completo del ejemplo con cifras sintéticas, coherentes con las diapositivas anteriores. La serie temporal pronostica 165 solicitudes con lluvia; el clustering sitúa a Centro entre las zonas de negocios; la regresión da un equilibrio de 1,39 con unos 136 viajes; el bucle sube el multiplicador a 1,40 en cinco minutos y lo estabiliza cerca de 1,4; con una tarifa base de 12,00 euros el pasajero ve 16,80 euros. La tarifa base de 12 euros también es ficticia.
 Fuente: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1 -->
 ---
+layout: "end"
+---
+# Prueba el simulador de Uber
+
+Juega con las cuatro piezas del sistema y mira cómo reacciona el precio.
+
+<SimulatorQr variant="big" src="/qr/uber.svg" label="Escanea con el móvil" hint="Simulador de precio dinámico" />
+
+---
 layout: "two-cols"
 ---
 # Retos y ética
@@ -465,5 +483,6 @@ layout: "end"
 www.inno-it.es
 
 <SimulatorQr label="Prueba los simuladores" hint="Uber · idealista, desde el móvil" />
+<SimulatorQr variant="second" src="/qr/github.svg" label="Ver el código" hint="Código fuente en GitHub" />
 
 <div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>

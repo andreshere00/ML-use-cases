@@ -127,6 +127,15 @@ Source: https://www.idealista.com/data/asesoramiento-inmobiliario-tecnologico/va
 Additional source: https://www.idealista.com/labs/blog/?p=3987
 Functional reconstruction of the published solution. Box positions do not represent actual deployment topology. -->
 ---
+layout: "end"
+---
+# Try the idealista simulator
+
+Estimate the value of a property yourself: change its features and see how the comparison and the model adjust.
+
+<SimulatorQr variant="big" src="/qr/idealista.svg" label="Scan with your phone" hint="Valuation simulator" />
+
+---
 layout: "section"
 ---
 02
@@ -378,6 +387,15 @@ diagram: "uberExample"
 <!-- Full walk-through of the example with synthetic figures, consistent with the previous slides. The time series forecasts 165 requests with rain; clustering places Downtown among the business zones; the regression gives an equilibrium of 1.39 with about 136 trips; the loop raises the multiplier to 1.40 in five minutes and settles near 1.4; with a base fare of 12.00 euros the rider sees 16.80 euros. The base fare of 12 euros is also fictitious.
 Source: https://medium.com/@shuaibullattil7768/how-uber-uses-data-mining-to-handle-dynamic-pricing-and-ride-demand-f69548be14e1 -->
 ---
+layout: "end"
+---
+# Try the Uber simulator
+
+Play with the four pieces of the system and see how the price reacts.
+
+<SimulatorQr variant="big" src="/qr/uber.svg" label="Scan with your phone" hint="Dynamic pricing simulator" />
+
+---
 layout: "two-cols"
 ---
 # Challenges and ethics
@@ -466,5 +484,6 @@ layout: "end"
 www.inno-it.es
 
 <SimulatorQr label="Try the simulators" hint="Uber · idealista, on your phone" />
+<SimulatorQr variant="second" src="/qr/github.svg" label="See the code" hint="Source code on GitHub" />
 
 <div style="margin-top:26px;font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
