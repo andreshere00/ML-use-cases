@@ -17,7 +17,7 @@ layout: "cover"
 
 Predict, group and combine: from idealista and Spotify to the Uber simulator
 
-<div class="cover-speaker"><div class="cover-speaker-label">Speaker</div><div class="cover-speaker-name">Andrés Herencia <span>· AI Engineer at InnoIT</span></div><div class="cover-speaker-bio">I design and build AI and machine learning solutions applied to real use cases.</div></div>
+<div class="cover-speaker"><img class="cover-speaker-photo" src="/assets/speaker.jpg" alt="Andrés Herencia" /><div class="cover-speaker-text"><div class="cover-speaker-label">Speaker</div><div class="cover-speaker-name">Andrés Herencia <span>· AI Engineer at InnoIT</span></div><div class="cover-speaker-bio">I design and build AI and machine learning solutions applied to real use cases.</div></div></div>
 
 <!-- Storyline: we start with two simple, complete cases (predicting a number with idealista, discovering groups with Spotify) and finish with a system that combines them (Uber). The first two include an interactive demo; the third is a step-by-step walkthrough with synthetic numbers. -->
 ---

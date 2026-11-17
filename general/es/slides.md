@@ -17,7 +17,7 @@ layout: "cover"
 
 Predecir, agrupar y combinar: de idealista y Spotify al simulador de Uber
 
-<div class="cover-speaker"><div class="cover-speaker-label">Ponente</div><div class="cover-speaker-name">Andrés Herencia <span>· AI Engineer en InnoIT</span></div><div class="cover-speaker-bio">Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.</div></div>
+<div class="cover-speaker"><img class="cover-speaker-photo" src="/assets/speaker.jpg" alt="Andrés Herencia" /><div class="cover-speaker-text"><div class="cover-speaker-label">Ponente</div><div class="cover-speaker-name">Andrés Herencia <span>· AI Engineer en InnoIT</span></div><div class="cover-speaker-bio">Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.</div></div></div>
 
 <!-- Hilo conductor: empezamos con dos casos sencillos y completos (predecir un número con idealista, descubrir grupos con Spotify) y terminamos con un sistema que los combina (Uber). Los dos primeros incluyen una demostración interactiva; el tercero, un recorrido paso a paso con números sintéticos. -->
 ---
