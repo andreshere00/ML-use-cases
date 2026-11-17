@@ -45,4 +45,6 @@ defineProps({
 .inno-end:has(.inno-end-qrs) h1{margin-bottom:8px;max-width:none}
 .inno-end:has(.inno-end-qrs) p{margin:0;max-width:none}
 .inno-end-qrs{display:flex;gap:28px;justify-content:center;align-items:stretch;margin:24px 0 22px}
+.inno-end-profile{display:flex;align-items:center;gap:22px;text-align:left;font-size:20px;line-height:1.4;font-weight:300}
+.inno-end-profile img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center 25%;border:3px solid var(--inno-coral);flex:none}
 </style>

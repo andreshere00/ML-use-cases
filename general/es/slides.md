@@ -458,4 +458,4 @@ www.inno-it.es
 <SimulatorQr variant="row" src="/qr/github.svg" label="Ver el código" hint="Código fuente en GitHub" />
 </div>
 
-<div style="font-size:20px;line-height:1.4;font-weight:300"><b style="font-weight:600">Andrés Herencia</b> <span style="opacity:.85">· AI Engineer en InnoIT</span><br><span style="opacity:.85">Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.</span><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div>
+<div class="inno-end-profile"><img src="/assets/speaker.jpg" alt="Andrés Herencia" /><div><b style="font-weight:600">Andrés Herencia</b> <span style="opacity:.85">· AI Engineer en InnoIT</span><br><span style="opacity:.85">Diseño y construyo soluciones de IA y machine learning aplicadas a casos reales.</span><br><a href="https://linkedin.com/in/andres-herencia" style="color:inherit">linkedin.com/in/andres-herencia</a></div></div>
