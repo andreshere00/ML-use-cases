@@ -4,6 +4,7 @@
   "description": "Atajos para lanzar las presentaciones, los simuladores y los notebooks (bun run <script>)",
   "scripts": {
     "start": "./start-all.sh",
+    "start:all": "./start-all.sh all",
     "setup": "./start-all.sh --setup",
 
     "slides": "./start-all.sh slides",

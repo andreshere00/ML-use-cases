@@ -29,6 +29,8 @@ cp deploy/ngrok.env.example deploy/ngrok.env   # ajusta NGROK_DOMAIN si cambia
 
 Los simuladores solo están accesibles mientras el script esté en marcha y el ordenador encendido.
 
+`bun run start` lo lanza junto con las presentaciones y JupyterLab (servidor `deploy` de `start-all.sh`), sin arrancar los simuladores por separado. Si ngrok no está instalado, usa `--local`. `bun run start:all` añade además los simuladores sueltos.
+
 ## Códigos QR
 
 ```bash
