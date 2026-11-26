@@ -1,5 +1,5 @@
 // Servidor estático sin dependencias para publicar los simuladores tras ngrok.
-// Sirve tmp/deploy/site: / (portada), /uber/ y /idealista/.
+// Sirve tmp/deploy/site: / (portada), /idealista/, /uber/, /presentation/en/ y /presentacion/es/.
 //
 // Uso: node deploy/serve.mjs [puerto]   (por defecto 8080)
 
@@ -42,12 +42,20 @@ async function resolveFile(urlPath) {
 createServer(async (req, res) => {
   const path = (req.url || '/').split('?')[0]
   // /uber -> /uber/ para que las rutas relativas de la app funcionen.
-  if (/^\/(uber|idealista)$/.test(path)) {
+  if (/^\/(uber|idealista|presentation\/en|presentacion\/es)$/.test(path)) {
     res.writeHead(301, { Location: `${path}/` }).end()
     return
   }
   const file = await resolveFile(path)
   if (!file) {
+    // Fallback SPA de las presentaciones (rutas por diapositiva), como el 404.html de GitHub Pages.
+    const deck = path.match(/^\/(presentation\/en|presentacion\/es)\//)
+    const fallback = deck && (await resolveFile(`/${deck[1]}/`))
+    if (fallback) {
+      res.writeHead(200, { 'Content-Type': TYPES['.html'], 'Cache-Control': 'no-cache' })
+      createReadStream(fallback).pipe(res)
+      return
+    }
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Not found')
     return
   }
@@ -58,5 +66,5 @@ createServer(async (req, res) => {
   })
   createReadStream(file).pipe(res)
 }).listen(PORT, () => {
-  console.log(`Simuladores en http://localhost:${PORT}  (/uber/, /idealista/)`)
+  console.log(`Simuladores en http://localhost:${PORT}  (/idealista/, /uber/, /presentation/en/, /presentacion/es/)`)
 })

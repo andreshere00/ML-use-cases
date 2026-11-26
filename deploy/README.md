@@ -1,12 +1,18 @@
-# Publicar los simuladores con ngrok
+# Publicar simuladores y presentaciones
 
-Un único túnel de ngrok sirve los dos simuladores (compilados para producción) y una portada:
+`deploy/build-site.sh` compila un sitio estático con cuatro conceptos y una portada. Se sirve con ngrok (abajo) o como GitHub Pages (al final).
 
-| URL | Contenido |
+| Ruta | Contenido |
 |---|---|
-| `https://<NGROK_DOMAIN>/` | Portada con enlaces a los dos simuladores |
-| `https://<NGROK_DOMAIN>/uber/` | Simulador de precio dinámico (Uber) |
-| `https://<NGROK_DOMAIN>/idealista/` | Simulador de valoración (idealista) |
+| `/` | Portada con enlaces a los cuatro conceptos |
+| `/idealista/` | Simulador Idealista (valoración) |
+| `/uber/` | Simulador Uber (precio dinámico) |
+| `/presentation/en/` | Presentación en inglés (`general/en`) |
+| `/presentacion/es/` | Presentación en castellano (`general/es`) |
+
+# Publicar con ngrok
+
+Un único túnel de ngrok sirve el sitio compilado en `https://<NGROK_DOMAIN>/`.
 
 El plan gratuito de ngrok incluye **un** dominio estático, por eso los dos simuladores comparten dominio y se separan por ruta.
 
@@ -51,3 +57,13 @@ El componente `<SimulatorQr>` lo muestra en la diapositiva de cierre. Si cambias
 
 - **Aviso de ngrok:** con el plan gratuito, la primera visita muestra una página de aviso de ngrok; el visitante pulsa *Visit Site* y continúa. Solo desaparece con un plan de pago.
 - **Servidor de desarrollo:** `vite.config.ts` admite hosts `*.ngrok-free.dev`, así que también puedes hacer `ngrok http 5183` sobre `pnpm dev`, pero la compilación de producción carga más rápido en el móvil.
+
+## GitHub Pages
+
+El workflow [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) compila el sitio con `SITE_BASE=/ML-use-cases` y lo publica en cada push a `main` que toque `deploy/`, `general/` o los simuladores: <https://andreshere00.github.io/ML-use-cases/>. Para compilarlo a mano con ese prefijo:
+
+```bash
+SITE_BASE=/ML-use-cases ./deploy/build-site.sh _site
+```
+
+Los QR de las diapositivas siguen apuntando al dominio de ngrok.

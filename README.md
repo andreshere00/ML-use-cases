@@ -79,7 +79,7 @@ bun run start
 | `bun run sim:uber` | Simulador Uber | http://localhost:5183 |
 | `bun run sim:idealista` | Simulador idealista | http://localhost:5184 |
 | `bun run notebooks` | JupyterLab con los notebooks | http://localhost:8888/lab |
-| `bun run deploy` | Compila los dos simuladores, los sirve juntos y abre el túnel de ngrok | http://localhost:8080 y `https://<NGROK_DOMAIN>/` |
+| `bun run deploy` | Compila el sitio (2 simuladores + 2 presentaciones), lo sirve y abre el túnel de ngrok | http://localhost:8080 y `https://<NGROK_DOMAIN>/` |
 | `bun run setup` | Solo instala las dependencias que falten | — |
 | `bun run test` | Tests de los dos simuladores (`test:uber`, `test:idealista`) | — |
 
@@ -87,7 +87,7 @@ bun run start
 - Abre cada servidor en una pestaña del navegador en cuanto responde. Para no abrir nada, añade `--no-open`: `bun run start --no-open`. Cada presentación sirve también `/presenter` y `/overview`.
 - Con un solo servidor, su salida se ve en la terminal. Con varios, queda en `tmp/start-all/<servidor>.log`.
 - `Ctrl+C` los detiene todos.
-- El servidor `deploy` publica los dos simuladores compilados (`/uber/` e `/idealista/`) con un único túnel de ngrok, ver [`deploy/`](deploy/README.md). Si ngrok no está instalado, los sirve solo en `http://localhost:8080` y lo avisa.
+- El servidor `deploy` publica el sitio compilado (`/idealista/`, `/uber/`, `/presentation/en/` y `/presentacion/es/`) con un único túnel de ngrok, ver [`deploy/`](deploy/README.md). Si ngrok no está instalado, los sirve solo en `http://localhost:8080` y lo avisa.
 - `./start-all.sh` acepta grupos (`slides`, `sims`, `notebooks`, `deploy`) y servidores concretos (`uber-es`, `uber-sim`…) combinados: `./start-all.sh uber-es uber-sim`. Lista completa con `./start-all.sh --help`.
 
 ### Lanzar servidor de presentaciones
@@ -311,7 +311,7 @@ bun run start
 | `bun run sim:uber` | Uber simulator | http://localhost:5183 |
 | `bun run sim:idealista` | idealista simulator | http://localhost:5184 |
 | `bun run notebooks` | JupyterLab with the notebooks | http://localhost:8888/lab |
-| `bun run deploy` | Builds both simulators, serves them together and opens the ngrok tunnel | http://localhost:8080 and `https://<NGROK_DOMAIN>/` |
+| `bun run deploy` | Builds the site (2 simulators + 2 presentations), serves it and opens the ngrok tunnel | http://localhost:8080 and `https://<NGROK_DOMAIN>/` |
 | `bun run setup` | Only installs missing dependencies | — |
 | `bun run test` | Tests for both simulators (`test:uber`, `test:idealista`) | — |
 
@@ -319,7 +319,7 @@ bun run start
 - It opens each server in a browser tab as soon as it responds. To open nothing, add `--no-open`: `bun run start --no-open`. Each presentation also serves `/presenter` and `/overview`.
 - With a single server, its output shows in the terminal. With several, it goes to `tmp/start-all/<server>.log`.
 - `Ctrl+C` stops them all.
-- The `deploy` server publishes both built simulators (`/uber/` and `/idealista/`) through a single ngrok tunnel, see [`deploy/`](deploy/README.md). If ngrok is not installed, it serves them only at `http://localhost:8080` and says so.
+- The `deploy` server publishes the built site (`/idealista/`, `/uber/`, `/presentation/en/` and `/presentacion/es/`) through a single ngrok tunnel, see [`deploy/`](deploy/README.md). If ngrok is not installed, it serves them only at `http://localhost:8080` and says so.
 - `./start-all.sh` takes groups (`slides`, `sims`, `notebooks`, `deploy`) and single servers (`uber-es`, `uber-sim`…), combined: `./start-all.sh uber-es uber-sim`. Full list with `./start-all.sh --help`.
 
 ### Run the presentation server

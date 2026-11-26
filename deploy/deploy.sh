@@ -4,6 +4,7 @@
 #   https://<NGROK_DOMAIN>/            portada con los dos simuladores
 #   https://<NGROK_DOMAIN>/uber/       simulador de precio dinámico (Uber)
 #   https://<NGROK_DOMAIN>/idealista/  simulador de valoración (idealista)
+#   https://<NGROK_DOMAIN>/presentation/en/  y  /presentacion/es/  presentaciones
 #
 # Uso:
 #   ./deploy/deploy.sh             # compila, sirve y abre el túnel
@@ -34,21 +35,8 @@ ENV_FILE="$ROOT/deploy/ngrok.env"
 source "$ENV_FILE"
 PORT="${PORT:-8080}"
 
-if command -v pnpm >/dev/null 2>&1; then PNPM="pnpm"; else PNPM="npx --yes pnpm@10"; fi
-
-build_sim() { # $1 = carpeta del simulador, $2 = ruta pública
-  local dir="$ROOT/$1/simulator"
-  [ -d "$dir/node_modules" ] || (cd "$dir" && $PNPM install --frozen-lockfile)
-  echo "Compilando $1 -> /$2/"
-  (cd "$dir" && node node_modules/vite/bin/vite.js build --base="/$2/" \
-     --outDir "$SITE/$2" --emptyOutDir --logLevel warn)
-}
-
 if [ "$BUILD" = 1 ]; then
-  rm -rf "$SITE" && mkdir -p "$SITE"
-  build_sim uber uber
-  build_sim idealista idealista
-  cp "$ROOT/deploy/landing.html" "$SITE/index.html"
+  "$ROOT/deploy/build-site.sh" "$SITE"
 fi
 [ -f "$SITE/index.html" ] || { echo "No hay compilación: ejecuta sin --no-build." >&2; exit 1; }
 
