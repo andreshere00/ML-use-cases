@@ -3,6 +3,7 @@
 //   src      QR a mostrar (por defecto, el simulador publicado con ngrok)
 //   variant  "first" (derecha), "second" (a su izquierda), "big" (QR grande, diapositiva propia)
 //            o "row" (en flujo normal, dentro de un contenedor .inno-end-qrs centrado)
+const withBase = p => import.meta.env.BASE_URL.replace(/\/$/, '') + p // respeta el prefijo de publicación (GitHub Pages)
 defineProps({
   label: { type: String, required: true },
   hint: { type: String, default: '' },
@@ -12,7 +13,7 @@ defineProps({
 </script>
 <template>
   <figure class="inno-qr" :class="`inno-qr--${variant}`">
-    <img :src="src" :alt="label" />
+    <img :src="withBase(src)" :alt="label" />
     <figcaption>
       <b>{{ label }}</b>
       <span v-if="hint">{{ hint }}</span>

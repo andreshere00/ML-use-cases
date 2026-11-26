@@ -6,6 +6,7 @@ import SolutionDiagram from '../components/SolutionDiagram.vue'
 import SpotifyClusteringExplorer from '../components/SpotifyClusteringExplorer.vue'
 import IdealistaValuationExplorer from '../components/IdealistaValuationExplorer.vue'
 import diagrams from '../../diagrams.json'
+const withBase = p => import.meta.env.BASE_URL.replace(/\/$/, '') + p // respeta el prefijo de publicación (GitHub Pages)
 const props = defineProps({ diagram: String })
 const spec = computed(() => diagrams[props.diagram])
 const isInteractive = computed(() => ['clustering', 'regression'].includes(props.diagram))
