@@ -22,7 +22,7 @@ const slideBoundary = direction => direction > 0 ? nav.nextSlide() : nav.prevSli
   <BrandFrame class="solution-slide">
     <div class="solution-title"><slot /></div>
     <div class="solution-subtitle" :class="{'with-company-mark':companyBrand}">{{ spec.subtitle }}</div>
-    <div v-if="companyBrand" class="solution-company-mark"><img :src="companyBrand.src" :alt="companyBrand.alt" /></div>
+    <div v-if="companyBrand" class="solution-company-mark"><img :src="withBase(companyBrand.src)" :alt="companyBrand.alt" /></div>
     <template v-if="diagram === 'clustering'">
       <template v-if="staged">
         <div v-for="n in 9" :key="n" v-click class="print-click" />
