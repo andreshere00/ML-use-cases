@@ -38,6 +38,7 @@ build_deck() { # $1 = carpeta de la presentación, $2 = ruta pública
   cp "$SITE/$2/index.html" "$SITE/$2/404.html"
 }
 
+mkdir -p "$SITE" && SITE="$(cd "$SITE" && pwd)" # ruta absoluta: los builds se lanzan desde otras carpetas
 rm -rf "$SITE" && mkdir -p "$SITE"
 build_sim idealista idealista
 build_sim uber uber
